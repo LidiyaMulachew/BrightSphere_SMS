@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Teacher extends Model
+class Role_Parent extends Model
 {
-    protected $table = 'teachers';
+    protected $table = 'parents';
     protected $primaryKey = 'id';
     protected $fillable = ['name','email','password','role'];
     use HasFactory;
 }
+
+

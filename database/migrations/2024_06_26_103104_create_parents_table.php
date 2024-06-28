@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('parents', function (Blueprint $table) {
             $table->id();
-            $table->string('Full_name');
-            $table->string('Email');
-            $table->string('Password');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->unsignedInteger('role');
             $table->timestamps();
         });
     }
