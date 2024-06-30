@@ -2,29 +2,31 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class student extends Authenticatable
+/**
+ * Student Model
+ *
+ * Represents a student in the application.
+ */
+class Student extends Authenticatable
 {
     use HasFactory, Notifiable;
-   
 
+    protected $guard = 'student';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $guard ='student';
     protected $fillable = [
         'name',
         'email',
         'password',
         'role',
-
     ];
 
     /**
@@ -50,6 +52,4 @@ class student extends Authenticatable
             'role' => 'integer',
         ];
     }
-
- 
 }

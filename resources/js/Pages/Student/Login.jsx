@@ -8,7 +8,7 @@ export default function Login() {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('admin.login'));
+        post(route('student.login'));
     };
 
     return (

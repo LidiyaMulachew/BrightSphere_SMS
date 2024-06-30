@@ -52,7 +52,7 @@ return [
             'provider' => 'teachers',
         ], 
 
-        'parent' => [
+        'role_parent' => [
             'driver' => 'session',
             'provider' => 'parents',
         ],

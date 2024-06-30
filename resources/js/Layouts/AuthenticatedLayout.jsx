@@ -61,7 +61,7 @@ export default function Authenticated({ user, header, children }) {
                             </Dropdown.Trigger>
 
                             <Dropdown.Content>
-                                <Dropdown.Link href={route('profile.edit')}>Students</Dropdown.Link>
+                                <Dropdown.Link href={route('register')}>Students</Dropdown.Link>
                                 <Dropdown.Link href={route('profile.edit')}>Teachers</Dropdown.Link>
                                 <Dropdown.Link href={route('profile.edit')}>Parents</Dropdown.Link>
                                 <Dropdown.Link href={route('profile.edit')}>Staffs</Dropdown.Link>

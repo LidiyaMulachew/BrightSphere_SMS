@@ -1,52 +1,26 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Student;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function login(Request $request)
     {
-        $students = Student::all();
-        
-        return view('students.index', compact('students'));
+        if (Auth::guard('student')->attempt($request->only('email', 'password'))) {
+            return redirect()->route('student.dashboard');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
-    
-    public function create()
-    {
-        return view('students.create');
-        //return "works"; 
-   }
 
-public function store(Request $request)
-{
-    $data = $request->all();
-
-    Student::create($data);
-
-    return redirect()->route('students.index')
-        ->with('success', 'Student created successfully.');
-}
-
-    
-    public function edit($id)
+    public function logout()
     {
-        return view('students.edit', compact('student'));
-    }
-    
-    public function update(Request $request, Student $student)
-    {
-        $student->update($request->all());
-        
-        return redirect()->route('students.index');
-    }
-    
-    public function destroy(Student $student)
-    {
-        $student->delete();
-        
-        return redirect()->route('students.index');
+        Auth::guard('student')->logout();
+        return redirect()->route('student.login');
     }
 }
