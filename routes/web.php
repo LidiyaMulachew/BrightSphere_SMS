@@ -34,36 +34,30 @@ Route::middleware('auth')->group(function () {
 
 
 
-
-
-
-
-// Student routes
-Route::middleware(['web', 'student'])->prefix('student')->group(function () {
-    Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
-    Route::get('/profile', [StudentController::class, 'profile'])->name('student.profile');
-});
-
-// Teacher routes
-Route::middleware(['web', 'teacher'])->prefix('teacher')->group(function () {
-    Route::get('/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
-    Route::get('/profile', [TeacherController::class, 'profile'])->name('teacher.profile');
-});
-
-// Role_Parent routes
-Route::middleware(['web', 'role_parent'])->prefix('parent')->group(function () {
-    Route::get('/dashboard', [RoleParentController::class, 'dashboard'])->name('parent.dashboard');
-    Route::get('/profile', [RoleParentController::class, 'profile'])->name('parent.profile');
-});
-
-
-
-
-
-
 Route::get('/registration', function () {
-    return Inertia::render('registration');
-})->name('registration');
+    return Inertia::render('Auth/Register');
+})->middleware(['auth', 'verified'])->name('registration');
+
+
+
+
+// Route::middleware(['web', 'student'])->prefix('student')->group(function () {
+//     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+//     Route::get('/profile', [StudentController::class, 'profile'])->name('student.profile');
+// });
+
+
+// Route::middleware(['web', 'teacher'])->prefix('teacher')->group(function () {
+//     Route::get('/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+//     Route::get('/profile', [TeacherController::class, 'profile'])->name('teacher.profile');
+// });
+
+
+// Route::middleware(['web', 'role_parent'])->prefix('parent')->group(function () {
+//     Route::get('/dashboard', [RoleParentController::class, 'dashboard'])->name('parent.dashboard');
+//     Route::get('/profile', [RoleParentController::class, 'profile'])->name('parent.profile');
+// });
+
 
 
 // Route::get('/admin', [LoginController::class, 'admin'])->name('admin');

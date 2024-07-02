@@ -2,6 +2,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+import FileInput from '@/Components/FileInput';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 
@@ -11,12 +12,15 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
+        photo: null,
     });
 
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route('profile.update'));
+        patch(route('profile.update'), {
+            onSuccess: () => setData('photo', null), 
+        });
     };
 
     return (
@@ -83,6 +87,19 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         )}
                     </div>
                 )}
+
+<div>
+    <InputLabel htmlFor="photo" value="Photo" />
+
+    <input
+        id="photo"
+        type="file"
+        className="mt-1 block w-full"
+        onChange={(e) => setData('photo', e.target.files[0])}
+    />
+
+    <InputError className="mt-2" message={errors.photo} />
+</div>
 
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing}>Save</PrimaryButton>

@@ -27,24 +27,47 @@ class HandleInertiaRequests extends Middleware
      *
      * @return array<string, mixed>
      */
-    public function share(Request $request): array
-    {
-        return [
-            ...parent::share($request),
-            'auth' => [
-                'user' => $request->user(),
-            ],
-        ];
-    }
 
+
+
+
+    
+    // public function share(Request $request): array
+    // {
+    //     return [
+    //         ...parent::share($request),
+    //         'auth' => [
+    //             'user' => $request->user(),
+                
+    //         ],
+    //     ];
+    // }
+
+    
     //from here
 
+    public function share(Request $request): array
+    {
+        $user = $request->user();
+        $userRole = $user ? $user->role : null;
 
-    protected $routeMiddleware = [
-        'student' => \App\Http\Middleware\StudentMiddleware::class,
-        'teacher' => \App\Http\Middleware\TeacherMiddleware::class,
-        'role_parent' => \App\Http\Middleware\RoleParentMiddleware::class,
-    ];
+        return array_merge(parent::share($request), [
+            'auth' => [
+                'user' => $user,
+                'role' => $userRole,
+                'isSuperAdmin' => $userRole === 'super-admin',
+                'isStudent' => $userRole === 'student',
+                'isTeacher' => $userRole === 'teacher',
+                'isParent' => $userRole === 'parent',
+            ],
+        ]);
+    }
+
+    // protected $routeMiddleware = [
+    //     'student' => \App\Http\Middleware\StudentMiddleware::class,
+    //     'teacher' => \App\Http\Middleware\TeacherMiddleware::class,
+    //     'role_parent' => \App\Http\Middleware\RoleParentMiddleware::class,
+    // ];
 
     
     //to here
