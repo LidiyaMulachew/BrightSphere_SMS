@@ -20,5 +20,8 @@ class Kernel extends HttpKernel
         'student' => \App\Http\Middleware\StudentMiddleware::class,
         'teacher' => \App\Http\Middleware\TeacherMiddleware::class,
         'role_parent' => \App\Http\Middleware\RoleParentMiddleware::class,
+        'role' => \App\Http\Middleware\RedirectToUserDashboard::class,
+
     ];
+    
 }

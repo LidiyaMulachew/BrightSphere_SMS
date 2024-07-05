@@ -7,6 +7,11 @@ use Inertia\Inertia;
 
 class StudentController extends Controller
 {
+
+    public function dashboard()
+{
+    return Inertia::render('student/Dashboard');
+}
     public function login(Request $request)
     {
         if (Auth::guard('student')->attempt($request->only('email', 'password'))) {
@@ -21,6 +26,6 @@ class StudentController extends Controller
     public function logout()
     {
         Auth::guard('student')->logout();
-        return redirect()->route('student.login');
+        return redirect()->route('login');
     }
 }

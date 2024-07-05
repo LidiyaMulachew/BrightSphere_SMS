@@ -55,40 +55,23 @@ class User extends Authenticatable
 
     
  // here
- public function isTeacher(): bool
+   public function isSuper_Admin(): bool
+   {
+     return $this->role === self::SUPER_ADMIN;
+     
+   }
+    public function isStudent(): bool
+   {
+     return $this->role === self::STUDENT;
+   }
+    public function isTeacher(): bool
     {
         return $this->role === self::TEACHER;
-    }
-
-    public function isStudent(): bool
-    {
-        return $this->role === self::STUDENT;
     }
 
     public function isParent(): bool
     {
         return $this->role === self::ROLE_PARENT;
-    }
-
-    public function getRole(): string
-    {
-        switch ($this->role) {
-            case self::SUPER_ADMIN:
-                return 'Super Admin';
-            case self::STUDENT:
-                return 'Student';
-            case self::TEACHER:
-                return 'Teacher';
-            case self::ROLE_PARENT:
-                return 'Parent';
-            default:
-                return 'Unknown';
-        }
-    }
-
-    public function hasRole(int $role): bool
-    {
-        return $this->role === $role;
     }
 
     // upto here

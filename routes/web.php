@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\RoleParentController;
 
@@ -34,9 +35,62 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::get('/registration', function () {
-    return Inertia::render('Auth/Register');
-})->middleware(['auth', 'verified'])->name('registration');
+Route::middleware(['auth', 'role'])->group(function () {
+    //Route::get('/super_admin/dashboard', [AuthenticatedSessionController::class, 'dashboard'])->name('super_admin.dashboard');
+    Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+    Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+    Route::get('/parent/dashboard', [RoleParentController::class, 'dashboard'])->name('parent.dashboard');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'super_admin'])->name('super_admin.dashboard');
+// Route::get('student/dashboard', function () {
+//     return Inertia::render('Student/dashboard');
+// })->middleware(['auth', 'student'])->name('student.dashboard');
+// Route::get('teacher/dashboard', function () {
+//     return Inertia::render('teacher.ashboard');
+// })->middleware(['auth', 'teacher'])->name('teacher.dashboard');
+
+
+
+
+// Route::get('/registration', function () {
+//     return Inertia::render('Auth/Register');
+// })->middleware(['auth', 'verified'])->name('registration');
+
+
+
+
+// Route::middleware('role:student')->group(function () {
+//     // Admin-only routes
+//     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+// });
+// Route::middleware('role:teacher')->group(function () {
+//     // Admin-only routes
+//     Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+// });
+
+
+
+
+
+
 
 
 
