@@ -41,7 +41,7 @@ return [
             'provider' => 'users',
         ],
 
-        //here
+        //Multi_Authentication
         'super_admin' => [
             'driver' => 'session',
             'provider' => 'super_admin',
@@ -56,12 +56,12 @@ return [
             'provider' => 'teachers',
         ], 
 
-        'role_parent' => [
+        'family' => [
             'driver' => 'session',
-            'provider' => 'parents',
+            'provider' => 'familys',
         ],
 
-        //to here
+       //Multi_Authentication
     ],
 
     /*
@@ -100,7 +100,7 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],      
-        'parents' => [
+        'familys' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],

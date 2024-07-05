@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
     // }
 
     
-    //from here
+    //Multi_Authentication
 
     public function share(Request $request): array
     {
@@ -66,11 +66,11 @@ class HandleInertiaRequests extends Middleware
     protected $routeMiddleware = [
         'student' => \App\Http\Middleware\StudentMiddleware::class,
         'teacher' => \App\Http\Middleware\TeacherMiddleware::class,
-        'role_parent' => \App\Http\Middleware\RoleParentMiddleware::class,
+        'family' => \App\Http\Middleware\FamilyMiddleware::class,
         'role' => \App\Http\Middleware\RedirectToUserDashboard::class,
 
     ];
 
     
-    //to here
+   //Multi_Authentication
 }

@@ -13,7 +13,7 @@ class User extends Authenticatable
     public const SUPER_ADMIN=0;
     public const STUDENT=1;
     public const TEACHER=2;
-    public const ROLE_PARENT=3;
+    public const FAMILY=3;
 
 
     /**
@@ -54,7 +54,7 @@ class User extends Authenticatable
     }
 
     
- // here
+ //Multi_Authentication
    public function isSuper_Admin(): bool
    {
      return $this->role === self::SUPER_ADMIN;
@@ -71,10 +71,10 @@ class User extends Authenticatable
 
     public function isParent(): bool
     {
-        return $this->role === self::ROLE_PARENT;
+        return $this->role === self::FAMILY;
     }
 
-    // upto here
+   //Multi_Authentication
    
 
 }
