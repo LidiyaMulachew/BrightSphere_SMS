@@ -63,11 +63,13 @@ class HandleInertiaRequests extends Middleware
         ]);
     }
 
-    // protected $routeMiddleware = [
-    //     'student' => \App\Http\Middleware\StudentMiddleware::class,
-    //     'teacher' => \App\Http\Middleware\TeacherMiddleware::class,
-    //     'role_parent' => \App\Http\Middleware\RoleParentMiddleware::class,
-    // ];
+    protected $routeMiddleware = [
+        'student' => \App\Http\Middleware\StudentMiddleware::class,
+        'teacher' => \App\Http\Middleware\TeacherMiddleware::class,
+        'role_parent' => \App\Http\Middleware\RoleParentMiddleware::class,
+        'role' => \App\Http\Middleware\RedirectToUserDashboard::class,
+
+    ];
 
     
     //to here

@@ -42,6 +42,10 @@ return [
         ],
 
         //here
+        'super_admin' => [
+            'driver' => 'session',
+            'provider' => 'super_admin',
+        ],
         'student' => [
             'driver' => 'session',
             'provider' => 'students',
@@ -84,18 +88,21 @@ return [
         ],
 
         // from here
-
+        'super_admins' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
         'students' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Student::class),
+            'model' => env('AUTH_MODEL', App\Models\User::class),
         ],        
         'teachers' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Teacher::class),
+            'model' => env('AUTH_MODEL', App\Models\User::class),
         ],      
         'parents' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Role_Parent::class),
+            'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
         //to here

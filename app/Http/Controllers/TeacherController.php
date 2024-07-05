@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,13 +17,24 @@ class TeacherController extends Controller
         return Inertia::render('Teacher/Dashboard');
     }
 
-    /**
-     * Display the list of students.
-     *
-     * @return \Inertia\Response
-     */
-    public function students()
+
+    public function login(Request $request)
     {
-        return Inertia::render('Teacher/Students');
+        if (Auth::guard('teacher')->attempt($request->only('email', 'password'))) {
+            return redirect()->route('teacher.dashboard');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
+
+    public function logout()
+    {
+        Auth::guard('student')->logout();
+        return redirect()->route('login');
+    }
+
+
+
 }
