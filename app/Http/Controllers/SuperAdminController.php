@@ -5,17 +5,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class StudentController extends Controller
+class SuperAdminController extends Controller
 {
 
     public function dashboard()
 {
-    return Inertia::render('Student/Dashboard');
+    return Inertia::render('SuperAdmin/Dashboard');
 }
     public function login(Request $request)
     {
-        if (Auth::guard('student')->attempt($request->only('email', 'password'))) {
-            return redirect()->route('student.dashboard');
+        if (Auth::guard('super_admin')->attempt($request->only('email', 'password'))) {
+            return redirect()->route('SuperAdmin.dashboard');
         }
 
         return back()->withErrors([
@@ -25,7 +25,7 @@ class StudentController extends Controller
 
     public function logout()
     {
-        Auth::guard('student')->logout();
+        Auth::guard('super_admin')->logout();
         return redirect()->route('login');
     }
 }

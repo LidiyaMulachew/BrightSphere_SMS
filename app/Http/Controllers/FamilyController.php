@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class RoleParentController extends Controller
+class FamilyController extends Controller
 {
     /**
      * Display the role_parent dashboard.
@@ -14,14 +14,14 @@ class RoleParentController extends Controller
      */
     public function dashboard()
     {
-        return Inertia::render('RoleParent/Dashboard');
+        return Inertia::render('Family/Dashboard');
     }
 
 
     public function login(Request $request)
     {
-        if (Auth::guard('role_parent')->attempt($request->only('email', 'password'))) {
-            return redirect()->route('parent.dashboard');
+        if (Auth::guard('family')->attempt($request->only('email', 'password'))) {
+            return redirect()->route('family.dashboard');
         }
 
         return back()->withErrors([
@@ -31,7 +31,7 @@ class RoleParentController extends Controller
 
     public function logout()
     {
-        Auth::guard('parent')->logout();
+        Auth::guard('family')->logout();
         return redirect()->route('login');
     }
 

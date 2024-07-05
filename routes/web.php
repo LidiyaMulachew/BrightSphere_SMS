@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Middleware\RedirectToUserDashboard;
 use App\Http\Controllers\RegistrationController;
-use App\Http\Controllers\RoleParentController;
+use App\Http\Controllers\FamilyController;
 
 
 
@@ -34,14 +36,14 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
-Route::middleware(['auth', 'role'])->group(function () {
-    //Route::get('/super_admin/dashboard', [AuthenticatedSessionController::class, 'dashboard'])->name('super_admin.dashboard');
+//Multi_Authentication
+Route::middleware(['auth', RedirectToUserDashboard::class])->group(function () {
+    Route::get('/super_admin/dashboard', [SuperAdminController::class, 'dashboard'])->name('super_admin.dashboard');
     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
     Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
-    Route::get('/parent/dashboard', [RoleParentController::class, 'dashboard'])->name('parent.dashboard');
+    Route::get('/family/dashboard', [FamilyController::class, 'dashboard'])->name('family.dashboard');
 });
-
+//Multi_Authentication
 
 
 

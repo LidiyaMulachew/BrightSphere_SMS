@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,18 +36,22 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
         
         
-        //here
+        //Multi_Authentication
         $user = Auth::user();
 
-        if ($user->role === 'SUPER_ADMIN') {
-            return redirect(route('admin.dashboard'));
-        } elseif ($user->role === 'STUDENT') {
+        if ($user->role === User::SUPER_ADMIN) {
+            return redirect(route('super_admin.dashboard'));
+        } elseif ($user->role === User::STUDENT) {
             return redirect(route('student.dashboard'));
-        } elseif ($user->role === 'TEACHER') {
+        } elseif ($user->role === User::TEACHER) {
             return redirect(route('teacher.dashboard'));
+        } elseif ($user->role === User::FAMILY) {
+            return redirect(route('family.dashboard'));
         } else {
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended(route('welcome', absolute: false));
         }
+
+        //Multi_Authentication
 
     }
 
