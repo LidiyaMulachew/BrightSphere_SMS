@@ -35,7 +35,10 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             //here
-            'role' => ['required', 'in:super_admin,student,teacher,parent'],
+            // 'role' => ['required', 'in:User::SUPER_ADMIN, User::STUDENT, User::TEACHER, User::FAMILY'],
+            'role' => ['required', 'in:' . implode(',', [
+                User::SUPER_ADMIN, User::STUDENT, User::TEACHER, User::FAMILY
+            ])],
             //here
         ]);
 
@@ -53,20 +56,6 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
-        //here
-        // $user = Auth::user();
 
-        // if ($user->role === 'SUPER_ADMIN') {
-        //     return redirect(route('admin.dashboard'));
-        // } elseif ($user->role === 'STUDENT') {
-        //     return redirect(route('student.dashboard'));
-        // } elseif ($user->role === 'TEACHER') {
-        //     return redirect(route('teacher.dashboard'));
-        // } else {
-        //     return redirect()->intended(route('dashboard', absolute: false));
-        // }
-
-    
-        //here
     }
 }

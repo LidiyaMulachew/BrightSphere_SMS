@@ -21,10 +21,23 @@ export default function Register() {
         };
     }, []);
 
+    // const submit = (e) => {
+    //     e.preventDefault();
+
+    //     post(route('registration'));
+    // };
+
     const submit = (e) => {
         e.preventDefault();
-
-        post(route('register'));
+        post(route('registration'), {
+            data: {
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                password_confirmation: data.password_confirmation,
+                role: data.role,
+            }
+        });
     };
 
     return (
@@ -106,25 +119,25 @@ export default function Register() {
                 {/* here */}
 
                 <div className="mt-4">
-    <InputLabel htmlFor="role" value="Role" />
+                    <InputLabel htmlFor="role" value="Role" />
 
-    <select
-        id="role"
-        name="role"
-        value={data.role}
-        className="mt-1 block w-full"
-        onChange={(e) => setData('role', e.target.value)}
-        required
-    >
-        <option value="">Select a role</option>
-        <option value="0">Super Admin</option>
-        <option value="1">Student</option>
-        <option value="2">Teacher</option>
-        <option value="3">Parent</option>
-    </select>
+                    <select
+                        id="role"
+                        name="role"
+                        value={data.role}
+                        className="mt-1 block w-full"
+                        onChange={(e) => setData('role', e.target.value)}
+                        required
+                        >
+                        <option value="">Select a role</option>
+                        <option value="0">Super Admin</option>
+                        <option value="1">Student</option>
+                        <option value="2">Teacher</option>
+                        <option value="3">Parent</option>
+                    </select>
 
-    <InputError message={errors.role} className="mt-2" />
-</div>
+                    <InputError message={errors.role} className="mt-2" />
+                </div>
 
 
                 {/* to here */}
