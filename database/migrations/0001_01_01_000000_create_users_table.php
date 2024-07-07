@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->unsignedInteger('role');
+            $table->unsignedInteger('role');  
+            $table->timestamp('deleted_at')->nullable();  // Adding deleted_at column for soft delete
 
             $table->rememberToken();
             $table->timestamps();

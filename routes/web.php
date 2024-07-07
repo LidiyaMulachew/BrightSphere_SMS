@@ -47,9 +47,6 @@ Route::middleware(['auth', RedirectToUserDashboard::class])->group(function () {
 });
 //Multi_Authentication
 
-//Route::get('/registration', function () {
-  //  return Inertia::render('Auth/Register');
-//})->name('registration');
 
 // Route to render registration form
 Route::get('/registration', [RegisteredUserController::class, 'create'])->name('registration');

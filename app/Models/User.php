@@ -6,10 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;  //softdelete
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable,SoftDeletes;  //add softdelete
     public const SUPER_ADMIN=0;
     public const STUDENT=1;
     public const TEACHER=2;
@@ -53,6 +54,7 @@ class User extends Authenticatable
         ];
     }
 
+    protected $dates = ['deleted_at']; // Ensure deleted_at is included in dates  for softdelete
     
  //Multi_Authentication
    public function isSuper_Admin(): bool

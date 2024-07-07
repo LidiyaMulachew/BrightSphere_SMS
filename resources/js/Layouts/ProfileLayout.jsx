@@ -8,10 +8,10 @@ export default function Authenticated({ user, header, children }) {
     return (
         <div className="flex min-h-screen bg-gray-100 items-center justify-center">
             <div className="w-full max-w-4xl">
-                <div className="p-6 bg-gray-100">
+                <div className="p-8 bg-gray-100">
                     <nav className="border-b border-gray-100 rounded-lg">
                         <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-10">
-                            <div className="flex justify-between items-center h-16">
+                            <div className="flex justify-between items-center h-6">
                                 <div className="flex items-center">
                                     <button
                                         onClick={() => window.history.back()}
@@ -22,10 +22,10 @@ export default function Authenticated({ user, header, children }) {
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
                                         </svg>
                                     </button>
-                                    <div className="ml-4 flex items-center">
-                                        <h5 className="text-center">
-                                            <span style={{ color: 'orange', fontFamily: 'Arial', fontSize: '1.2em' }}>Update</span>{' '}
-                                            <span style={{ color: '#007bff', fontFamily: 'Arial', fontSize: '1.2em' }}>Profile</span>
+                                    <div className="ml-28 ">
+                                        <h5 className="text-center ml-28 ">
+                                            <span style={{ color: 'orange', fontFamily: 'Arial', fontSize: '1.5em' }}>Update</span>{' '}
+                                            <span style={{ color: '#007bff', fontFamily: 'Arial', fontSize: '1.5em' }}>Profile</span>
                                         </h5>
                                     </div>
                                 </div>

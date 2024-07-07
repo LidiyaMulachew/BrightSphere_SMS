@@ -27,7 +27,7 @@ class RegistrationController extends Controller
             'role' => $validatedData['role'],
         ]);
 
-        // Implement additional role-based logic, if needed
+       
 
         return Inertia::location('/login');
     }
