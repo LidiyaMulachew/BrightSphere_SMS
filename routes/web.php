@@ -8,6 +8,8 @@ use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Middleware\RedirectToUserDashboard;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\FamilyController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+
 
 
 
@@ -46,6 +48,16 @@ Route::middleware(['auth', RedirectToUserDashboard::class])->group(function () {
 //Multi_Authentication
 
 
+// Route to render registration form
+Route::get('/registration', [RegisteredUserController::class, 'create'])->name('registration');
+
+// Route to handle registration form submission
+Route::post('/registration', [RegisteredUserController::class, 'store']);
+
+
+
+
+
 
 
 
@@ -71,10 +83,6 @@ Route::middleware(['auth', RedirectToUserDashboard::class])->group(function () {
 
 
 
-
-// Route::get('/registration', function () {
-//     return Inertia::render('Auth/Register');
-// })->middleware(['auth', 'verified'])->name('registration');
 
 
 
