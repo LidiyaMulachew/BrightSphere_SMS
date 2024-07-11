@@ -9,6 +9,8 @@ use App\Http\Middleware\RedirectToUserDashboard;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\SuperAdminMiddleware;
 
 
 
@@ -55,12 +57,41 @@ Route::get('/registration', [RegisteredUserController::class, 'create'])->name('
 Route::post('/registration', [RegisteredUserController::class, 'store']);
 
 
+Route::middleware(['auth', SuperAdminMiddleware::class])->group(function (){
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+});
+
+
+
+// Route::middleware(['auth',  SuperAdminMiddleware::class])->group(function () {
+//     Route::resource('users', UserController::class);
+// });
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+// Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+// Route::get('/students/create', [StudentController::class, 'create'])->name('students.create');
+// Route::post('/students', [StudentController::class, 'store'])->name('students.store');
+// Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
+// Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
+// Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('students.destroy');
 
 
 

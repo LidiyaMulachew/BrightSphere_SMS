@@ -68,6 +68,8 @@ class HandleInertiaRequests extends Middleware
         'teacher' => \App\Http\Middleware\TeacherMiddleware::class,
         'family' => \App\Http\Middleware\FamilyMiddleware::class,
         'role' => \App\Http\Middleware\RedirectToUserDashboard::class,
+        'super_admin' => \App\Http\Middleware\SuperAdminMiddleware::class,
+
 
     ];
 
