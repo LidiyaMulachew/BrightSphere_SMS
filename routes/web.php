@@ -11,11 +11,8 @@ use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\SuperAdminMiddleware;
-
-
-
-
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MaterialController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,6 +34,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/materials', [MaterialController::class, 'store'])
+     ->name('materials.store');
+
 });
 
 
@@ -47,16 +47,13 @@ Route::middleware(['auth', RedirectToUserDashboard::class])->group(function () {
     Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
     Route::get('/family/dashboard', [FamilyController::class, 'dashboard'])->name('family.dashboard');
 });
-//Multi_Authentication
 
 
 // Route to render registration form
 Route::get('/registration', [RegisteredUserController::class, 'create'])->name('registration');
-
-// Route to handle registration form submission
 Route::post('/registration', [RegisteredUserController::class, 'store']);
 
-
+// Edit user account
 Route::middleware(['auth', SuperAdminMiddleware::class])->group(function (){
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
@@ -65,19 +62,21 @@ Route::middleware(['auth', SuperAdminMiddleware::class])->group(function (){
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 });
 
-
-
 // Route::middleware(['auth',  SuperAdminMiddleware::class])->group(function () {
 //     Route::resource('users', UserController::class);
 // });
 
+//upload course materials
 
-
-
-
-
-
-
+Route::middleware(['auth'])->group(function () {
+    
+    Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
+    Route::post('/materials', [MaterialController::class, 'store'])->name('materials.store');
+    Route::put('/materials/show', [MaterialController::class, 'show'])->name('materials.show');
+    Route::get('/materials/{id}/edit', [MaterialController::class, 'edit'])->name('materials.edit');
+    Route::put('/materials/{material}', [MaterialController::class, 'update'])->name('materials.update');
+    Route::delete('/materials/{material}', [MaterialController::class, 'delete'])->name('materials.delete');
+});
 
 
 

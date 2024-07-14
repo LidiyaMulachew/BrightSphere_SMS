@@ -56,6 +56,13 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at']; // Ensure deleted_at is included in dates  for softdelete
     
+
+    //create relationship with material
+    public function materials()
+    {
+        return $this->hasMany(Material::class);
+    }
+
  //Multi_Authentication
    public function isSuper_Admin(): bool
    {
