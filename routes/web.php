@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\SuperAdminMiddleware;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\StudentListController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -71,17 +72,29 @@ Route::middleware(['auth', SuperAdminMiddleware::class])->group(function (){
 Route::middleware(['auth'])->group(function () {
     
     Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
+    Route::get('/materials/create', [MaterialController::class, 'create'])->name('materials.create');
     Route::post('/materials', [MaterialController::class, 'store'])->name('materials.store');
     Route::put('/materials/show', [MaterialController::class, 'show'])->name('materials.show');
     Route::get('/materials/{id}/edit', [MaterialController::class, 'edit'])->name('materials.edit');
-    Route::put('/materials/{material}', [MaterialController::class, 'update'])->name('materials.update');
-    Route::delete('/materials/{material}', [MaterialController::class, 'delete'])->name('materials.delete');
+    Route::put('/materials/{id}', [MaterialController::class, 'update'])->name('materials.update');
+    Route::delete('/materials/{material}', [MaterialController::class, 'destroy'])->name('materials.destroy');
 });
 
 
 
+// Route::middleware('auth:sanctum')->group(function () {
+//     // Authenticated routes
+//     Route::get('/users/students', [UserController::class, 'getStudents']);
+//     Route::delete('/users/{id}', [UserController::class, 'deleteStudent']);
+// });
 
 
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('/students', [StudentListController::class, 'index']);
+//     Route::post('/students', [StudentListController::class, 'store']);
+//     Route::put('/students/{id}', [StudentListController::class, 'update']);
+//     Route::delete('/students/{id}', [StudentListController::class, 'destroy']);
+// });
 
 
 

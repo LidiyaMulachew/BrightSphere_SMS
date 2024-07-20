@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import EditMaterial from './EditMaterial'; 
-import ShowMaterial from './ShowMaterial'; 
+import MaterialList from './MaterialList'; 
 const MaterialUpload = () => {
     const { data, setData, post, processing, errors } = useForm({
         title: '',
@@ -11,7 +11,6 @@ const MaterialUpload = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-                // Prepare form data for submission
                 const formData = new FormData();
                 formData.append('title', data.title);
                 formData.append('description', data.description);
@@ -20,12 +19,10 @@ const MaterialUpload = () => {
         post(route('materials.store'), {
             data: formData,
             onSuccess: () => {
-                // Reset form state after successful upload
                 setData({ title: '', description: '', file: null });
                 alert('File uploaded successfully!');
             },
             onError: (errors) => {
-                // Handle errors, if any
                 console.log(errors);
             }
         });

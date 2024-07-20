@@ -1,28 +1,38 @@
 import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
-import { usePage } from '@inertiajs/react';
 import EditMaterial from './EditMaterial'; 
-const ShowMaterial = ({ materials }) => {
-    const { material } = usePage().props;
-    const [editMaterialId, setEditMaterialId] = useState(null);
+import axios from 'axios';
 
-    const handleDelete = (id) => {
-        if (confirm('Are you sure you want to delete this material?')) {
-            // Perform deletion logic here
-            console.log(`Deleting material with id ${id}`);
-        }
+const MaterialList = ({ materials }) => {
+    const [editMaterialId, setEditMaterialId] = useState(null);
+    const [materialsList, setMaterialsList] = useState(materials); 
+
+    const handleEditClick = (materialId) => {
+        setEditMaterialId(materialId);
     };
 
     const handleCancelEdit = () => {
         setEditMaterialId(null);
     };
 
+    const handleDelete = async (materialId) => {
+        try {
+            await axios.delete(`/materials/${materialId}`);
+    
+            // Update materialsList state after deletion
+            setMaterialsList(prevMaterialsList => prevMaterialsList.filter(material => material.id !== materialId));
+        } catch (error) {
+            console.error('Error deleting material:', error);
+        }
+    };
+    
+
     return (
-        <div className="bg-gray-100 flex items-center justify-center min-h-screen">
+        <div className="bg-gray-100 flex items-center justify-center">
             <div className="w-full max-w-screen-xl pt-5">
                 <div className="container">
                     <div className="text-center mb-7 mt-1">
-                        <h1>Material List</h1>
+                        <h1 className="font-bold text-2xl text-blue-400">Material List</h1>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="table table-bordered table-striped w-full" style={{ backgroundColor: '#ffffff', border: '2px solid #dddddd' }}>
@@ -35,17 +45,17 @@ const ShowMaterial = ({ materials }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {Array.isArray(materials) && materials.map((material) => (
+                                {Array.isArray(materialsList) && materialsList.map((material, index) => (
                                     <tr key={material.id}>
-                                        <td>{material.title}</td>
-                                        <td>{material.description}</td>
-                                        <td>
+                                        <td className="px-6 py-4 border">{material.title}</td>
+                                        <td className="px-24 py-4 border">{material.description}</td>
+                                        <td className="px-16 py-4 border">
                                             <a href={material.file_path} target="_blank" rel="noopener noreferrer">
-                                                {material.file_path.split('/').pop()} {/* Displaying just the file name */}
+                                                {material.file_path.split('/').pop()}
                                             </a>
                                         </td>
-                                        <td>
-                                            <div className="btn-group" role="group" aria-label="Actions">
+                                        <td className="px-6 py-4 border">
+                                            <div className="flex justify-around">
                                                 <Link href={`materials/${material.id}/edit`} className="btn btn-sm btn-primary">
                                                     Edit
                                                 </Link>
@@ -72,7 +82,7 @@ const ShowMaterial = ({ materials }) => {
                         <EditMaterial
                             materialId={editMaterialId}
                             onCancel={handleCancelEdit}
-                            materialData={materials.find(mat => mat.id === editMaterialId)}
+                            materialData={materialsList.find(material => material.id === editMaterialId)}
                         />
                     </div>
                 </div>
@@ -81,4 +91,4 @@ const ShowMaterial = ({ materials }) => {
     );
 };
 
-export default ShowMaterial;
+export default MaterialList;
