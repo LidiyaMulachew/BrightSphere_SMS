@@ -9,11 +9,11 @@ use App\Http\Middleware\RedirectToUserDashboard;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-
-
-
-
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\SuperAdminMiddleware;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\StudentListController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/materials', [MaterialController::class, 'store'])
+     ->name('materials.store');
+
 });
 
 
@@ -45,22 +48,62 @@ Route::middleware(['auth', RedirectToUserDashboard::class])->group(function () {
     Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
     Route::get('/family/dashboard', [FamilyController::class, 'dashboard'])->name('family.dashboard');
 });
-//Multi_Authentication
 
 
 // Route to render registration form
 Route::get('/registration', [RegisteredUserController::class, 'create'])->name('registration');
-
-// Route to handle registration form submission
 Route::post('/registration', [RegisteredUserController::class, 'store']);
 
+// Edit user account
+Route::middleware(['auth', SuperAdminMiddleware::class])->group(function (){
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+});
+
+// Route::middleware(['auth',  SuperAdminMiddleware::class])->group(function () {
+//     Route::resource('users', UserController::class);
+// });
+
+//upload course materials
+
+Route::middleware(['auth'])->group(function () {
+    
+    Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
+    Route::get('/materials/create', [MaterialController::class, 'create'])->name('materials.create');
+    Route::post('/materials', [MaterialController::class, 'store'])->name('materials.store');
+    Route::put('/materials/show', [MaterialController::class, 'show'])->name('materials.show');
+    Route::get('/materials/{id}/edit', [MaterialController::class, 'edit'])->name('materials.edit');
+    Route::put('/materials/{id}', [MaterialController::class, 'update'])->name('materials.update');
+    Route::delete('/materials/{material}', [MaterialController::class, 'destroy'])->name('materials.destroy');
+});
 
 
 
+// Route::middleware('auth:sanctum')->group(function () {
+//     // Authenticated routes
+//     Route::get('/users/students', [UserController::class, 'getStudents']);
+//     Route::delete('/users/{id}', [UserController::class, 'deleteStudent']);
+// });
+
+
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('/students', [StudentListController::class, 'index']);
+//     Route::post('/students', [StudentListController::class, 'store']);
+//     Route::put('/students/{id}', [StudentListController::class, 'update']);
+//     Route::delete('/students/{id}', [StudentListController::class, 'destroy']);
+// });
 
 
 
-
+// Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+// Route::get('/students/create', [StudentController::class, 'create'])->name('students.create');
+// Route::post('/students', [StudentController::class, 'store'])->name('students.store');
+// Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
+// Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
+// Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('students.destroy');
 
 
 

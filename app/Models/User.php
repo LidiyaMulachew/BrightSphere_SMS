@@ -27,6 +27,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        
+        'teacher_id',
 
     ];
 
@@ -54,8 +56,34 @@ class User extends Authenticatable
         ];
     }
 
-    protected $dates = ['deleted_at']; // Ensure deleted_at is included in dates  for softdelete
-    
+    protected $dates = ['deleted_at']; // deleted_at is included in dates  for softdelete
+
+
+    //create relationship with material
+    public function materials()
+    {
+        return $this->hasMany(Material::class);
+    }
+
+
+    // create relationships with teachers and students
+    public function students()
+        {
+            return $this->hasMany(User::class, 'teacher_id');
+        }
+       
+    public function teacher()
+        {
+            return $this->belongsTo(User::class, 'teacher_id');
+        }
+
+    public function parents()
+        {
+            return $this->hasMany(User::class, 'teacher_id');
+        }    
+
+
+
  //Multi_Authentication
    public function isSuper_Admin(): bool
    {
@@ -77,6 +105,5 @@ class User extends Authenticatable
     }
 
    //Multi_Authentication
-   
 
 }

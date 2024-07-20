@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->unsignedInteger('role');  
             $table->timestamp('deleted_at')->nullable();  // Adding deleted_at column for soft delete
-
+            $table->unsignedBigInteger('teacher_id'); //  teacher_id
             $table->rememberToken();
             $table->timestamps();
         });

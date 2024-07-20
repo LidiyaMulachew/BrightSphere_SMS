@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         'teacher' => \App\Http\Middleware\TeacherMiddleware::class,
         'role_parent' => \App\Http\Middleware\FamilyMiddleware::class,
         'role' => \App\Http\Middleware\RedirectToUserDashboard::class,
+        'super_admin' => \App\Http\Middleware\SuperAdminMiddleware::class,
         
 
     ];
