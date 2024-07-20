@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('file_path');
-            $table->softDeletes(); // Soft delete column
+            // $table->softDeletes(); // Soft delete column
             $table->timestamps();
         });
     }
-    
+
 
     /**
      * Reverse the migrations.

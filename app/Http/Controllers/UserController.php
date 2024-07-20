@@ -16,6 +16,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+
         $currentUser = $request->user();
 
         if ($currentUser->isSuper_Admin()) {
@@ -23,9 +24,10 @@ class UserController extends Controller
             $users = User::where('role', User::TEACHER)->get();
         } elseif ($currentUser->isTeacher()) {
             // Fetch students and parents associated with the current teacher
+
             $users = User::where('teacher_id', $currentUser->id)
-                        ->whereIn('role', [User::STUDENT, User::FAMILY])
-                        ->get();
+                ->whereIn('role', [User::STUDENT, User::FAMILY])
+                ->get();
         } else {
             // Default: Fetch all users
             $users = User::all();
@@ -223,5 +225,3 @@ class UserController extends Controller
 //         return redirect()->route('users.index'); 
 //     }
 // }
-
-

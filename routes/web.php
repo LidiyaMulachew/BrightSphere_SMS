@@ -36,8 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/materials', [MaterialController::class, 'store'])
-     ->name('materials.store');
-
+        ->name('materials.store');
 });
 
 
@@ -55,7 +54,7 @@ Route::get('/registration', [RegisteredUserController::class, 'create'])->name('
 Route::post('/registration', [RegisteredUserController::class, 'store']);
 
 // Edit user account
-Route::middleware(['auth', SuperAdminMiddleware::class])->group(function (){
+Route::middleware(['auth', SuperAdminMiddleware::class])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
@@ -70,13 +69,13 @@ Route::middleware(['auth', SuperAdminMiddleware::class])->group(function (){
 //upload course materials
 
 Route::middleware(['auth'])->group(function () {
-    
+
     Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
     Route::get('/materials/create', [MaterialController::class, 'create'])->name('materials.create');
     Route::post('/materials', [MaterialController::class, 'store'])->name('materials.store');
     Route::put('/materials/show', [MaterialController::class, 'show'])->name('materials.show');
     Route::get('/materials/{id}/edit', [MaterialController::class, 'edit'])->name('materials.edit');
-    Route::put('/materials/{id}', [MaterialController::class, 'update'])->name('materials.update');
+    Route::post('/materials/{id}', [MaterialController::class, 'update'])->name('materials.update');
     Route::delete('/materials/{material}', [MaterialController::class, 'destroy'])->name('materials.destroy');
 });
 
@@ -195,4 +194,4 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
