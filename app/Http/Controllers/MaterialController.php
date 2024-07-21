@@ -11,16 +11,33 @@ use Inertia\Inertia;
 
 class MaterialController extends Controller
 {
-
     public function index()
     {
-        // Assuming you want to fetch all materials here
-        $materials = Material::all(); // Fetch all materials from the database
+        // Retrieve authenticated user
+        $user = Auth::user();
 
-        return Inertia::render('Teacher/MaterialList', [
-            'materials' => $materials,
-        ]);
+        // Ensure $user is an instance of App\Models\User and has materials() method available
+        if ($user instanceof \App\Models\User) {
+            // Fetch materials associated with the authenticated user
+            $materials = $user->materials()->get();
+
+            return Inertia::render('Teacher/MaterialList', [
+                'materials' => $materials,
+            ]);
+        } else {
+            // Handle case where $user is not an instance of App\Models\User
+            return redirect()->back()->with('error', 'Unauthorized access.');
+        }
     }
+    // public function index()
+    // {
+    //     // Assuming you want to fetch all materials here
+    //     $materials = Material::all(); // Fetch all materials from the database
+
+    //     return Inertia::render('Teacher/MaterialList', [
+    //         'materials' => $materials,
+    //     ]);
+    // }
     public function create()
     {
         return Inertia::render('Teacher/MaterialUpload');

@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import TeacherLayout from '@/Layouts/TeacherLayout';
+import { Head, usePage } from '@inertiajs/react';
 import axios from "axios";
 import { router } from "@inertiajs/react";
 
+
 const EditMaterial = ({ material }) => {
+    const { props } = usePage();
+
     const [formData, setFormData] = useState({
         title: material.title,
         description: material.description,
@@ -43,6 +48,10 @@ const EditMaterial = ({ material }) => {
     };
 
     return (
+        <TeacherLayout
+        user={props.auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Teacher Dashboard</h2>}
+    >
         <div
             style={{
                 backgroundColor: "#f3f7f0",
@@ -165,6 +174,8 @@ const EditMaterial = ({ material }) => {
                 </form>
             </div>
         </div>
+        </TeacherLayout>
+
     );
 };
 

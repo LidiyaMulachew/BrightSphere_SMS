@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
+import TeacherLayout from '@/Layouts/TeacherLayout';
+import { Head, usePage } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
 import EditMaterial from './EditMaterial'; 
 import axios from 'axios';
 
+
+
 const MaterialList = ({ materials }) => {
+    //for layout
+    const { props } = usePage();
+    //for layout
+
     const [editMaterialId, setEditMaterialId] = useState(null);
     const [materialsList, setMaterialsList] = useState(materials); 
 
@@ -28,6 +36,10 @@ const MaterialList = ({ materials }) => {
     
 
     return (
+        <TeacherLayout
+        user={props.auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Teacher Dashboard</h2>}
+    >
         <div className="bg-gray-100 flex items-center justify-center">
             <div className="w-full max-w-screen-xl pt-5">
                 <div className="container">
@@ -38,18 +50,18 @@ const MaterialList = ({ materials }) => {
                         <table className="table table-bordered table-striped w-full" style={{ backgroundColor: '#ffffff', border: '2px solid #dddddd' }}>
                             <thead className="thead-light">
                                 <tr>
-                                    <th className="px-6 py-3 border">Title</th>
-                                    <th className="px-24 py-3 border">Description</th>
-                                    <th className="px-24 py-3 border">File</th>
-                                    <th className="px-16 py-3 border">Action</th>
+                                    <th className="px-3 py-3 border">Title</th>
+                                    <th className="px-3 py-3 border">Description</th>
+                                    <th className="px-3 py-3 border">File</th>
+                                    <th className="px-3 py-3 border">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {Array.isArray(materialsList) && materialsList.map((material, index) => (
                                     <tr key={material.id}>
-                                        <td className="px-6 py-4 border">{material.title}</td>
-                                        <td className="px-24 py-4 border">{material.description}</td>
-                                        <td className="px-16 py-4 border">
+                                        <td className="px-3 py-4 border">{material.title}</td>
+                                        <td className="px-3 py-4 border">{material.description}</td>
+                                        <td className="px-3 py-4 border">
                                             <a href={material.file_path} target="_blank" rel="noopener noreferrer">
                                                 {material.file_path.split('/').pop()}
                                             </a>
@@ -88,6 +100,7 @@ const MaterialList = ({ materials }) => {
                 </div>
             )}
         </div>
+        </TeacherLayout>
     );
 };
 

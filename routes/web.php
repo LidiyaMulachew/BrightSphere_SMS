@@ -9,6 +9,7 @@ use App\Http\Middleware\RedirectToUserDashboard;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\RegisteredStudentController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\SuperAdminMiddleware;
 use App\Http\Controllers\LoginController;
@@ -49,9 +50,15 @@ Route::middleware(['auth', RedirectToUserDashboard::class])->group(function () {
 });
 
 
-// Route to render registration form
+// Route to render registration form for superadmin
 Route::get('/registration', [RegisteredUserController::class, 'create'])->name('registration');
 Route::post('/registration', [RegisteredUserController::class, 'store']);
+
+
+// Route to render registration form for teachers
+Route::get('/registerstudents', [RegisteredStudentController::class, 'create'])->name('registerstudents.index');
+Route::post('/registerstudents', [RegisteredStudentController::class, 'store'])->name('registerstudents.store');
+
 
 // Edit user account
 Route::middleware(['auth', SuperAdminMiddleware::class])->group(function () {

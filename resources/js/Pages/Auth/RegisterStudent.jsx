@@ -6,8 +6,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { usePage } from '@inertiajs/react';
-
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import TeacherLayout from '@/Layouts/TeacherLayout';
 
 
 export default function Register() {
@@ -36,7 +35,7 @@ export default function Register() {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('registration'), {
+        post(route('registerstudents.index'), {
             data: {
                 name: data.name,
                 email: data.email,
@@ -49,9 +48,9 @@ export default function Register() {
 
 
     return (
-        <AuthenticatedLayout
+        <TeacherLayout
         user={props.auth.user}
-        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Super Admin Dashboard</h2>}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Teacher Dashboard</h2>}
     >
         <GuestLayout>
             <Head title="Register" />
@@ -142,8 +141,8 @@ export default function Register() {
                         required
                         >
                         <option value="">Select a role</option>
-                        <option value="0">Super Admin</option>
-                        <option value="2">Teacher</option>
+                        <option value="1">Student</option>
+                        <option value="3">Parent</option>
                     </select>
 
                     <InputError message={errors.role} className="mt-2" />
@@ -169,7 +168,9 @@ export default function Register() {
                 </div>
             </form>
         </GuestLayout>
-        </AuthenticatedLayout>
+        </TeacherLayout>
     );
 }
+
+
 

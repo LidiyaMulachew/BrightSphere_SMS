@@ -17,6 +17,10 @@ export default function Dashboard() {
                             <h1 className="text-2xl font-bold">Hello, teachers!</h1>
                         </div>
                     </div>
+
+                    {/* <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                        <DeleteUserForm className="max-w-xl" />
+                    </div> */}
                 </div>
             </div>
 

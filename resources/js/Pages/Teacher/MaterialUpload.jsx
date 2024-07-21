@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
+import TeacherLayout from '@/Layouts/TeacherLayout';
+import { Head, usePage } from '@inertiajs/react';
 import { useForm } from '@inertiajs/react';
 import EditMaterial from './EditMaterial'; 
 import MaterialList from './MaterialList'; 
+
+
 const MaterialUpload = () => {
+    //for layout
+    const { props } = usePage();
+    //for layout
+
     const { data, setData, post, processing, errors } = useForm({
         title: '',
         description: '',
@@ -29,6 +37,11 @@ const MaterialUpload = () => {
     };
 
     return (
+        <TeacherLayout
+        user={props.auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Teacher Dashboard</h2>}
+    >
+
         <div style={{ backgroundColor: '#f3f7f0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ width: '700px', height: '650px', display: 'flex', flexDirection: 'column'}}>
             <div className="text-center mb-10 mt-7">
@@ -77,6 +90,7 @@ const MaterialUpload = () => {
             </form>
         </div>
     </div>
+    </TeacherLayout>
     
     );
 };

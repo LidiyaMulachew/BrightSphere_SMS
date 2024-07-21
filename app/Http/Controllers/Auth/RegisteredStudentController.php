@@ -13,14 +13,14 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class RegisteredUserController extends Controller
+class RegisteredStudentController extends Controller
 {
     /**
      * Display the registration view.
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/RegisterStudent');
     }
 
     /**
@@ -38,7 +38,7 @@ class RegisteredUserController extends Controller
             //here
             // 'role' => ['required', 'in:User::SUPER_ADMIN, User::STUDENT, User::TEACHER, User::FAMILY'],
             'role' => ['required', 'in:' . implode(',', [
-                User::SUPER_ADMIN, User::TEACHER,
+                 User::STUDENT, User::FAMILY
                 // User::SUPER_ADMIN, User::STUDENT, User::TEACHER, User::FAMILY
 
             ])],
@@ -59,6 +59,6 @@ class RegisteredUserController extends Controller
 
         // Auth::login($user);
 
-        return redirect(route('super_admin.dashboard'));
+        return redirect(route('teacher.dashboard'));
     }
 }
