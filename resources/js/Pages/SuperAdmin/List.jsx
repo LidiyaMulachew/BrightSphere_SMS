@@ -5,25 +5,25 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 import EditUser from './EditUser';
 import axios from 'axios';
-const List = ({ currentUser, teacherData }) => {
+const List = ({ teachersList, teacherData }) => {
         //for layout
         const { props } = usePage();
         //for layout
     const [usersList, setUsersList] = useState([]);
     const [editUserId, setEditUserId] = useState(null);
-    // console.log('currentUser:', currentUser);
+    console.log('teachersList:', teachersList);
     console.log('teacherData:', teacherData);
 
-    // console.log('currentUser', user);
+    // console.log('teachersList', user);
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 let response;
-                if (currentUser && currentUser.role === 'super_admin') {
+                if (teachersList && teachersList.role === 'super_admin') {
                     response = await axios.get('/users?role=teacher');
-                } else if (currentUser && currentUser.role === 'teacher') {
-                    response = await axios.get(`/users?teacherId=${currentUser.id}&roles[]=student&roles[]=parent`);
+                } else if (teachersList && teachersList.role === 'teacher') {
+                    response = await axios.get(`/users?teacherId=${teachersList.id}&roles[]=student&roles[]=parent`);
                 } else {
                     response = await axios.get('/users');
                 }
@@ -32,10 +32,10 @@ const List = ({ currentUser, teacherData }) => {
                 console.error('Error fetching users:', error);
             }
         };
-        if (currentUser) {
+        if (teachersList) {
             fetchUsers();
         }
-    }, [currentUser]); 
+    }, [teachersList]); 
 
 
 
@@ -97,7 +97,7 @@ const List = ({ currentUser, teacherData }) => {
                             </thead>
                             <tbody>
 
-                            {Array.isArray(currentUser) && currentUser.map((user, index) => (
+                            {Array.isArray(teachersList) && teachersList.map((user, index) => (
 
                                     <tr key={user.id}>
 
@@ -134,7 +134,7 @@ const List = ({ currentUser, teacherData }) => {
                         <EditUser
                             userId={editUserId}
                             onCancel={handleCancelEdit}
-                            userData={currentUser.find(user => user.id === editUserId)}
+                            userData={teachersList.find(user => user.id === editUserId)}
                         />
                     </div>
                 </div>

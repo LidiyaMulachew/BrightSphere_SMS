@@ -17,9 +17,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
-        $currentUser = $request->user();
+        $teachersList = $request->user();
 
-        if ($currentUser->isSuper_Admin()) {
+        if ($teachersList->isSuper_Admin()) {
             // Fetch all teachers for super admin
             $users = User::where('role', User::TEACHER)->get();
 
@@ -30,7 +30,7 @@ class UserController extends Controller
 
 
         $teachers=[$users];
-        return Inertia::render('SuperAdmin/List', ['currentUser' => $users,'teacherData' => $teachers]);
+        return Inertia::render('SuperAdmin/List', ['teachersList' => $users,'teacherData' => $teachers]);
 
         // return response()->json($users);
     }

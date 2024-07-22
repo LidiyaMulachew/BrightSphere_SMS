@@ -24,9 +24,9 @@ const EditUser = ({ userId, onCancel, userData }) => {
     return (
         <AuthenticatedLayout
         user={props.auth.user}
-        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Teacher Dashboard</h2>}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Super Admin Dashboard</h2>}
     >
-        <div>
+        {/* <div> */}
             <h3 className="text-xl font-bold mb-4">Edit User</h3>
             <div className="mb-4">
                 <label htmlFor="name" className="block font-medium mb-2">Name:</label>
@@ -74,7 +74,7 @@ const EditUser = ({ userId, onCancel, userData }) => {
                     Save
                 </button>
             </div>
-        </div>
+        {/* </div> */}
         </AuthenticatedLayout>
 
     );
