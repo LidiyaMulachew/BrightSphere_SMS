@@ -1,115 +1,84 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { Head, usePage } from '@inertiajs/react';
 
-const EditUser = ({ userId, onCancel }) => {
-    const [userData, setUserData] = useState(null); 
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        role: '',
-    });
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await axios.get(`/users/${userId}`);
-                setUserData(response.data); 
-                setFormData({
-                    name: response.data.name,
-                    email: response.data.email,
-                    password: '', 
-                    role: response.data.role.toString(), 
-                });
-            } catch (error) {
-                console.error('Error fetching user:', error);
-            }
-        };
+const EditUser = ({ userId, onCancel, userData }) => {
+    const [name, setName] = useState(userData.name);
+    const [email, setEmail] = useState(userData.email);
+    const [role, setRole] = useState(userData.role);
+        //for layout
+        const { props } = usePage();
+        //for layout
 
-        fetchUser(); 
-    }, [userId]); 
-
-    
-    const handleInputChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSave = async () => {
         try {
-            await axios.put(`/users/${userId}`, formData); 
-            console.log(`User with ID ${userId} updated successfully`);
-            onCancel(); 
+            await axios.put(`/users/${userId}`, { name, email, role });
+            onCancel();
         } catch (error) {
             console.error('Error updating user:', error);
         }
     };
 
-    // if (!userData) return <p>Loading...</p>;
-
     return (
-        <div style={{ width: '700px', height: '550px' }}>
-            <div className="text-center mb-10 mt-3">
-                <h2 className="text-2xl font-bold text-gray-600">Edit User Account</h2>
-            </div>
-            <form onSubmit={handleSubmit} style={{ maxWidth: '700px', padding: '20px', borderRadius: '8px', border: '1px solid #ccc' }}>
-                <label htmlFor="name" style={{ marginBottom: '8px', display: 'block' }}>Name:</label>
+        <AuthenticatedLayout
+        user={props.auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Teacher Dashboard</h2>}
+    >
+        <div>
+            <h3 className="text-xl font-bold mb-4">Edit User</h3>
+            <div className="mb-4">
+                <label htmlFor="name" className="block font-medium mb-2">Name:</label>
                 <input
-                    type="text"
                     id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    style={{ width: '100%', padding: '8px', marginBottom: '16px', borderRadius: '4px' }}
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="border border-gray-300 px-3 py-2 rounded-md w-full"
                 />
-
-                <label htmlFor="email" style={{ marginBottom: '8px', display: 'block' }}>Email:</label>
+            </div>
+            <div className="mb-4">
+                <label htmlFor="email" className="block font-medium mb-2">Email:</label>
                 <input
-                    type="email"
                     id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    style={{ width: '100%', padding: '8px', marginBottom: '16px', borderRadius: '4px' }}
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="border border-gray-300 px-3 py-2 rounded-md w-full"
                 />
-
-                <label htmlFor="password" style={{ marginBottom: '8px', display: 'block' }}>Password:</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    style={{ width: '100%', padding: '8px', marginBottom: '16px', borderRadius: '4px' }}
-                />
-
-                <label htmlFor="role" style={{ marginBottom: '8px', display: 'block' }}>Role:</label>
+            </div>
+            <div className="mb-4">
+                <label htmlFor="role" className="block font-medium mb-2">Role:</label>
                 <select
                     id="role"
-                    name="role"
-                    value={formData.role}
-                    className="mt-1 block w-full"
-                    onChange={handleInputChange}
-                    required
+                    value={role}
+                    onChange={(e) => setRole(parseInt(e.target.value))}
+                    className="border border-gray-300 px-3 py-2 rounded-md w-full"
                 >
-                    <option value="">Select a role</option>
                     <option value="0">Super Admin</option>
-                    <option value="1">Student</option>
                     <option value="2">Teacher</option>
-                    <option value="3">Parent</option>
                 </select>
-
-                <div style={{ marginTop: '16px' }}>
-                    <button type="submit" style={{ marginRight: '28px', padding: '8px 16px', borderRadius: '4px' }}>Update</button>
-                    <button type="button" onClick={onCancel} style={{ padding: '8px 16px', borderRadius: '4px' }}>Cancel</button>
-                </div>
-            </form>
+            </div>
+            <div className="flex justify-end">
+                <button
+                    className="btn btn-secondary mr-2"
+                    onClick={onCancel}
+                >
+                    Cancel
+                </button>
+                <button
+                    className="btn btn-primary"
+                    onClick={handleSave}
+                >
+                    Save
+                </button>
+            </div>
         </div>
+        </AuthenticatedLayout>
+
     );
 };
 
 export default EditUser;
+

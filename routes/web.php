@@ -12,6 +12,8 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\RegisteredStudentController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\SuperAdminMiddleware;
+use App\Http\Middleware\StudentListMiddleware;
+
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\StudentListController;
@@ -60,13 +62,23 @@ Route::get('/registerstudents', [RegisteredStudentController::class, 'create'])-
 Route::post('/registerstudents', [RegisteredStudentController::class, 'store'])->name('registerstudents.store');
 
 
-// Edit user account
+// Edit teachers account
 Route::middleware(['auth', SuperAdminMiddleware::class])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+});
+
+
+// Edit students and parents account
+Route::middleware('auth')->group(function () {
+    Route::get('/studentslist', [StudentListController::class, 'index'])->name('studentslist.index');
+    Route::get('/studentslist/{id}', [StudentListController::class, 'show'])->name('studentslist.show');
+    Route::post('/studentslist', [StudentListController::class, 'store'])->name('studentslist.store');
+    Route::put('/studentslist/{id}', [StudentListController::class, 'update'])->name('studentslist.update');
+    Route::delete('/studentslist/{id}', [StudentListController::class, 'destroy'])->name('studentslist.destroy');
 });
 
 // Route::middleware(['auth',  SuperAdminMiddleware::class])->group(function () {

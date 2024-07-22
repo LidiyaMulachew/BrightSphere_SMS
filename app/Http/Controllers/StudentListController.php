@@ -1,46 +1,118 @@
 <?php
 
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\User;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Hash;
+
+class StudentListController extends Controller
+{
+    /**
+     * Display a listing of the users.
+     *
+     * @return \Inertia\Response
+     */
+    public function index(Request $request)
+    {
+        $currentUser = $request->user();
+        if ($currentUser->isTeacher()) {
+            // Fetch students and parents associated with the current teacher
+            $users = User::where('teacher_id', $currentUser->id)
+                ->whereIn('role', [User::STUDENT, User::FAMILY])
+                ->get();
+        } else {
+            // Default: Fetch all users
+            $users = User::all();
+        }
+        return Inertia::render('Teacher/List', ['currentUser' => $users]);
+        
+    }
 
 
-// namespace App\Http\Controllers;
+    /**
+     * Store a newly created user in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+            'role' => 'required|in:teacher,student,parent',
+            'teacher_id' => $request->user()->isuper_admin ? 'nullable' : 'required|exists:users,id',
+        ]);
 
-// use App\Models\User;
-// use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Auth;
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'role' => $validatedData['role'],
+            'teacher_id' => $validatedData['teacher_id'] ?? null,
+        ]);
 
-// class UserController extends Controller
-// {
-//     // Get all students associated with the logged-in teacher
-//     public function getStudents()
-//     {
-//         $currentUser = Auth::user();
+        return redirect()->route('users.index');
+    }
 
-//         if ($currentUser->role !== 2) { // Assuming role 2 is teacher
-//             abort(403, 'Unauthorized action.');
-//         }
+    /**
+     * Display the specified user.
+     *
+     * @param  int  $id
+     * @return \Inertia\Response
+     */
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        return Inertia::render('SuperAdmin/Show', ['user' => $user]);
+    }
 
-//         $students = $currentUser->students()->get();
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Inertia\Response
+     */
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return Inertia::render('SuperAdmin/Edit', ['user' => $user]);
+    }
 
-//         return response()->json($students);
-//     }
+    /**
+     * Update the specified user in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+        ]);
 
-//     // Delete a student
-//     public function deleteStudent($id)
-//     {
-//         $currentUser = Auth::user();
+        $user = User::findOrFail($id);
+        $user->update($validatedData);
 
-//         if ($currentUser->role !== 2) { // Only teachers can delete students
-//             abort(403, 'Unauthorized action.');
-//         }
+        return redirect()->route('users.index');
+    }
 
-//         $student = User::findOrFail($id);
+    /**
+     * Remove the specified user from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
 
-//         if ($student->teacher_id !== $currentUser->id) {
-//             abort(403, 'Unauthorized action.');
-//         }
-
-//         $student->delete();
-
-//         return response()->json(['message' => 'Student deleted successfully']);
-//     }
-// }
+        return redirect()->route('users.index');
+    }
+}

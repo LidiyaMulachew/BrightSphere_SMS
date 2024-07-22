@@ -22,19 +22,16 @@ class UserController extends Controller
         if ($currentUser->isSuper_Admin()) {
             // Fetch all teachers for super admin
             $users = User::where('role', User::TEACHER)->get();
-        } elseif ($currentUser->isTeacher()) {
-            // Fetch students and parents associated with the current teacher
 
-            $users = User::where('teacher_id', $currentUser->id)
-                ->whereIn('role', [User::STUDENT, User::FAMILY])
-                ->get();
         } else {
             // Default: Fetch all users
             $users = User::all();
         }
-        return Inertia::render('SuperAdmin/List', ['currentUser' => $users]);
 
-        // return Inertia::render('SuperAdmin/List', ['currentUser' => $currentUser]);
+
+        $teachers=[$users];
+        return Inertia::render('SuperAdmin/List', ['currentUser' => $users,'teacherData' => $teachers]);
+
         // return response()->json($users);
     }
 

@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 
-import TeacherLayout from '@/Layouts/TeacherLayout';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 import EditUser from './EditUser';
 import axios from 'axios';
-const List = ({ currentUser }) => {
+const List = ({ currentUser, teacherData }) => {
         //for layout
         const { props } = usePage();
         //for layout
     const [usersList, setUsersList] = useState([]);
     const [editUserId, setEditUserId] = useState(null);
+    // console.log('currentUser:', currentUser);
+    console.log('teacherData:', teacherData);
 
-    console.log('currentUser:', currentUser);
+    // console.log('currentUser', user);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -35,6 +36,7 @@ const List = ({ currentUser }) => {
             fetchUsers();
         }
     }, [currentUser]); 
+
 
 
 
@@ -71,7 +73,10 @@ const List = ({ currentUser }) => {
     };
 
     return (
-        <AuthenticatedLayout>
+        <AuthenticatedLayout
+        user={props.auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Super Admin Dashboard</h2>}
+    >
 
         <div className="bg-gray-100 flex items-center justify-center min-h-screen">
             <div className="w-full max-w-screen-xl pt-5">
@@ -91,13 +96,16 @@ const List = ({ currentUser }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {Array.isArray(usersList) && usersList.map((user, index) => (
+
+                            {Array.isArray(currentUser) && currentUser.map((user, index) => (
+
                                     <tr key={user.id}>
-                                        <td className="px-6 py-4 border">{index + 1}</td>
-                                        <td className="px-24 py-4 border">{user.name}</td>
-                                        <td className="px-24 py-4 border">{user.email}</td>
-                                        <td className="px-24 py-4 border">{getRoleText(user.role)}</td>
-                                        <td className="px-16 py-4 border">
+
+                                        <td className="px-3 py-4 border">{index + 1}</td>
+                                        <td className="px-3 py-4 border">{user.name}</td>
+                                        <td className="px-3 py-4 border">{user.email}</td>
+                                        <td className="px-3 py-4 border">{getRoleText(user.role)}</td>
+                                        <td className="px-3 py-4 border">
                                             <div className="flex justify-around">
                                                 <button
                                                     className="btn btn-warning btn-sm mr-2"
@@ -126,7 +134,7 @@ const List = ({ currentUser }) => {
                         <EditUser
                             userId={editUserId}
                             onCancel={handleCancelEdit}
-                            userData={usersList.find(user => user.id === editUserId)}
+                            userData={currentUser.find(user => user.id === editUserId)}
                         />
                     </div>
                 </div>
@@ -137,4 +145,3 @@ const List = ({ currentUser }) => {
 };
 
 export default List;
-

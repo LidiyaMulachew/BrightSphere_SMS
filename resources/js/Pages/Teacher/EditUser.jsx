@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Head, usePage } from '@inertiajs/react';
+
+import TeacherLayout from '@/Layouts/TeacherLayout';
 
 const EditUser = ({ userId, onCancel, userData }) => {
     const [name, setName] = useState(userData.name);
     const [email, setEmail] = useState(userData.email);
     const [role, setRole] = useState(userData.role);
+        //for layout
+        const { props } = usePage();
+        //for layout
 
     const handleSave = async () => {
         try {
@@ -16,6 +22,10 @@ const EditUser = ({ userId, onCancel, userData }) => {
     };
 
     return (
+        <TeacherLayout
+        user={props.auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Teacher Dashboard</h2>}
+    >
         <div>
             <h3 className="text-xl font-bold mb-4">Edit User</h3>
             <div className="mb-4">
@@ -65,46 +75,10 @@ const EditUser = ({ userId, onCancel, userData }) => {
                 </button>
             </div>
         </div>
+        </TeacherLayout>
+
     );
 };
 
 export default EditUser;
 
-// import React from 'react';
-// import axios from 'axios';
-// import { usePage } from '@inertiajs/inertia-react';
-
-// const EditUser = () => {
-//     const { student } = usePage().props; // Assuming student data is passed from Laravel
-
-//     // Handle form submission
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-//         try {
-//             // Example: Update student details
-//             await axios.put(`/api/users/${student.id}`, student);
-//             // Redirect or show success message
-//         } catch (error) {
-//             console.error('Error updating student:', error);
-//         }
-//     };
-
-//     return (
-//         <div>
-//             <h2>Edit Student</h2>
-//             <form onSubmit={handleSubmit}>
-//                 <div>
-//                     <label>Name:</label>
-//                     <input type="text" value={student.name} />
-//                 </div>
-//                 <div>
-//                     <label>Email:</label>
-//                     <input type="email" value={student.email} />
-//                 </div>
-//                 <button type="submit">Update</button>
-//             </form>
-//         </div>
-//     );
-// };
-
-// export default EditUser;
