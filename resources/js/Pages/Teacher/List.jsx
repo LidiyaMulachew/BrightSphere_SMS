@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Head, usePage } from '@inertiajs/react';
+// import CreateParentAccount from '@/teacher/CreateParentAccount'; // Adjust the path as per your project structure
 
 import TeacherLayout from '@/Layouts/TeacherLayout';
 
 import EditUser from './EditUser';
+import CreateParentAccount from './CreateParentAccount';
+
 import axios from 'axios';
 const List = ({ studentsList }) => {
         //for layout
@@ -11,8 +14,20 @@ const List = ({ studentsList }) => {
         //for layout
     const [usersList, setUsersList] = useState([]);
     const [editUserId, setEditUserId] = useState(null);
+    const [studentId, setStudentId] = useState([]);
 
-    console.log('studentsList:', studentsList);
+    console.log('usersList:', usersList);
+    console.log('ok');
+
+    const handleParentCreateClick = (studentId) => {
+        // Redirect to createparentaccount page with studentId parameter
+        // Inertia.visit(`/parent/create/${studentId}`);
+        // setStudentId(studentId);
+        window.location.href = `/parent/create/${studentId}`;
+
+
+    };
+    console.log('studentId:', studentId);
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -32,7 +47,6 @@ const List = ({ studentsList }) => {
             fetchUsers();
         }
     }, [studentsList]); 
-    console.log('usersList:', usersList);
 
     const handleEditClick = (userId) => {
         setEditUserId(userId);
@@ -50,6 +64,7 @@ const List = ({ studentsList }) => {
             console.error('Error deleting user:', error);
         }
     };
+
 
     const getRoleText = (role) => {
         switch (role) {
@@ -101,6 +116,13 @@ const List = ({ studentsList }) => {
                                         <td className="px-3 py-4 border">{getRoleText(user.role)}</td>
                                         <td className="px-3 py-4 border">
                                             <div className="flex justify-around">
+                                                <button
+                                                    className="btn btn-warning btn-sm mr-2"
+                                                    onClick={() => handleParentCreateClick(user.id)}
+                                                >
+                                                    Parent
+                                                </button>
+
                                                 <button
                                                     className="btn btn-warning btn-sm mr-2"
                                                     onClick={() => handleEditClick(user.id)}

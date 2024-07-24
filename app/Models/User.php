@@ -29,6 +29,8 @@ class User extends Authenticatable
         'role',
         
         'teacher_id',
+        'student_id',
+
 
     ];
 
@@ -77,10 +79,28 @@ class User extends Authenticatable
             return $this->belongsTo(User::class, 'teacher_id');
         }
 
-    public function parents()
+    // public function parents()
+    //     {
+    //         return $this->hasMany(User::class, 'teacher_id');
+    //     }    
+
+
+
+
+    // create relationships with students and parents
+
+
+        // Relationship where a student has many parents
+        public function parents()
         {
-            return $this->hasMany(User::class, 'teacher_id');
-        }    
+            return $this->hasMany(User::class, 'student_id');
+        }
+    
+        // Relationship where a parent belongs to one student
+        public function student()
+        {
+            return $this->belongsTo(User::class, 'student_id');
+        }
 
 
 

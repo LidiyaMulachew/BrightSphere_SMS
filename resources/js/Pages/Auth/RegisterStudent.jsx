@@ -167,7 +167,7 @@ export default function Register() {
                     </PrimaryButton>
                 </div>
             </form>
-        </GuestLayout>
+        </GuestLayout>                                                                                                                          
         </TeacherLayout>
     );
 }

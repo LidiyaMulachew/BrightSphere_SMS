@@ -13,7 +13,7 @@ use App\Http\Controllers\Auth\RegisteredStudentController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\SuperAdminMiddleware;
 use App\Http\Middleware\StudentListMiddleware;
-
+use App\Http\Controllers\ParentAccountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\StudentListController;
@@ -72,7 +72,7 @@ Route::middleware(['auth', SuperAdminMiddleware::class])->group(function () {
 });
 
 
-// Edit students and parents account
+// Edit students 
 Route::middleware('auth')->group(function () {
     Route::get('/studentslist', [StudentListController::class, 'index'])->name('studentslist.index');
     Route::get('/studentslist/{id}', [StudentListController::class, 'show'])->name('studentslist.show');
@@ -80,6 +80,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/studentslist/{id}', [StudentListController::class, 'update'])->name('studentslist.update');
     Route::delete('/studentslist/{id}', [StudentListController::class, 'destroy'])->name('studentslist.destroy');
 });
+
+//create parent account by teacher
+Route::get('/parent/create/{studentId}', [ParentAccountController::class, 'create'])->name('parent.create');
+Route::post('/parent/store', [ParentAccountController::class, 'store'])->name('parent.store');
+
 
 // Route::middleware(['auth',  SuperAdminMiddleware::class])->group(function () {
 //     Route::resource('users', UserController::class);
