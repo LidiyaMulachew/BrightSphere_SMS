@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Course;
+
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,29 +37,29 @@ class RegisteredStudentController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            //here
-            // 'role' => ['required', 'in:User::SUPER_ADMIN, User::STUDENT, User::TEACHER, User::FAMILY'],
             'role' => ['required', 'in:' . implode(',', [
                  User::STUDENT, User::FAMILY
-                // User::SUPER_ADMIN, User::STUDENT, User::TEACHER, User::FAMILY
 
             ])],
-            //here
         ]);
 
-        $user = User::create([
+        // give id for student_id and teacher_id in course table
+        $student = User::create([
+
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'teacher_id' => ($request->role == User::STUDENT || $request->role == User::FAMILY) ? Auth::id() : null,
-            //here
-            'role' => $request['role']
-            //here
+
+            'role' => $request['role'],
         ]);
 
-        // event(new Registered($user));
+        $course= Course::create([
+            'student_id'=> $student->id,
+            'teacher_id'=> Auth::id(),
+        ]);
 
-        // Auth::login($user);
+        
+        
 
         return redirect(route('teacher.dashboard'));
     }

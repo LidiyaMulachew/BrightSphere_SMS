@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -28,8 +28,10 @@ class User extends Authenticatable
         'password',
         'role',
         
-        'teacher_id',
-        'student_id',
+        // 'teacher_id',
+        // 'student_id',
+        // 'parent_id',
+
 
 
     ];
@@ -69,15 +71,47 @@ class User extends Authenticatable
 
 
     // create relationships with teachers and students
+    public function teachers()
+    {
+        return $this->belongsToMany(User::class, 'course', 'student_id', 'teacher_id');
+    }
+
     public function students()
-        {
-            return $this->hasMany(User::class, 'teacher_id');
-        }
+    {
+        return $this->belongsToMany(User::class, 'course', 'teacher_id', 'student_id');
+    }
+
+
+    // create relationships with students and parents
+
+    public function parent()
+    {
+        return $this->belongsToMany(Parent::class, 'student_parent', 'student_id', 'parent_id');
+    }
+    public function student()
+    {
+        return $this->belongsToMany(User::class, 'student_parent', 'parent_id', 'student_id');
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // public function students()
+    //     {
+    //         return $this->hasMany(User::class, 'teacher_id');
+    //     }
        
-    public function teacher()
-        {
-            return $this->belongsTo(User::class, 'teacher_id');
-        }
+    // public function teacher()
+    //     {
+    //         return $this->belongsTo(User::class, 'teacher_id');
+    //     }
 
     // public function parents()
     //     {
@@ -90,17 +124,17 @@ class User extends Authenticatable
     // create relationships with students and parents
 
 
-        // Relationship where a student has many parents
-        public function parents()
-        {
-            return $this->hasMany(User::class, 'student_id');
-        }
+        // // Relationship where a student has many parents
+        // public function parents()
+        // {
+        //     return $this->hasMany(User::class, 'student_id');
+        // }
     
-        // Relationship where a parent belongs to one student
-        public function student()
-        {
-            return $this->belongsTo(User::class, 'student_id');
-        }
+        // // Relationship where a parent belongs to one student
+        // public function student()
+        // {
+        //     return $this->belongsTo(User::class, 'student_id');
+        // }
 
 
 

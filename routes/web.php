@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SuperAdminController;
@@ -89,6 +90,12 @@ Route::post('/parent/store', [ParentAccountController::class, 'store'])->name('p
 // Route::middleware(['auth',  SuperAdminMiddleware::class])->group(function () {
 //     Route::resource('users', UserController::class);
 // });
+
+
+
+
+Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
 
 //upload course materials
 
