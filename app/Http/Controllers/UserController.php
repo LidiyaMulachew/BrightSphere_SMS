@@ -24,8 +24,10 @@ class UserController extends Controller
             $users = User::where('role', User::TEACHER)->get();
 
         } else {
-            // Default: Fetch all users
-            $users = User::all();
+            // Return a custom message if the user is not a super_admin
+            return response()->json([
+                'message' => 'You are not authorized to view the teachers list.'
+            ], 403); // 403 Forbidden HTTP status code
         }
 
 

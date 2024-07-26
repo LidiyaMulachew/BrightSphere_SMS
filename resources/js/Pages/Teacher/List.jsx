@@ -15,38 +15,46 @@ const List = ({ studentsList }) => {
     const [usersList, setUsersList] = useState([]);
     const [editUserId, setEditUserId] = useState(null);
     const [studentId, setStudentId] = useState([]);
+    // const [studentsList, setStudentsList] = useState([]);
 
-    console.log('usersList:', usersList);
-    console.log('ok');
+
+    console.log('studentsList:', studentsList);
 
     const handleParentCreateClick = (studentId) => {
-        // Redirect to createparentaccount page with studentId parameter
-        // Inertia.visit(`/parent/create/${studentId}`);
-        // setStudentId(studentId);
+    
         window.location.href = `/parent/create/${studentId}`;
 
 
     };
-    console.log('studentId:', studentId);
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                let response;
-                if (studentsList && studentsList.role === 'teacher') {
-                    response = await axios.get(`/users?teacherId=${studentsList.id}&roles[]=student&roles[]=parent`);
-                } else {
-                    response = await axios.get('/users');
-                }
+    // console.log('studentId:', studentId);
 
-                setUsersList(response.data);
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            }
-        };
-        if (studentsList) {
-            fetchUsers();
-        }
-    }, [studentsList]); 
+    // useEffect(() => {
+
+    //     const fetchUsers = async () => {
+    //                     try {
+    //             let response;
+    //             if (studentsList && studentsList.role === 'teacher') {
+    //         console.log('ok');
+
+    //                 response = await axios.get(`/users?teacher_id=${studentsList.id}&roles[]=student`);
+    //             } else {
+    //                 response = await axios.get('/users');
+
+    //             }
+
+    //             setUsersList(response.data);
+    //         } catch (error) {
+    //             console.error('Error fetching users:', error);
+    //         }
+    //     };
+    //     if (studentsList) {
+    //         fetchUsers();
+    //     }
+    // }, [studentsList]); 
+
+    useEffect(() => {
+        console.log('studentsList:', studentsList);
+    }, [studentsList]);
 
     const handleEditClick = (userId) => {
         setEditUserId(userId);

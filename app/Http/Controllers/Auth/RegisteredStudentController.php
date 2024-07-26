@@ -38,7 +38,7 @@ class RegisteredStudentController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['required', 'in:' . implode(',', [
-                 User::STUDENT, User::FAMILY
+                 User::STUDENT
 
             ])],
         ]);
@@ -58,14 +58,7 @@ class RegisteredStudentController extends Controller
             'teacher_id'=> Auth::id(),
         ]);
 
-        // $parent= StudentParent::create([
-        //     'student_id'=> $student->id,
-        //     // 'parent_id'=> $parent->id,
-        // ]);
-
-        
-        
-
+ 
         return redirect(route('teacher.dashboard'));
     }
 }
