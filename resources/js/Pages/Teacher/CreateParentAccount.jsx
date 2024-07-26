@@ -8,14 +8,12 @@ const CreateParentAccount = ({ studentId }) => {
     const { props } = usePage();
     const [student, setStudent] = useState(null);
     const [formData, setFormData] = useState({
-        name: '',
-        email: '',
+        name: '', 
+        email: '', 
         password: '',
         password_confirmation: '',
-        // student_id: '',
-
-        // student_id: studentId,
-        // teacher_id: '',
+        student_id: studentId,
+       
     });
     useEffect(() => {
         if (studentId) {

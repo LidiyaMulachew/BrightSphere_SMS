@@ -86,7 +86,7 @@ class User extends Authenticatable
 
     public function parent()
     {
-        return $this->belongsToMany(Parent::class, 'student_parent', 'student_id', 'parent_id');
+        return $this->belongsToMany(User::class, 'student_parent', 'student_id', 'parent_id');
     }
     public function student()
     {

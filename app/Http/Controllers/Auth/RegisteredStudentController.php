@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Course;
-
+use App\Models\StudentParent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -57,6 +57,11 @@ class RegisteredStudentController extends Controller
             'student_id'=> $student->id,
             'teacher_id'=> Auth::id(),
         ]);
+
+        // $parent= StudentParent::create([
+        //     'student_id'=> $student->id,
+        //     // 'parent_id'=> $parent->id,
+        // ]);
 
         
         

@@ -15,14 +15,17 @@ class StudentListController extends Controller
      *
      * @return \Inertia\Response
      */
+
     public function index(Request $request)
     {
         $studentsList = $request->user();
         if ($studentsList->isTeacher()) {
             // Fetch students and parents associated with the current teacher
-            $users = User::where('teacher_id', $studentsList->id)
-                ->whereIn('role', [User::STUDENT, User::FAMILY])
+            $users = Course::where('teacher_id', $studentsList->id)
+                // ->whereIn('role', [User::STUDENT, User::FAMILY])
                 ->get();
+                // ->get(['name', 'email', 'role']);
+
         } else {
             // Default: Fetch all users
             $users = User::all();
@@ -30,6 +33,14 @@ class StudentListController extends Controller
         return Inertia::render('Teacher/List', ['studentsList' => $users]);
         
     }
+
+    //     public function showCourses($userId)
+    // {
+    //     $user = User::find($userId);
+    //     $courses = $user->courses;
+
+    //     return view('user.courses', ['courses' => $courses]);
+    // }
 
 
     /**
@@ -45,7 +56,7 @@ class StudentListController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'role' => 'required|in:teacher,student,parent',
-            'teacher_id' => $request->user()->isuper_admin ? 'nullable' : 'required|exists:users,id',
+            // 'teacher_id' => $request->user()->isuper_admin ? 'nullable' : 'required|exists:users,id',
         ]);
 
         $user = User::create([
@@ -53,7 +64,7 @@ class StudentListController extends Controller
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'role' => $validatedData['role'],
-            'teacher_id' => $validatedData['teacher_id'] ?? null,
+            // 'teacher_id' => $validatedData['teacher_id'] ?? null,
         ]);
 
         return redirect()->route('users.index');
