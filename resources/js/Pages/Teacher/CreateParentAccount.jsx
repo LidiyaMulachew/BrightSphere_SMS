@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+
 import { usePage } from '@inertiajs/react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import TeacherLayout from '@/Layouts/TeacherLayout';
@@ -13,6 +14,8 @@ const CreateParentAccount = ({ studentId }) => {
         password: '',
         password_confirmation: '',
         student_id: studentId,
+        // student_id: '',
+
        
     });
     useEffect(() => {
@@ -22,14 +25,14 @@ const CreateParentAccount = ({ studentId }) => {
         }
     }, [studentId]);
     console.log('formData:', formData);
-    console.log('student:', student);
+    console.log('studentId:', studentId);
 
 
     const fetchStudent = async () => {
         try {
+            console.log ('yes');
 
             const response = await axios.get(`/parent/create/${studentId}`);
-            console.log ('yes');
 
             if (!response.data) {
 
@@ -51,6 +54,7 @@ const CreateParentAccount = ({ studentId }) => {
                 ...formData,
                 role: 3, // Hardcode the role using the constant defined in Laravel
             });
+            window.location.href = '/studentslist'; 
 
             console.log('Parent account created successfully:', response.data);
         } catch (error) {

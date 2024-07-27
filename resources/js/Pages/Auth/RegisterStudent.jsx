@@ -39,6 +39,10 @@ export default function Register() {
                 role: 1, // Hardcode the role using the constant defined in Laravel
             });
 
+            
+            window.location.href = '/studentslist';
+
+
             console.log('student account created successfully:', response.data);
         } catch (error) {
             console.error('Error creating student account:', error);

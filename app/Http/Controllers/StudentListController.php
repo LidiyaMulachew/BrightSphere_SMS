@@ -13,33 +13,60 @@ class StudentListController extends Controller
     /**
      * Display a listing of the users.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
-
-     public function index(Request $request)
-     {
-         $user = $request->user();
-     
-         if ($user->isTeacher()) {
-             // Fetch student IDs registered by the teacher
-             $studentIds = Course::where('teacher_id', $user->id)
-                 ->pluck('student_id'); // Assuming the column name is 'student_id'
-     
-             // Fetch user details for the students with those IDs
-             $users = User::whereIn('id', $studentIds)
-                 ->where('role', User::STUDENT) // Ensure to filter by role if needed
-                 ->get(['name', 'email', 'role']);
+    public function index(Request $request)
+    {
+        $studentsList = $request->user();
+    
+        if ($studentsList->isTeacher()) {
+            // Fetch student IDs registered by the teacher
+            $studentIds = Course::where('teacher_id', $studentsList->id)
+                ->pluck('student_id'); // Renamed variable to better reflect its purpose
+    
+            // Fetch user details for the students with those IDs
+            $users = User::whereIn('id', $studentIds)
+                ->where('role', User::STUDENT) // Ensure to filter by role if needed
+                ->get(['id','name', 'email', 'role']);
         } else {
-                    // Return a custom message if the user is not a teacher
-             return response()->json([
-                        'message' => 'You are not authorized to view the students list.'
-            ], 403); // 403 Forbidden HTTP status code
+            // Default: Fetch all users
+            $users = User::all();
         }
+    
+        // Pass the fetched users to the Inertia component
+        return Inertia::render('Teacher/List', ['studentsList' => $users]);
+    }
+    
      
-         return Inertia::render('Teacher/List', ['studentsList' => $users]);
-     }
-     
+    
+    
+    
+    
+    
+    
+    
+    
+    // public function index(Request $request)
+    // {
+    //     $studentsList = $request->user();
+    //     if ($studentsList->isTeacher()) {
+    //         // Fetch students and parents associated with the current teacher
+    //         $users = User::where('teacher_id', $studentsList->id)
+    //             ->whereIn('role', [User::STUDENT, User::FAMILY]);
+    //         $users = Course::where('teacher_id', $studentsList->id)
+    //             // ->whereIn('role', [User::STUDENT, User::FAMILY])
+    //             ->get();
+    //             // ->get(['name', 'email', 'role']);
 
+    //     } else {
+    //         // Default: Fetch all users
+    //         $users = User::all();
+                       // Return a custom message if the user is not a teacher
+        //     return response()->json([
+        //                'message' => 'You are not authorized to view the students list.'
+        //    ], 403); // 403 Forbidden HTTP status code
+    //     }
 
     /**
      * Store a newly created user in storage.
@@ -54,15 +81,13 @@ class StudentListController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'role' => 'required|in:teacher,student,parent',
-            // 'teacher_id' => $request->user()->isuper_admin ? 'nullable' : 'required|exists:users,id',
         ]);
 
-        $user = User::create([
+        User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'role' => $validatedData['role'],
-            // 'teacher_id' => $validatedData['teacher_id'] ?? null,
         ]);
 
         return redirect()->route('users.index');
