@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\StudentParent;
+use App\Models\TeacherStudent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -53,7 +54,7 @@ class RegisteredStudentController extends Controller
             'role' => $request['role'],
         ]);
 
-        $course= Course::create([
+        $course= TeacherStudent::create([
             'student_id'=> $student->id,
             'teacher_id'=> Auth::id(),
         ]);

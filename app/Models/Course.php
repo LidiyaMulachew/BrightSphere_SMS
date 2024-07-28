@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
-    protected $table='course';
-    
-    protected $fillable=['student_id', 'teacher_id'];
+    protected $fillable=['course_id', 'course_name'];
+
+
+        // create relationships with courses and teachers
+
+        public function teachers()
+        {
+            return $this->belongsToMany(User::class, 'course', 'course_id', 'teacher_id');
+        }
 }

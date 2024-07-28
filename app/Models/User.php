@@ -73,12 +73,12 @@ class User extends Authenticatable
     // create relationships with teachers and students
     public function teachers()
     {
-        return $this->belongsToMany(User::class, 'course', 'student_id', 'teacher_id');
+        return $this->belongsToMany(User::class, 'teacher_student', 'student_id', 'teacher_id');
     }
 
     public function students()
     {
-        return $this->belongsToMany(User::class, 'course', 'teacher_id', 'student_id');
+        return $this->belongsToMany(User::class, 'teacher_student', 'teacher_id', 'student_id');
     }
 
 
@@ -94,7 +94,12 @@ class User extends Authenticatable
     }
 
 
+    // create relationships with courses and teachers
 
+    public function course()
+    {
+        return $this->belongsToMany(CourseTeacher::class, 'course_teacher', 'teacher_id', 'course_id');
+    }
 
 
 

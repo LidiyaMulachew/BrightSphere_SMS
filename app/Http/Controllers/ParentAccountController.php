@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
+use App\Models\TeacherStudent;
 use App\Models\StudentParent;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -23,7 +23,7 @@ class ParentAccountController extends Controller
     public function create($studentId): Response
     {
         // Fetch the course related to the studentId to validate the studentId
-        $course = Course::where('student_id', $studentId)->firstOrFail();
+        $course = TeacherStudent::where('student_id', $studentId)->firstOrFail();
 
         return Inertia::render('Teacher/CreateParentAccount', [
             'studentId' => $studentId, // Pass studentId to the component
@@ -44,7 +44,7 @@ class ParentAccountController extends Controller
             'email' => 'required|email',
             'password' => 'required|string|min:8|confirmed',
             'role' => ['required', 'in:' . implode(',', [User::FAMILY])],
-            'student_id' => 'required|exists:course,student_id', // Ensure student_id is valid
+            'student_id' => 'required|exists:student_teacher,student_id', // Ensure student_id is valid
         ]);
 
         // Check if a parent with the provided email already exists

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Course;
+use App\Models\TeacherStudent;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,7 +22,7 @@ class StudentListController extends Controller
     
         if ($studentsList->isTeacher()) {
             // Fetch student IDs registered by the teacher
-            $studentIds = Course::where('teacher_id', $studentsList->id)
+            $studentIds = TeacherStudent::where('teacher_id', $studentsList->id)
                 ->pluck('student_id'); // Renamed variable to better reflect its purpose
     
             // Fetch user details for the students with those IDs
