@@ -7,14 +7,17 @@ import TeacherLayout from '@/Layouts/TeacherLayout';
 
 const CreateParentAccount = ({ studentId }) => {
     const { props } = usePage();
-    const [student, setStudent] = useState(null);
+    const [student, setStudent] = useState();
+    // const { student, parent } = usePage().props;
+
+// console.log('student:', student)
+
     const [formData, setFormData] = useState({
         name: '', 
         email: '', 
         password: '',
         password_confirmation: '',
         student_id: studentId,
-        // student_id: '',
 
        
     });
@@ -24,14 +27,9 @@ const CreateParentAccount = ({ studentId }) => {
 
         }
     }, [studentId]);
-    console.log('formData:', formData);
-    console.log('studentId:', studentId);
-
 
     const fetchStudent = async () => {
         try {
-            console.log ('yes');
-
             const response = await axios.get(`/parent/create/${studentId}`);
 
             if (!response.data) {
@@ -54,7 +52,8 @@ const CreateParentAccount = ({ studentId }) => {
                 ...formData,
                 role: 3, // Hardcode the role using the constant defined in Laravel
             });
-            window.location.href = '/studentslist'; 
+            console.log('Redirecting to:', `/parent/${studentId}`);
+            window.location.href = `/parent/${studentId}`;
 
             console.log('Parent account created successfully:', response.data);
         } catch (error) {
@@ -68,13 +67,18 @@ const CreateParentAccount = ({ studentId }) => {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Create Parent Account</h2>}
         >
             <div className="container mx-auto">
-                {student && (
+            <div className="mt-9 text-center">          
+
+                <h1 className="text-2xl font-bold mb-2 text-blue-500">Add Parent</h1>
+            </div>
+              
+                {/* {student && (
                     <div>
                         <h2 className="text-2xl font-bold">Student: {student.name}</h2>
                         <h2 className="text-2xl font-bold">Email: {student.email}</h2>
                     </div>
-                )}
-
+                )}  */}
+                   
                 <GuestLayout>
                     <form onSubmit={handleSubmit}>
                         <div>

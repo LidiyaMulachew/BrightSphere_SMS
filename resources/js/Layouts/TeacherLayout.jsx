@@ -13,7 +13,7 @@ export default function Authenticated({  user,currentUser, header, children }) {
 
     const {auth}=usePage().props;
     var user=auth.user;
-    // console.log('users',auth)
+    console.log('users',auth)
 
     return (
         

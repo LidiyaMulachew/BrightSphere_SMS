@@ -85,7 +85,7 @@ Route::middleware('auth')->group(function () {
 //create parent account by teacher
 Route::get('/parent/create/{studentId}', [ParentAccountController::class, 'create'])->name('parent.create');
 Route::post('/parent/store', [ParentAccountController::class, 'store'])->name('parent.store');
-
+Route::get('/parent/{studentId}', [ParentAccountController::class, 'show'])->name('parent.show');
 
 // Route::middleware(['auth',  SuperAdminMiddleware::class])->group(function () {
 //     Route::resource('users', UserController::class);

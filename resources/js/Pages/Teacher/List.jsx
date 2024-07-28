@@ -16,8 +16,8 @@ const List = ({ studentsList }) => {
     const [editUserId, setEditUserId] = useState(null);
     const [studentId, setStudentId] = useState(null); // Initialize as null
 
-    console.log('studentsList:', studentsList);
-    console.log('studentId:', studentId);
+    // console.log('studentsList:', studentsList);
+    // console.log('studentId:', studentId);
 
 
     const handleParentCreateClick = (studentId) => {
@@ -29,7 +29,7 @@ const List = ({ studentsList }) => {
 
 
     useEffect(() => {
-        console.log('studentsList:', studentsList);
+        // console.log('studentsList:', studentsList);
     }, [studentsList]);
 
 
