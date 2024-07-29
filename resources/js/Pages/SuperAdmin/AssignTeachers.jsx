@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { usePage, useForm } from '@inertiajs/react';
 import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -7,19 +7,26 @@ const AssignTeachers = ({ course, teachers }) => {
     const { props } = usePage();
 
     const { data, setData, post, processing } = useForm({
-        teacher_ids: course.teachers.map(teacher => teacher.id), // Initialize with existing teacher IDs
+        teacher_emails: '', // Use email input field
+        course_id: course.id
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(`/courses/${course.id}/assign-teachers`);
+
+        // Split emails and trim whitespace
+        const emailArray = data.teacher_emails.split(',').map(email => email.trim());
+        // Get teacher IDs from emails
+        const teacherIds = teachers.filter(teacher => emailArray.includes(teacher.email)).map(teacher => teacher.id);
+
+        // Submit form with teacher IDs
+        post(`/courses/${course.id}/assign-teachers`, {
+            teacher_ids: teacherIds,
+        });
     };
 
-    const handleCheckboxChange = (teacherId) => {
-        setData('teacher_ids', data.teacher_ids.includes(teacherId)
-            ? data.teacher_ids.filter(id => id !== teacherId)
-            : [...data.teacher_ids, teacherId]
-        );
+    const handleInputChange = (e) => {
+        setData('teacher_emails', e.target.value);
     };
 
     return (
@@ -31,21 +38,20 @@ const AssignTeachers = ({ course, teachers }) => {
             <div className="max-w-2xl mx-auto p-10 bg-white shadow-md rounded-lg mt-8">
                 <form onSubmit={handleSubmit}>
                     <h3 className="text-lg font-semibold mb-4">Assign Teachers to Course: {course.course_name}</h3>
+
                     <div className="mb-4">
-                        {teachers.map(teacher => (
-                            <div key={teacher.id} className="flex items-center mb-2">
-                                <input
-                                    type="checkbox"
-                                    id={`teacher-${teacher.id}`}
-                                    checked={data.teacher_ids.includes(teacher.id)}
-                                    onChange={() => handleCheckboxChange(teacher.id)}
-                                />
-                                <label htmlFor={`teacher-${teacher.id}`} className="ml-2">
-                                    {teacher.name}
-                                </label>
-                            </div>
-                        ))}
+                        <label htmlFor="teacher_emails" className="block text-sm font-medium text-gray-700">Teacher Emails (comma-separated):</label>
+                        <input
+                            id="teacher_emails"
+                            name="teacher_emails"
+                            type="text"
+                            value={data.teacher_emails}
+                            onChange={handleInputChange}
+                            placeholder="Enter teacher emails separated by commas"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        />
                     </div>
+
                     <div className="text-center">
                         <button
                             type="submit"

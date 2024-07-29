@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Head, usePage, Link } from '@inertiajs/react';
 import axios from 'axios';
 import EditCourse from './EditCourse';
+import AssignTeachers from './AssignTeachers';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 

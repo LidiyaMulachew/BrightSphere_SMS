@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CourseTeacher extends Model
 {
     use HasFactory;
-    protected $table='course_table';
+    protected $table = 'course_teacher'; // Ensure this matches your pivot table name
     protected $fillable= ['course_id', 'teacher_id'];
+
 }
