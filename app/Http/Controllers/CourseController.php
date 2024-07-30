@@ -59,30 +59,46 @@ class CourseController extends Controller
     }
 
 
-    
-
     public function assign(Request $request, Course $course)
     {
-        // Validate the input emails
-        $request->validate([
-            'teacher_emails' => 'required|string',
-        ]);
 
-        // Extract emails from request and trim any extra spaces
-        $emails = explode(',', $request->input('teacher_emails'));
-        $emails = array_map('trim', $emails);
+    // Dump request data
+    // dd($request->all());
 
-        // Fetch teacher IDs based on emails
-        $teacherIds = User::whereIn('email', $emails)
-                          ->where('role', 'teacher')
-                          ->pluck('id');
+    // Validate the input email
+    $request->validate([
+        'teacher_email' => 'required|email', 
+        'course_id' => 'required|integer|exists:courses,id',
+    ]);
 
-        // Sync teacher IDs with the course
-        $course->teachers()->sync($teacherIds);
+    // Extract email from request
+    $email = trim($request->input('teacher_email'));
 
-        return redirect()->route('courses.index')->with('success', 'Teachers assigned to course successfully!');
+    // Debugging: Check if email is correctly retrieved
+    // dd('Received Email:', $email);
+
+    // Fetch teacher ID based on the email
+    $teacherId  = User::where('email', $email)
+                     ->where('role', User::TEACHER)
+                     ->value('id'); // Use value to get a single ID
+
+     if (!$teacherId) {
+        // Handle the case where the teacher does not exist
+        return redirect()->route('courses.index')->with('error', 'Teacher not found or is not a teacher!');
     }
 
+    // Debugging: Check if the teacher ID is correctly retrieved
+    // dd('Teacher ID:', $teacherId);
+
+    // Attach the teacher to the course without removing existing teachers
+    $course->teachers()->syncWithoutDetaching([$teacherId]);
+
+    $courseTeachers = $course->teachers()->pluck('users.id'); // Retrieve IDs of attached teachers
+    // dd('Attached Teachers:', $courseTeachers);
+
+    return redirect()->route('courses.index')->with('success', 'Teacher assigned to course successfully!');}
+
+    
     public function unassign(Request $request, Course $course)
     {
         // Validate the input teacher IDs
