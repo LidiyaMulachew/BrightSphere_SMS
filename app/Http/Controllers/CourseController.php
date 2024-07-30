@@ -96,7 +96,7 @@ class CourseController extends Controller
     $courseTeachers = $course->teachers()->pluck('users.id'); // Retrieve IDs of attached teachers
     // dd('Attached Teachers:', $courseTeachers);
 
-    return redirect()->route('courses.index')->with('success', 'Teacher assigned to course successfully!');}
+    return redirect()->route('courses.teachers')->with('success', 'Teacher assigned to course successfully!');}
 
     
     public function unassign(Request $request, Course $course)
@@ -112,14 +112,17 @@ class CourseController extends Controller
         return redirect()->route('courses.index')->with('success', 'Teachers removed from course successfully!');
     }
 
-    public function showAssignmentPage(Course $course)
-    {
-        // Fetch all teachers (or filter based on your application's logic)
-        $teachers = User::where('role', 'teacher')->get();
 
-        return Inertia::render('SuperAdmin/AssignTeachers', [
-            'course' => $course,
-            'teachers' => $teachers,
-        ]);
-    }
+        // Method to display the list of teachers for a specific course
+        public function showAssignedTeachers(Course $course)
+        {
+            // Eager load teachers to avoid N+1 problem
+            $teachers = $course->teachers()->get(); // Get all teachers associated with the course
+    
+            // Pass teachers data to Inertia view
+            return Inertia::render('SuperAdmin/AssignedTeachersList', [
+                'course' => $course,
+                'teachers' => $teachers
+            ]);
+        }
 }

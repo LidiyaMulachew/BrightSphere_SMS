@@ -100,16 +100,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/courses/{course}/edit', [CourseController::class, 'edit'])->name('courses.edit');
     Route::put('/courses/{course}', [CourseController::class, 'update'])->name('courses.update');
     Route::delete('/courses/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
-// });
 
-
-
-// Assign and unassign teachers to courses
-// Route::middleware(['auth'])->group(function () {
-
-Route::get('courses/{course}/assign-teachers', [CourseController::class, 'showAssignmentPage'])->name('show.teachers.assign');
-Route::post('courses/{course}/assign-teachers', [CourseController::class, 'assign'])->name('courses.assign.teachers');
-Route::post('courses/{course}/unassign-teachers', [CourseController::class, 'unassign'])->name('courses.unassign.teachers');
+    Route::post('courses/{course}/assign-teachers', [CourseController::class, 'assign'])->name('courses.assign.teachers');
+    Route::delete('courses/{course}/unassign-teachers', [CourseController::class, 'unassign'])->name('courses.unassign');
+    Route::get('/courses/{course}/teachers', [CourseController::class, 'showAssignedTeachers'])->name('courses.teachers');
 });
 
 
