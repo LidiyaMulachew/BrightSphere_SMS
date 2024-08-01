@@ -6,25 +6,28 @@ import { Head } from '@inertiajs/react';
 const AssignedTeachersList = ({ course, teachers }) => {
     const { props } = usePage();
 
-    // Form handling for unassigning teachers
-    const { delete: unassignTeacher } = useForm();
 
-    const handleUnassign = (teacherId) => {
-        // Confirm before sending the request
-        if (confirm('Are you sure you want to unassign this teacher?')) {
-            unassignTeacher(route('courses.unassign', { course: course.id }), {
-                method: 'DELETE',
-                data: { teacher_ids: [teacherId] },
-                onSuccess: () => {
-                    // add success handling here
-                },
-                onError: () => {
-                    // add  error handling here
-                }
-            });
-        }
-    };
-    // console.log('teacherId:' ,teachers);
+
+         // Create form handling for unassign
+         const handleUnassign = (teacherId) => {
+            if (confirm('Are you sure you want to unassign this teacher?')) {
+                axios.delete('/teachers/unassign', {
+                    data: {
+                        teacher_id: teacherId,
+                        course_id: course.id
+                    }
+                })
+                .then(() => {
+                    alert('Teacher unassigned successfully.');
+                })
+                .catch(() => {
+                    alert('An error occurred. Please try again.');
+                });
+            }
+        };
+
+    // console.log('AssignedTeachersList:' ,AssignedTeachersList);
+    // console.log('hey');
 
     return (
         <AuthenticatedLayout

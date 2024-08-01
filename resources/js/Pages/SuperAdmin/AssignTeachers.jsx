@@ -19,7 +19,7 @@ const AssignTeacher = ({ course }) => {
 
         console.log('Submitting teacher_email:', data.teacher_email); // Debugging statement
 
-        post(`/courses/${course.id}/assign-teachers`, {
+        post(`/courses/${course.id}/assign`, {
             teacher_email: data.teacher_email, // Send single email
             
         });

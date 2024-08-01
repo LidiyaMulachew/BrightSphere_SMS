@@ -38,19 +38,34 @@ class CourseController extends Controller
         return Inertia::render('SuperAdmin/EditCourse', ['course' => $course]);
     }
 
+   
     public function update(Request $request, Course $course)
     {
-        $request->validate([
+    // dd($request->all());
+
+        // Find the course by ID
+            $request->validate([
             'course_id' => 'required|string|max:255',
             'course_name' => 'required|string|max:255',
             // 'description' => 'nullable|string',
         ]);
-
-        $course->update($request->all());
-
-        return redirect()->route('courses.index');
+        // Check if the course exists
+        if (!$course) {
+            return response()->json(['message' => 'Course not found'], 404);
+        }
+    
+        // Validate and update the course
+        $request->validate([
+            'course_name' => 'required|string|max:255',
+            // Add other validation rules as needed
+        ]);
+    
+        $course->course_name = $request->input('course_name');
+        $course->save();
+    
+        return response()->json(['message' => 'Course updated successfully!']);
     }
-
+    
     public function destroy(Course $course)
     {
         $course->delete();
@@ -59,7 +74,15 @@ class CourseController extends Controller
     }
 
 
-    public function assign(Request $request, Course $course)
+
+    public function assign(Course $course)
+    {
+        return Inertia::render('SuperAdmin/AssignTeachers', ['course' => $course]);
+
+
+    }
+
+    public function assignTeachers(Request $request, Course $course)
     {
 
     // Dump request data
@@ -96,22 +119,27 @@ class CourseController extends Controller
     $courseTeachers = $course->teachers()->pluck('users.id'); // Retrieve IDs of attached teachers
     // dd('Attached Teachers:', $courseTeachers);
 
-    return redirect()->route('courses.teachers')->with('success', 'Teacher assigned to course successfully!');}
+    return redirect()->route('courses.teachers', ['course' => $course->id])->with('success', 'Teacher assigned to course successfully!');
+
+}
 
     
-    public function unassign(Request $request, Course $course)
+     public function unassign(Request $request, Course $course)
     {
-        // Validate the input teacher IDs
-        $request->validate([
-            'teacher_ids' => 'required|array|exists:users,id',
+        $validated = $request->validate([
+            'teacher_id' => 'required|exists:users,id',
+            'course_id'  => 'required|exists:courses,id',
         ]);
 
-        // Detach teachers from the course
-        $course->teachers()->detach($request->teacher_ids);
+        // Find the teacher and detach the course
+        $teacher = User::find($validated['teacher_id']);
+        $teacher->courses()->detach($validated['course_id']);
 
-        return redirect()->route('courses.index')->with('success', 'Teachers removed from course successfully!');
+        // Return a JSON response
+        return response()->json(['message' => 'Teacher unassigned successfully.']);
+    // return redirect()->route('courses.teachers', ['course' => $course->id])->with( 'Teacher unassigned successfully.');
+
     }
-
 
         // Method to display the list of teachers for a specific course
         public function showAssignedTeachers(Course $course)

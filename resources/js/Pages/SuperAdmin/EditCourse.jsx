@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
 import { Head, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { router } from "@inertiajs/react";
+import axios from "axios";
 
 const EditCourse = () => {
     const { props } = usePage();
@@ -13,28 +15,18 @@ const EditCourse = () => {
 
     });
 
-    useEffect(() => {
-        // Fetch the course data
-        fetch(`/courses/${course}`)
-            .then(response => response.json())
-            .then(course => {
-                setData(course);
-            });
-    }, [course_id]);
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     put(`/courses/${course}`, data);
-    // };
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        put(`/courses/${data.course_id}`, data, {
-            onSuccess: () => {
-                console.log('Redirecting to:', `/courses`);
+        axios.put(`/courses/${course.id}`, data)
+
+            .then(response => {
+                
+                console.log('Course updated successfully!');
                 window.location.href = `/courses`;
-                }
-        });
+            })
+            .catch(error => {
+                console.error('There was an error updating the course:', error);
+            });
     };
 
     return (

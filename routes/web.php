@@ -101,8 +101,10 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/courses/{course}', [CourseController::class, 'update'])->name('courses.update');
     Route::delete('/courses/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
 
-    Route::post('courses/{course}/assign-teachers', [CourseController::class, 'assign'])->name('courses.assign.teachers');
-    Route::delete('courses/{course}/unassign-teachers', [CourseController::class, 'unassign'])->name('courses.unassign');
+    Route::post('/courses/{course}/assign', [CourseController::class, 'assignTeachers'])->name('courses.assign.teachers');
+Route::get('/courses/{course}/assign-teachers', [CourseController::class, 'assign'])->name('courses.assign');
+
+    Route::delete('/teachers/unassign', [CourseController::class, 'unassign'])->name('teachers.unassign');
     Route::get('/courses/{course}/teachers', [CourseController::class, 'showAssignedTeachers'])->name('courses.teachers');
 });
 
