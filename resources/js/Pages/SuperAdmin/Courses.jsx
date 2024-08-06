@@ -21,7 +21,7 @@ const Courses = ({ }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        get('/courses/create', data);
+        post('/courses/store', data);
     };
 
     return (

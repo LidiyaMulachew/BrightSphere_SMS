@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, Link  } from '@inertiajs/react';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
@@ -11,6 +11,8 @@ const List = ({ teachersList, teacherData }) => {
         //for layout
     const [usersList, setUsersList] = useState([]);
     const [editUserId, setEditUserId] = useState(null);
+
+
     console.log('teachersList:', teachersList);
     console.log('teacherData:', teacherData);
 
@@ -78,13 +80,15 @@ const List = ({ teachersList, teacherData }) => {
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Super Admin Dashboard</h2>}
     >
 
-        <div className="bg-gray-100 flex items-center justify-center min-h-screen">
+        <div className="bg-gray-100 flex items-center justify-center">
             <div className="w-full max-w-screen-xl pt-5">
-                <div className="container">
+                <div className="container mx-auto p-4">
                     <div className="text-center mb-7 mt-1">
                         <h2 className="text-2xl font-bold text-gray-600">User Account List</h2>
                     </div>
-                    <div className="overflow-x-auto">
+                <Link href="/registration" className="bg-blue-200 px-4 py-2 rounded">Create Account</Link>
+
+                    <div className="mt-4">
                         <table className="table table-bordered table-striped w-full" style={{ backgroundColor: '#ffffff', border: '2px solid #dddddd' }}>
                             <thead className="thead-light">
                                 <tr>

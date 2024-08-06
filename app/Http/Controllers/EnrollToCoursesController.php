@@ -23,13 +23,38 @@ class EnrollToCoursesController extends Controller
         return response()->json($courses);
     }
 
+    // public function getTeachersByCourse($courseId)
+    // {
+       
+    //     $teachers = User::where('role', User::TEACHER)->get(); 
+    //      // $teachers = User::all();
+    //     return response()->json($teachers);
+    // }
+
     public function getTeachersByCourse($courseId)
     {
-       
-        $teachers = User::where('role', User::TEACHER)->get(); 
-         // $teachers = User::all();
+        // Fetch teachers with their assigned courses
+        $teachers = User::where('role', User::TEACHER)
+                         ->with(['courses' => function($query) use ($courseId) {
+                             $query->where('courses.id', $courseId);
+                         }])
+                         ->get()
+                         ->map(function ($teacher) use ($courseId) {
+                             // Find the course name from the teacher's courses
+                             $course = $teacher->courses->firstWhere('id', $courseId);
+    
+                             return [
+                                 'id' => $teacher->id,
+                                 'name' => $teacher->name,
+                                 'course_name' => $course ? $course->course_name : 'N/A',
+                                 'course_id' => $courseId,
+                             ];
+                         });
+    
         return response()->json($teachers);
     }
+    
+
     
     public function enroll(Request $request)
     {

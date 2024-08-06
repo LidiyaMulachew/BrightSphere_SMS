@@ -111,7 +111,7 @@ Route::middleware(['auth'])->group(function () {
 
 //register students to courses
 Route::middleware(['auth'])->group(function (){
-    Route::get('/courses', [EnrollToCoursesController::class, 'getCourses'])->name('student.getcourses');
+    Route::get('/enroll/courses', [EnrollToCoursesController::class, 'getCourses'])->name('student.getcourses');
     Route::get('/teachers-by-course/{courseId}', [EnrollToCoursesController::class, 'getTeachersByCourse'])->name('student.getTeachersByCourse');
     Route::get('/student/courses',[EnrollToCoursesController::class, 'index'])->name('student.course.index');
     Route::post('/enroll', [EnrollToCoursesController::class, 'enroll'])->name('student.course.enroll');

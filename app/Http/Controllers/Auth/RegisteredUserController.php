@@ -59,6 +59,6 @@ class RegisteredUserController extends Controller
 
         // Auth::login($user);
 
-        return redirect(route('super_admin.dashboard'));
+        return redirect(route('users.index'));
     }
 }

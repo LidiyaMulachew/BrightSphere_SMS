@@ -14,7 +14,7 @@ const CourseEnrollment = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await axios.get('/courses');
+                const response = await axios.get('/enroll/courses');
                 setCourses(response.data);
             } catch (error) {
                 console.error('Error fetching courses:', error);
@@ -75,22 +75,23 @@ const CourseEnrollment = () => {
             <option value="">Select a course</option>
             {courses.map(course => (
                 <option key={course.id} value={course.id}>
-                    {course.name}
+                    {course.course_name}
                 </option>
             ))}
         </select>
     </div>
     <div style={{ marginBottom: '20px' }}>
-        <label>Select Teacher:</label>
-        <select value={selectedTeacher} onChange={(e) => setSelectedTeacher(e.target.value)} required disabled={!selectedCourse} style={{ marginLeft: '20px' }}>
-            <option value="">Select a teacher</option>
-            {teachers.map(teacher => (
-                <option key={teacher.id} value={teacher.id}>
-                    {teacher.name}
-                </option>
-            ))}
-        </select>
-    </div>
+    <label>Select Teacher:</label>
+    <select value={selectedTeacher} onChange={(e) => setSelectedTeacher(e.target.value)} required disabled={!selectedCourse} style={{ marginLeft: '20px' }}>
+        <option value="">Select a teacher</option>
+        {teachers.map(teacher => (
+            <option key={teacher.id} value={teacher.id}>
+                {teacher.name} ({teacher.course_name})
+            </option>
+        ))}
+    </select>
+</div>
+
     <div className="flex justify-center">
     <button type="submit" disabled={loading} 
         className="py-2 px-4 mt-5 rounded-md shadow-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-xl"

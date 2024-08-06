@@ -42,11 +42,13 @@ const MaterialList = ({ materials }) => {
     >
         <div className="bg-gray-100 flex items-center justify-center">
             <div className="w-full max-w-screen-xl pt-5">
-                <div className="container">
+                <div className="container mx-auto p-4">
                     <div className="text-center mb-7 mt-1">
                         <h1 className="font-bold text-2xl text-blue-400">Material List</h1>
                     </div>
-                    <div className="overflow-x-auto">
+                <Link href="/materials/create" className="bg-blue-200 px-4 py-2 rounded">Upload</Link>
+
+                    <div className="mt-4">
                         <table className="table table-bordered table-striped w-full" style={{ backgroundColor: '#ffffff', border: '2px solid #dddddd' }}>
                             <thead className="thead-light">
                                 <tr>

@@ -33,7 +33,10 @@ const CourseList = ({ courses }) => {
         const handleTeacherCreateClick = (courseId) => {
             window.location.href = `courses/${courseId}/assign-teachers`;
         };
-
+        const handleButtonClick = (courseId) => {
+            window.location.href = `/courses/${courseId}/teachers`;
+        };
+        
     return (
         <AuthenticatedLayout
             user={props.auth.user}
@@ -57,8 +60,8 @@ const CourseList = ({ courses }) => {
                         <tbody>
                             {coursesState.map(course => (
                                 <tr key={course.id}>
-                                    <td className="py-2 px-4 border">{course.id}</td>
-                                    <td className="py-2 px-4 border">{course.name}</td>
+                                    <td className="py-2 px-4 border">{course.course_id}</td>
+                                    <td className="py-2 px-4 border">{course.course_name}</td>
                                     <td className="px-3 py-4 border">
                                         <div className="flex justify-around">
                                             <button
@@ -66,6 +69,12 @@ const CourseList = ({ courses }) => {
                                                 onClick={() => handleTeacherCreateClick(course.id)}
                                                 >
                                                 Teachers
+                                            </button>
+                                            <button
+                                                className="btn btn-warning btn-sm mr-2"
+                                                onClick={() => handleButtonClick(course.id)}
+                                            >
+                                                Details
                                             </button>
                                             <button
                                                 className="btn btn-warning btn-sm mr-2"
