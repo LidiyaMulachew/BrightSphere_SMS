@@ -94,15 +94,19 @@ class User extends Authenticatable
     }
 
 
-    // create relationships with courses 
+    // create relationships with courses (teacher)
 
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'course_teacher', 'teacher_id', 'course_id');
     }
 
+    // create relationships with courses (student)
 
-
+    public function course()
+    {
+        return $this->belongsToMany(Course::class, 'course_student', 'student_id', 'course_id');
+    }
 
 
 

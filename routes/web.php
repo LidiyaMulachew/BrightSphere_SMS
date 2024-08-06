@@ -17,6 +17,7 @@ use App\Http\Middleware\StudentListMiddleware;
 use App\Http\Controllers\ParentAccountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\EnrollToCoursesController;
 use App\Http\Controllers\StudentListController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -96,16 +97,26 @@ Route::get('/parent/{studentId}', [ParentAccountController::class, 'show'])->nam
 Route::middleware(['auth'])->group(function () {
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
-    Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
+    Route::post('/courses/store', [CourseController::class, 'store'])->name('courses.store');
     Route::get('/courses/{course}/edit', [CourseController::class, 'edit'])->name('courses.edit');
     Route::put('/courses/{course}', [CourseController::class, 'update'])->name('courses.update');
     Route::delete('/courses/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
-
+    //assign teachers to courses
     Route::post('/courses/{course}/assign', [CourseController::class, 'assignTeachers'])->name('courses.assign.teachers');
-Route::get('/courses/{course}/assign-teachers', [CourseController::class, 'assign'])->name('courses.assign');
-
+    Route::get('/courses/{course}/assign-teachers', [CourseController::class, 'assign'])->name('courses.assign');
+    //unassign teachers from courses and assigned teachers list
     Route::delete('/teachers/unassign', [CourseController::class, 'unassign'])->name('teachers.unassign');
     Route::get('/courses/{course}/teachers', [CourseController::class, 'showAssignedTeachers'])->name('courses.teachers');
+});
+
+//register students to courses
+Route::middleware(['auth'])->group(function (){
+    Route::get('/courses', [EnrollToCoursesController::class, 'getCourses'])->name('student.getcourses');
+    Route::get('/teachers-by-course/{courseId}', [EnrollToCoursesController::class, 'getTeachersByCourse'])->name('student.getTeachersByCourse');
+    Route::get('/student/courses',[EnrollToCoursesController::class, 'index'])->name('student.course.index');
+    Route::post('/enroll', [EnrollToCoursesController::class, 'enroll'])->name('student.course.enroll');
+
+
 });
 
 

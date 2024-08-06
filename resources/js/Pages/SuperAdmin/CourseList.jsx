@@ -57,8 +57,8 @@ const CourseList = ({ courses }) => {
                         <tbody>
                             {coursesState.map(course => (
                                 <tr key={course.id}>
-                                    <td className="py-2 px-4 border">{course.course_id}</td>
-                                    <td className="py-2 px-4 border">{course.course_name}</td>
+                                    <td className="py-2 px-4 border">{course.id}</td>
+                                    <td className="py-2 px-4 border">{course.name}</td>
                                     <td className="px-3 py-4 border">
                                         <div className="flex justify-around">
                                             <button
