@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Material;
+use App\Models\CourseTeacher;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -43,13 +45,22 @@ class MaterialController extends Controller
         return Inertia::render('Teacher/MaterialUpload');
     }
 
+    public function getCourses()
+    {
+        // Fetch all courses
+        $courses = Course::all(); 
+        return response()->json($courses);
+    }
+  
 
     public function store(Request $request)
     {
         $request->validate([
+            'course_id' => 'required|exists:course_teacher,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'file' => 'required|file|max:102400', // max 10GB
+            // 'file' => 'required|file|max:102400', // max 10GB
+            'file' => 'required|file|mimes:pdf,doc,docx,ppt,pptx,zip|max:102400', // Adjust file validation as needed
         ]);
 
         $file = $request->file('file');
@@ -62,6 +73,7 @@ class MaterialController extends Controller
         if ($user instanceof \App\Models\User) {
             // Create new Material instance
             $material = new Material([
+                'course_id' => $request->input('course_id'),
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
                 'file_path' => $path,
@@ -135,4 +147,5 @@ class MaterialController extends Controller
 
         // return redirect()->back()->with('success', 'Material deleted successfully.');
     }
+   
 }

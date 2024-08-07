@@ -109,8 +109,12 @@ class User extends Authenticatable
     }
 
 
-
-
+      // Relationship with courses that the student is enrolled in
+      public function enrolledCourses()
+      {
+          return $this->belongsToMany(Course::class, 'course_student', 'student_id', 'course_id');
+      }
+  
 
     // public function students()
     //     {

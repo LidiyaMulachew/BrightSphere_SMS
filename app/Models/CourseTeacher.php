@@ -12,4 +12,9 @@ class CourseTeacher extends Model
     protected $fillable= ['course_id', 'teacher_id'];
 
 
+    public function materials()
+    {
+        return $this->hasMany(Material::class);
+    }
+    
 }

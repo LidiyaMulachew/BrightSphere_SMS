@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Head, usePage } from '@inertiajs/react';
-
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head } from '@inertiajs/react';
 
 const EditUser = ({ userId, onCancel, userData }) => {
     const [name, setName] = useState(userData.name);
     const [email, setEmail] = useState(userData.email);
     const [role, setRole] = useState(userData.role);
-        //for layout
-        const { props } = usePage();
-        //for layout
 
     const handleSave = async () => {
         try {
@@ -20,14 +15,12 @@ const EditUser = ({ userId, onCancel, userData }) => {
             console.error('Error updating user:', error);
         }
     };
+
     console.log('EditUser component rendered');
 
     return (
-        <AuthenticatedLayout
-        user={props.auth.user}
-        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Super Admin Dashboard</h2>}
-    >
-                    <Head title="Edit User" /> 
+        <div className="container mx-auto p-4">
+            <Head title="Edit User" />
             <h3 className="text-xl font-bold mb-4">Edit User</h3>
             <div className="mb-4">
                 <label htmlFor="name" className="block font-medium mb-2">Name:</label>
@@ -75,11 +68,8 @@ const EditUser = ({ userId, onCancel, userData }) => {
                     Save
                 </button>
             </div>
-        
-        </AuthenticatedLayout>
-
+        </div>
     );
 };
 
 export default EditUser;
-

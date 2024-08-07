@@ -116,7 +116,7 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/student/courses',[EnrollToCoursesController::class, 'index'])->name('student.course.index');
     Route::post('/enroll', [EnrollToCoursesController::class, 'enroll'])->name('student.course.enroll');
 
-
+    Route::get('/all-courses-with-materials', [EnrollToCoursesController::class, 'showAllCoursesWithMaterials'])->name('courses.with.materials');
 });
 
 
@@ -126,6 +126,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
     Route::get('/materials/create', [MaterialController::class, 'create'])->name('materials.create');
+    Route::get('/materials/courses', [MaterialController::class, 'getCourses'])->name('getcourses');
     Route::post('/materials', [MaterialController::class, 'store'])->name('materials.store');
     Route::put('/materials/show', [MaterialController::class, 'show'])->name('materials.show');
     Route::get('/materials/{id}/edit', [MaterialController::class, 'edit'])->name('materials.edit');

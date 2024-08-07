@@ -11,7 +11,7 @@ class Material extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'user_id', 'title', 'description', 'file_path', 'teacher_id',
+        'user_id', 'course_id', 'title', 'description', 'file_path'
     ];
     
     protected $dates = ['deleted_at'];
@@ -23,8 +23,12 @@ class Material extends Model
     }
 
     //  relationship with teacher_id in user model for material list
-    public function teacher()
+    // public function teacher()
+    // {
+    //     return $this->belongsTo(User::class, 'teacher_id');
+    // }
+    public function course()
     {
-        return $this->belongsTo(User::class, 'teacher_id');
+        return $this->belongsTo(CourseTeacher::class, 'course_id');
     }
 }

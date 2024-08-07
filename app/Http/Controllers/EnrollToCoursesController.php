@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
 use App\Models\User;
+use App\Models\Material;
 use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\CourseTeacher;
@@ -15,13 +16,13 @@ class EnrollToCoursesController extends Controller
     public function index(){
         return inertia::render('Student/CourseEnrollment');
     }
-
     public function getCourses()
     {
         // Fetch all courses
         $courses = Course::all(); 
         return response()->json($courses);
     }
+
 
     // public function getTeachersByCourse($courseId)
     // {
@@ -82,6 +83,70 @@ class EnrollToCoursesController extends Controller
         ]);
 
         return response()->json(['message' => 'Enrollment successful!']);
+    }
+
+
+    //     // Method to fetch all courses the student is enrolled in
+    //     public function getEnrolledCourses()
+    //     {
+    //         $user = Auth::user();
+    
+    //         // Ensure the user is authenticated
+    //         if (!$user) {
+    //             return redirect()->route('login');
+    //         }
+    
+    //         // Fetch courses that the user is enrolled in
+    //         $courses = $user->enrolledCourses()->get();
+    //         // $courseTeacher = CourseTeacher::where('course_id', $request->input('course_id'))
+    
+    //         return Inertia::render('Student/MaterialList', [
+    //             'courses' => $courses,
+    //         ]);
+    //     }
+
+
+    // public function material($course_id)
+    // {
+    //     $user = Auth::user();
+
+    //     // Ensure the user is authenticated
+    //     if (!$user) {
+    //         return redirect()->route('login');
+    //     }
+
+    //     // Check if the user is enrolled in the course
+    //     $isEnrolled = $user->enrolledCourses()->where('courses.id', $course_id)->exists();
+
+    //     if (!$isEnrolled) {
+    //         return redirect()->back()->with('error', 'You are not enrolled in this course.');
+    //     }
+
+    //     // Fetch materials for the specified course
+    //     $materials = Material::where('course_id', $course_id)->get();
+
+    //     return Inertia::render('Student/MaterialList', [
+    //         'materials' => $materials,
+    //     ]);
+    // }
+
+
+   
+    public function showAllCoursesWithMaterials()
+    {
+        // Fetch all materials
+        $materials = Material::all();
+
+        return Inertia::render('Student/MaterialList', [
+            'materials' => $materials->map(function ($material) {
+                return [
+                    'id' => $material->id,
+                    'title' => $material->title,
+                    'description' => $material->description,
+                    'file_path' => $material->file_path,
+                ];
+            }),
+        ]);
     }
 
 }

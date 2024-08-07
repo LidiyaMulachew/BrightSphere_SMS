@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained(); // Foreign key to users table
+            $table->foreignId('course_id')->constrained('course_teacher')->onDelete('cascade')->after('user_id');
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('file_path');
-            // $table->softDeletes(); // Soft delete column
+            $table->softDeletes(); // Soft delete column
             $table->timestamps();
         });
     }
