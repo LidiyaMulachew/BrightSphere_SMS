@@ -17,4 +17,9 @@ class CourseTeacher extends Model
         return $this->hasMany(Material::class);
     }
     
+
+    // public function course()
+    // {
+    //     return $this->belongsTo(Course::class);
+    // }
 }

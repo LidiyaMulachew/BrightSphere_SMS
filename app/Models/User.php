@@ -109,45 +109,15 @@ class User extends Authenticatable
     }
 
 
-      // Relationship with courses that the student is enrolled in
+      // Relationship with courses that the student enrolled in
       public function enrolledCourses()
       {
-          return $this->belongsToMany(Course::class, 'course_student', 'student_id', 'course_id');
+          return $this->belongsToMany(Course::class, 'course_student', 'student_id', 'course_teacher_id');
       }
+
+    
   
 
-    // public function students()
-    //     {
-    //         return $this->hasMany(User::class, 'teacher_id');
-    //     }
-       
-    // public function teacher()
-    //     {
-    //         return $this->belongsTo(User::class, 'teacher_id');
-    //     }
-
-    // public function parents()
-    //     {
-    //         return $this->hasMany(User::class, 'teacher_id');
-    //     }    
-
-
-
-
-    // create relationships with students and parents
-
-
-        // // Relationship where a student has many parents
-        // public function parents()
-        // {
-        //     return $this->hasMany(User::class, 'student_id');
-        // }
-    
-        // // Relationship where a parent belongs to one student
-        // public function student()
-        // {
-        //     return $this->belongsTo(User::class, 'student_id');
-        // }
 
 
 

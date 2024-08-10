@@ -31,4 +31,11 @@ class Material extends Model
     {
         return $this->belongsTo(CourseTeacher::class, 'course_id');
     }
+
+
+// relationship with courses
+    public function courses()
+    {
+        return $this->belongsTo(CourseStudent::class,);
+    }
 }

@@ -11,4 +11,10 @@ class CourseStudent extends Model
     protected $table='course_student';
     protected $fillable=['student_id','course_teacher_id'];
 
+
+    // public function courseTeacher()
+    // {
+    //     return $this->belongsTo(CourseTeacher::class, 'course_teacher_id');
+    // }
+
 }

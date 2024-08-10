@@ -10,7 +10,7 @@ use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\CourseTeacher;
 use Inertia\Inertia;
-
+use Illuminate\Support\Facades\DB;
 class EnrollToCoursesController extends Controller
 {
     public function index(){
@@ -86,49 +86,30 @@ class EnrollToCoursesController extends Controller
     }
 
 
-    //     // Method to fetch all courses the student is enrolled in
-    //     public function getEnrolledCourses()
-    //     {
-    //         $user = Auth::user();
+        // Method to fetch all courses the student is enrolled in
+        public function getCoursesByStudentId(User $user)
+        {
+            // $users = Auth::user();
     
-    //         // Ensure the user is authenticated
-    //         if (!$user) {
-    //             return redirect()->route('login');
-    //         }
+            // Fetch courses that the user is enrolled in
+            $courses = $user->enrolledCourses()->with('student_id')->get();
+            // dd('courses', $courses);
+            return Inertia::render('Student/Courses', [
+                'courses' => $courses,
+            ]);
+        }
+           
+
+        public function material(Course $course)
+        {
+            // Fetch the materials for the given course
+            $materials = $course->materials()->get();
     
-    //         // Fetch courses that the user is enrolled in
-    //         $courses = $user->enrolledCourses()->get();
-    //         // $courseTeacher = CourseTeacher::where('course_id', $request->input('course_id'))
-    
-    //         return Inertia::render('Student/MaterialList', [
-    //             'courses' => $courses,
-    //         ]);
-    //     }
-
-
-    // public function material($course_id)
-    // {
-    //     $user = Auth::user();
-
-    //     // Ensure the user is authenticated
-    //     if (!$user) {
-    //         return redirect()->route('login');
-    //     }
-
-    //     // Check if the user is enrolled in the course
-    //     $isEnrolled = $user->enrolledCourses()->where('courses.id', $course_id)->exists();
-
-    //     if (!$isEnrolled) {
-    //         return redirect()->back()->with('error', 'You are not enrolled in this course.');
-    //     }
-
-    //     // Fetch materials for the specified course
-    //     $materials = Material::where('course_id', $course_id)->get();
-
-    //     return Inertia::render('Student/MaterialList', [
-    //         'materials' => $materials,
-    //     ]);
-    // }
+            return Inertia::render('Student/MaterialList', [
+                'course' => $course,
+                'materials' => $materials,
+            ]);
+        }
 
 
    
@@ -148,5 +129,19 @@ class EnrollToCoursesController extends Controller
             }),
         ]);
     }
+   
+    
+    // public function showMaterials(Course $course)
+    // {
+    //     $user = auth()->user();
+    //     $isEnrolled = $user->enrolledCourses()->where('course_id', $course->id)->exists();
+    //     $materials = $course->materials;
+
+    //     return Inertia::render('Student/MaterialList', [
+    //         'course' => $course,
+    //         'isEnrolled' => $isEnrolled,
+    //         'materials' => $materials,
+    //     ]);
+    // }
 
 }

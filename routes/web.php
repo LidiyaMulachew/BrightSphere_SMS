@@ -117,6 +117,9 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/enroll', [EnrollToCoursesController::class, 'enroll'])->name('student.course.enroll');
 
     Route::get('/all-courses-with-materials', [EnrollToCoursesController::class, 'showAllCoursesWithMaterials'])->name('courses.with.materials');
+
+    Route::get('/all-courses', [EnrollToCoursesController::class, 'getCoursesByStudentId'])->name('courses.student');
+
 });
 
 
