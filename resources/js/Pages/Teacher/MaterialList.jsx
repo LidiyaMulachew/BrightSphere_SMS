@@ -70,6 +70,9 @@ const MaterialList = ({ materials }) => {
                                         </td>
                                         <td className="px-6 py-4 border">
                                             <div className="flex justify-around">
+                                                <Link href={`/assignments/${material.id}/submissions`} className="btn btn-sm btn-primary mr-2">
+                                                    Detail
+                                                </Link>
                                                 <Link href={`materials/${material.id}/edit`} className="btn btn-sm btn-primary">
                                                     Edit
                                                 </Link>

@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\AssignmentSubmissionController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
@@ -120,7 +120,13 @@ Route::middleware(['auth'])->group(function (){
 
     Route::get('/all-courses', [EnrollToCoursesController::class, 'getCoursesByStudentId'])->name('courses.student');
     Route::get('/courses/{course}', [EnrollToCoursesController::class, 'material'])->name('courses.material');
+    //student can submit the assignment
+    Route::get('/assignments/{material}/submission', [AssignmentSubmissionController::class, 'index'])->name('submissions.index');
+    Route::post('/Assignment/submissions', [AssignmentSubmissionController::class, 'store'])->name('submissions.store');
 
+    //teacher can see the submitted assignment
+    Route::get('/assignments/{material}/submissions', [AssignmentSubmissionController::class, 'submissionsList'])->name('submissionsList.index');
+    // Route::get('/assignments/{material}/submission', [AssignmentSubmissionController::class, 'create'])->name('assignments.createSubmission');
 });
 
 

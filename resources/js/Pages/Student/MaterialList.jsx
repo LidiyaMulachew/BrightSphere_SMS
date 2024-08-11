@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import StudentLayout from '@/Layouts/StudentLayout';
 
 const MaterialList = () => {
@@ -20,13 +20,23 @@ const MaterialList = () => {
                     <ul>
                         {materials.map((material) => (
                             <li key={material.id} className="mb-4 border p-4">
-                              
-                                <h3 className="text-lg mb-3 ">{material.title}</h3>
+                                <h3 className="text-lg mb-3">{material.title}</h3>
                                 <p className="text-m mb-5">{material.description}</p>
-                                <a href={`/storage/app/${material.file_path}`} download 
-                                className="text-blue-600 py-2 px-4 mb-9 rounded-md shadow-md hover:bg-blue-100 ">
-                                    Download
-                                </a>
+                                <div className="flex justify-between items-center">
+                                    <a 
+                                        href={`/storage/${material.file_path}`} 
+                                        download
+                                        className="text-blue-600 py-2 px-4 mb-9 rounded-md shadow-md hover:bg-blue-100"
+                                    >
+                                        Download
+                                    </a>
+                                    <Link 
+                                        href={`/assignments/${material.id}/submission`} 
+                                        className="text-blue-600 py-2 px-4 mb-9 rounded-md shadow-md hover:bg-blue-100"
+                                    >
+                                        Submission
+                                    </Link>
+                                </div>
                             </li>
                         ))}
                     </ul>
@@ -39,4 +49,3 @@ const MaterialList = () => {
 };
 
 export default MaterialList;
-
