@@ -119,6 +119,7 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/all-courses-with-materials', [EnrollToCoursesController::class, 'showAllCoursesWithMaterials'])->name('courses.with.materials');
 
     Route::get('/all-courses', [EnrollToCoursesController::class, 'getCoursesByStudentId'])->name('courses.student');
+    Route::get('/courses/{course}', [EnrollToCoursesController::class, 'material'])->name('courses.material');
 
 });
 

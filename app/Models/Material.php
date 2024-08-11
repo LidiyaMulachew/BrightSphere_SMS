@@ -38,4 +38,8 @@ class Material extends Model
     {
         return $this->belongsTo(CourseStudent::class,);
     }
+    // public function courses()
+    // {
+    //     return $this->belongsTo(Course::class,);
+    // }
 }

@@ -26,15 +26,18 @@ class Course extends Model
             return $this->belongsToMany(User::class, 'course_student', 'course_id', 'student_id');
         }
 
-        // Relationship with materials
+         // Relationship with materials
+        
         public function materials()
         {
-            return $this->belongsToMany(Course::class, );
+            return $this->hasMany(Material::class); 
         }
+
         // create relationships with courses and student for material
 
         public function student()
         {
             return $this->belongsToMany(User::class, 'course_student', 'course_teacher_id', 'student_id');
         }
+
 }

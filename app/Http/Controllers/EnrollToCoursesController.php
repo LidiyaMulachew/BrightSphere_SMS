@@ -86,62 +86,33 @@ class EnrollToCoursesController extends Controller
     }
 
 
-        // Method to fetch all courses the student is enrolled in
-        public function getCoursesByStudentId(User $user)
-        {
-            // $users = Auth::user();
+        public function getCoursesByStudentId()
+    {
+        $user = Auth::user(); // Get the authenticated user
     
-            // Fetch courses that the user is enrolled in
-            $courses = $user->enrolledCourses()->with('student_id')->get();
-            // dd('courses', $courses);
-            return Inertia::render('Student/Courses', [
-                'courses' => $courses,
-            ]);
-        }
-           
+        // Fetch courses that the user is enrolled in
+        $courses = $user->enrolledCourses; // Ensure this is a defined relationship method in your User model
 
+        // dd($courses); 
+
+        return Inertia::render('Student/Courses', [
+            'courses' => $courses,
+        ]);
+    }
+
+       
         public function material(Course $course)
         {
-            // Fetch the materials for the given course
-            $materials = $course->materials()->get();
-    
+            // Assuming the Course model has a relationship to materials
+            $materials = $course->materials; 
+        
             return Inertia::render('Student/MaterialList', [
                 'course' => $course,
                 'materials' => $materials,
             ]);
         }
 
-
-   
-    public function showAllCoursesWithMaterials()
-    {
-        // Fetch all materials
-        $materials = Material::all();
-
-        return Inertia::render('Student/MaterialList', [
-            'materials' => $materials->map(function ($material) {
-                return [
-                    'id' => $material->id,
-                    'title' => $material->title,
-                    'description' => $material->description,
-                    'file_path' => $material->file_path,
-                ];
-            }),
-        ]);
-    }
    
     
-    // public function showMaterials(Course $course)
-    // {
-    //     $user = auth()->user();
-    //     $isEnrolled = $user->enrolledCourses()->where('course_id', $course->id)->exists();
-    //     $materials = $course->materials;
-
-    //     return Inertia::render('Student/MaterialList', [
-    //         'course' => $course,
-    //         'isEnrolled' => $isEnrolled,
-    //         'materials' => $materials,
-    //     ]);
-    // }
 
 }
