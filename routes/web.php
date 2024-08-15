@@ -1,5 +1,7 @@
 <?php
 use App\Http\Controllers\AssignmentSubmissionController;
+use App\Http\Controllers\AssessmentWeightController;
+use App\Http\Controllers\AssessmentRecordController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
@@ -120,6 +122,10 @@ Route::middleware(['auth'])->group(function (){
 
     Route::get('/all-courses', [EnrollToCoursesController::class, 'getCoursesByStudentId'])->name('courses.student');
     Route::get('/courses/{course}', [EnrollToCoursesController::class, 'material'])->name('courses.material');
+
+    Route::get('/students/{studentId}/results', [EnrollToCoursesController::class, 'assessment']);
+    Route::get('/courses/{selectedCourseId}/results', [EnrollToCoursesController::class, 'fetchStudentResults']);
+
     //student can submit the assignment
     Route::get('/assignments/{material}/submission', [AssignmentSubmissionController::class, 'index'])->name('submissions.index');
     Route::post('/Assignment/submissions', [AssignmentSubmissionController::class, 'store'])->name('submissions.store');
@@ -127,6 +133,7 @@ Route::middleware(['auth'])->group(function (){
     //teacher can see the submitted assignment
     Route::get('/assignments/{material}/submissions', [AssignmentSubmissionController::class, 'submissionsList'])->name('submissionsList.index');
     // Route::get('/assignments/{material}/submission', [AssignmentSubmissionController::class, 'create'])->name('assignments.createSubmission');
+
 });
 
 
@@ -144,6 +151,30 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/materials/{material}', [MaterialController::class, 'destroy'])->name('materials.destroy');
 });
 
+
+// Routes for managing assessment weights
+Route::middleware(['auth'])->group(function () {
+    Route::get('/assigned-courses', [AssessmentWeightController::class, 'showAssignedCourses'])->name('assigned.courses');
+    Route::get('/courses/{course}/assessment-weights', [AssessmentWeightController::class, 'index'])->name('assessmentWeights.index');
+    Route::get('/courses/{courseId}/assessment-weights/create', [AssessmentWeightController::class, 'create'])->name('assessmentWeights.create');
+    Route::post('/assessment-weights', [AssessmentWeightController::class, 'store'])->name('assessmentWeights.store');
+    Route::get('/assessment-weights/{id}/edit', [AssessmentWeightController::class, 'edit'])->name('assessmentWeights.edit');
+    Route::put('/assessment-weights/{id}', [AssessmentWeightController::class, 'update'])->name('assessmentWeights.update');
+    Route::delete('/assessment-weights/{id}', [AssessmentWeightController::class, 'destroy'])->name('assessmentWeights.destroy');
+});
+
+ //assessment record
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/courses/{courseId}/assessment-records', [AssessmentRecordController::class, 'index'])->name('students.list');
+    Route::get('/courses/{courseId}/assessment-records/{studentId}/result', [AssessmentRecordController::class, 'showResultForm']);
+    Route::post('/courses/{courseId}/assessment-records/{studentId}/store', [AssessmentRecordController::class, 'storeResult']);
+    Route::post('/finalize-results/{courseId}', [AssessmentRecordController::class, 'finalizeResults']);
+    Route::get('courses/{courseId}/students', [AssessmentRecordController::class, 'list'])->name('students.list');
+    Route::get('courses/{courseId}/students/{studentId}/grade', [AssessmentRecordController::class, 'showForm'])->name('grade.form');
+    Route::post('courses/{courseId}/students/{studentId}/grade/store', [AssessmentRecordController::class, 'submitGrade'])->name('grade.submit');
+    Route::get('/student-assessment-results/{courseId}', [AssessmentRecordController::class, 'show'])->name('assessmentResults.show');
+});
 
 
 require __DIR__ . '/auth.php';

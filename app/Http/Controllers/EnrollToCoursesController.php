@@ -113,6 +113,77 @@ class EnrollToCoursesController extends Controller
         }
 
    
+    public function assessment()
+    {
+        $user = Auth::user(); 
     
+        // Fetch courses that the user is enrolled in
+        $courses = $user->enrolledCourses; 
+
+        return Inertia::render('Student/Assessment', [
+            'courses' => $courses,
+        ]);
+    }
+
+
+    public function fetchStudentResults($courseId)
+    {
+        $user = auth()->user(); // Get the authenticated user
+    
+        // Fetch the course with its assessment records for the student
+        $course = Course::with(['assessmentRecords' => function($query) use ($user) {
+            $query->where('student_id', $user->id);
+        }, 'assessmentRecords.assessmentWeight']) // Ensure assessmentWeight relationship is loaded
+        ->find($courseId);
+    
+        if (!$course) {
+            abort(404, 'Course not found');
+        }
+    
+        // Fetch the assessment records
+        $assessmentRecords = $course->assessmentRecords;
+    
+        // Compute the final score
+        $finalScore = $assessmentRecords->sum('score');
+    
+        // Assume the grade is part of the assessment records or calculated separately
+        // Find the grade from the assessment records if it exists
+        $grade = $assessmentRecords->firstWhere('student_id', $user->id)->grade ?? ' ';
+    
+        // Prepare the response with final score and grade
+        return Inertia::render('Student/CourseResult', [
+            'course' => [
+                'id' => $course->id,
+                'course_name' => $course->course_name,
+                'assessment_records' => $assessmentRecords->map(function ($record) {
+                    return [
+                        'id' => $record->id,
+                        'assessment_weight_type' => $record->assessmentWeight->assessment_type, // Ensure correct relationship and field names
+                        'assessment_weight_weight' => $record->assessmentWeight->weight, // Ensure correct relationship and field names
+                        'score' => $record->score,
+                    ];
+                }),
+                'final_score' => $finalScore, // Include final score in the response
+                'grade' => $grade, // Include grade in the response
+            ],
+        ]);
+    }
+    
+
+
+// protected function calculateGrade($score)
+// {
+//     // Adjusted grade calculation logic based on your grading scale
+//     if ($score >= 90) return 'A+';
+//     if ($score >= 85) return 'A';
+//     if ($score >= 80) return 'A-';
+//     if ($score >= 75) return 'B+';
+//     if ($score >= 70) return 'B';
+//     if ($score >= 65) return 'B-';
+//     if ($score >= 61) return 'C+';
+//     if ($score >= 50) return 'C';
+//     return 'F';
+// }
+
 
 }

@@ -39,5 +39,14 @@ class Course extends Model
         {
             return $this->belongsToMany(User::class, 'course_student', 'course_teacher_id', 'student_id');
         }
+        public function assessmentWeights()
+        {
+            return $this->hasMany(AssessmentWeight::class);
+        }
+// 
+        public function assessmentRecords()
+    {
+        return $this->hasMany(AssessmentRecord::class);
+    }
 
 }
