@@ -4,24 +4,26 @@ import TeacherLayout from '@/Layouts/TeacherLayout';
 
 const GradeForm = () => {
     const { props } = usePage();
-    const { courseId, studentId, assessmentWeightId } = props; 
+    console.log('Props:', props);
+
+    // Access the correct keys
+    const { courseId, studentId, assessmentWeightId } = props;
 
     const { data, setData, post, processing, errors } = useForm({
         grade: '',
-        assessment_weight_id: assessmentWeightId ,
+        assessment_weight_id: assessmentWeightId,
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Post data including grade, courseId, and studentId
         post(`/courses/${courseId}/students/${studentId}/grade/store`, {
             data: {
                 grade: data.grade,
-                assessment_weight_id: data.assessment_weight_id 
-            }
+                assessment_weight_id: data.assessment_weight_id,
+            },
         });
     };
-console.log('grade', data )
+
     return (
         <TeacherLayout
             user={props.auth.user}
@@ -46,7 +48,7 @@ console.log('grade', data )
                     <input
                         type="hidden"
                         name="assessment_weight_id"
-                        value={data.assessment_weight_id} // Ensure this value is correct
+                        value={data.assessment_weight_id}
                     />
                     <button
                         type="submit"

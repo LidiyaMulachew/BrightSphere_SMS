@@ -135,9 +135,58 @@ public function showForm($courseId, $studentId)
 
     return Inertia::render('Teacher/GradeForm', [
         'assessmentRecord' => $assessmentRecord,
+        'courseId' => $courseId,
+        'studentId' => $studentId,
+        'assessmentWeightId' => $assessmentRecord->assessment_weight_id ?? null // Pass the assessment_weight_id
     ]);
+
 }
 
+
+// public function submitGrade(Request $request, $courseId, $studentId)
+// {
+//     // Validate the request
+//     $validatedData = $request->validate([
+//         'grade' => 'required|string|max:5',
+//         'assessment_weight_id' => 'required|integer|exists:assessment_weight,id', 
+//     ]);
+
+//     // Calculate the final score based on existing scores for the student in the course
+//     $totalScore = $this->calculateFinalScore($courseId, $studentId);
+
+//     // Find or create the assessment record
+//     $record = AssessmentRecord::updateOrCreate(
+//         [
+//             'course_id' => $courseId,
+//             'student_id' => $studentId,
+//             'assessment_weight_id' => $validatedData['assessment_weight_id'],
+//         ],
+//         [
+//             'score' => $request->input('score', null), // Handle if score is not sent
+//             'final_score' => $totalScore, 
+//             'grade' => $validatedData['grade'],
+//             'locked' => true, // Lock the record after submission
+//             'teacher_id' => auth()->id(),
+//         ]
+//     );
+
+//     return redirect()->route('students.list', ['courseId' => $courseId])
+//         ->with('success', 'Grade submitted successfully!');
+// }
+
+// private function calculateFinalScore($courseId, $studentId)
+// {
+//     // Fetch all assessment records for the given course and student
+//     $assessmentRecords = AssessmentRecord::where('course_id', $courseId)
+//                                          ->where('student_id', $studentId)
+//                                          ->whereNotNull('score') // Ensure only non-null scores are considered
+//                                          ->get();
+    
+//     // Calculate the total score by summing up the scores
+//     $totalScore = $assessmentRecords->sum('score');
+    
+//     return $totalScore;
+// }
 
 public function submitGrade(Request $request, $courseId, $studentId)
 {
@@ -147,8 +196,13 @@ public function submitGrade(Request $request, $courseId, $studentId)
         'assessment_weight_id' => 'required|integer|exists:assessment_weight,id', 
     ]);
 
-    // Calculate or fetch the final score based on your logic
-    $totalScore = $this->calculateFinalScore($courseId, $studentId);
+    // Fetch existing assessment records for the student and course
+    $existingRecords = AssessmentRecord::where('course_id', $courseId)
+                                       ->where('student_id', $studentId)
+                                       ->get();
+
+    // Calculate the final score based on existing scores and the new assessment
+    $totalScore = $existingRecords->sum('score');
 
     // Find or create the assessment record
     $record = AssessmentRecord::updateOrCreate(
@@ -158,7 +212,7 @@ public function submitGrade(Request $request, $courseId, $studentId)
             'assessment_weight_id' => $validatedData['assessment_weight_id'],
         ],
         [
-            'score' => null,  
+            'score' => $request->input('score', null), // Handle if score is not sent
             'final_score' => $totalScore, 
             'grade' => $validatedData['grade'],
             'locked' => true, // Lock the record after submission
@@ -166,19 +220,10 @@ public function submitGrade(Request $request, $courseId, $studentId)
         ]
     );
 
-    
     return redirect()->route('students.list', ['courseId' => $courseId])
         ->with('success', 'Grade submitted successfully!');
 }
 
-
-private function calculateFinalScore($courseId, $studentId)
-{
-    // Example function to calculate the final score
-    // Implement your logic to calculate the total score
-    // For now, returning a placeholder value
-    return 0; // Replace with actual calculation
-}
 
 
 public function show($courseId)

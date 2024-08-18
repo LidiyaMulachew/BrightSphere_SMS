@@ -1,3 +1,68 @@
+// import { Link, Head } from '@inertiajs/react';
+
+// export default function Welcome({ auth, laravelVersion, phpVersion }) {
+//     const handleImageError = () => {
+//         // document.getElementById('screenshot-container')?.classList.add('!hidden');
+//         // document.getElementById('docs-card')?.classList.add('!row-span-1');
+//         // document.getElementById('docs-card-content')?.classList.add('!flex-row');
+//         // document.getElementById('background')?.classList.add('!hidden');
+//     };
+
+//     return (
+        
+//             // <Head title="Welcome" />
+//             <div className="  ">
+                
+//                 <div className="">
+//                     <div className="">
+//                         <header className="">
+//                             <nav className="bg-white shadow-md py-6 flex justify-between">
+//                                 <h1 className='px-3 py-2 ml-16'> 
+//                                     <span style={{ color: 'orange', fontFamily: 'Arial', fontSize: '1.2em' }}>BrightSphere</span>{' '}
+//                                     <span style={{ color: '#007bff', fontFamily: 'Arial', fontSize: '1.2em' }}>SMS</span>
+//                                 </h1>
+//                             <div class="flex space-x-9 mr-16">
+//                                 <a href="#" className="rounded-md px-3 py-2 text-l font-large text-blue-400 hover:text-gray-500 underline" style={{ textDecorationColor: '#3B82F6' ,fontSize:'1.2em'}} aria-current="page">Home</a>
+//                                 <a href="#" className="rounded-md px-3 py-2 text-l font-large text-black hover:text-gray-500" style={{fontSize:'1.2em'}}>Team</a>
+//                                 <a href="#" className="rounded-md px-3 py-2 text-l font-large text-black  hover:text-gray-500" style={{fontSize:'1.2em'}}>Projects</a>
+//                                 <a href="#" className="rounded-md px-3 py-2 text-l font-large text-black  hover:text-gray-500" style={{fontSize:'1.2em'}}>Calendar</a>
+//                                 <a href={route('login')} className="rounded-md bg-blue-500 px-7 py-2 text-md font-medium text-white" >Login</a>
+//                             </div>
+//                             </nav>
+//                         </header>
+//                         </div>
+//                         </div>
+//                         </div>
+                       
+
+//     )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import { Link, Head } from '@inertiajs/react';
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
@@ -59,4 +124,8 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         </div>
                         </div>
                         </>
+
     )}
+
+
+

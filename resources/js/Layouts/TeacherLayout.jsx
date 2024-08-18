@@ -6,14 +6,14 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 
-export default function Authenticated({  user,currentUser, header, children }) {
+export default function Authenticated({  user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     // Assuming currentUser is an object and you want to access its properties
     // const user = currentUser && currentUser.name ? currentUser : { name: '', email: '' };
 
     const {auth}=usePage().props;
     var user=auth.user;
-    console.log('users',auth)
+    // console.log('users',auth)
 
     return (
         
