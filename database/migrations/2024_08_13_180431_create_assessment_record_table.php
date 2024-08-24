@@ -18,9 +18,9 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('assessment_weight_id')->constrained('assessment_weight')->onDelete('cascade');
             $table->decimal('score', 5, 2)->nullable(); // Individual assessment score
-            $table->decimal('final_score', 5, 2)->nullable(); // Total score (for final grade calculation)
-            $table->string('grade')->nullable(); // Final grade
-            $table->boolean('locked')->default(false); // Whether the final grade is locked
+            // $table->decimal('final_score', 5, 2)->nullable(); // Total score (for final grade calculation)
+            // $table->string('grade')->nullable(); // Final grade
+            // $table->boolean('locked')->default(false); // Whether the final grade is locked
             $table->timestamps();
         });
     }

@@ -33,11 +33,83 @@ class AssessmentWeightController extends Controller
         $assessmentWeights = AssessmentWeight::where('course_id', $courseId)
                                              ->where('teacher_id', Auth::id())
                                              ->get();
+                                             
 
         return Inertia::render('Teacher/AssessmentDetail', [
             'assessmentWeights' => $assessmentWeights,
+            'course' => $course, 
+
         ]);
     }
+    public function showEnterResults($courseId, $assessmentId)
+    {
+        $course = Course::find($courseId);
+        $assessment = AssessmentWeight::find($assessmentId);
+    
+        if (!$course || !$assessment) {
+            return redirect()->back()->with('error', 'Course or assessment not found.');
+        }
+    
+        // $students = User::whereIn('id', function ($query) use ($courseId) {
+        //     $query->select('student_id')
+        //           ->from('course_student')
+        //           ->where('course_teacher_id', Auth::id());
+        //         //   ->where('course_id', $courseId);
+        // })->get(['id', 'name']); // Ensure 'name' is included
+        $teacherId = auth()->id(); 
+
+        $students = User::whereExists(function ($query) use ($courseId, $teacherId) {
+            $query->select('*')
+                  ->from('course_student')
+                  ->join('course_teacher', 'course_student.course_teacher_id', '=', 'course_teacher.course_id')
+                  ->where('course_student.course_teacher_id', $courseId)
+                  ->where('course_teacher.teacher_id', $teacherId)
+                  ->whereColumn('course_student.student_id', 'users.id');
+        })->whereNull('deleted_at')
+          ->get();
+        return Inertia::render('Teacher/EnterResults', [
+            'assessment' => $assessment,
+            'students' => $students,
+            'course' => $course
+        ]);
+    }
+    public function storeResults(Request $request, $courseId, $assessmentId)
+{
+    // Validate the request
+    $request->validate([
+        'student_results' => 'required|array',
+        'student_results.*' => 'numeric|min:0|max:100', // Adjust validation as needed
+    ]);
+
+    // Get the authenticated teacher
+    $teacherId = auth()->user()->id; // Assuming you are using Laravel's built-in authentication
+
+    $assessment = AssessmentWeight::find($assessmentId);
+    $course = Course::find($courseId);
+
+    if (!$assessment || !$course) {
+        return response()->json(['error' => 'Course or assessment not found.'], 404);
+    }
+
+    foreach ($request->input('student_results') as $studentId => $score) {
+        // Update or create the assessment record with course_id and teacher_id
+        AssessmentRecord::updateOrCreate(
+            [
+                'student_id' => $studentId,
+                'assessment_weight_id' => $assessmentId,
+                'course_id' => $courseId, // Include course_id in the data
+                'teacher_id' => $teacherId // Include teacher_id in the data
+            ],
+            [
+                'score' => $score // Use 'score' instead of 'result'
+            ]
+        );
+    }
+
+    return response()->json(['message' => 'Results saved successfully.']);
+}
+
+
     // Show the form to create assessment weights
     public function create($courseId)
     {

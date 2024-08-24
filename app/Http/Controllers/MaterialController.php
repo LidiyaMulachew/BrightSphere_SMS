@@ -48,8 +48,14 @@ class MaterialController extends Controller
     public function getCourses()
     {
         // Fetch all courses
-        $courses = Course::all(); 
+        // $courses = Course::all(); 
+        // return response()->json($courses);
+
+        $teacher = auth()->user(); 
+        // Get the courses assigned to the teacher
+        $courses = $teacher->courses;
         return response()->json($courses);
+
     }
   
 

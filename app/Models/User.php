@@ -115,9 +115,26 @@ class User extends Authenticatable
           return $this->belongsToMany(Course::class, 'course_student', 'student_id', 'course_teacher_id');
       }
 
-    
-  
+    //grades
+    public function grades()
+    {
+        return $this->hasMany(Grade::class, 'student_id');
+    }
 
+    public function assessmentRecords()
+    {
+        return $this->hasMany(AssessmentRecord::class, 'student_id');
+    }
+
+    public function grade()
+    {
+        return $this->hasMany(Grade::class, 'student_id');
+    }
+
+    public function assessmentRecord()
+    {
+        return $this->hasMany(AssessmentRecord::class, 'student_id');
+    }
 
 
 

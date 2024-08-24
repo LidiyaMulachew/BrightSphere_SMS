@@ -2,6 +2,7 @@
 use App\Http\Controllers\AssignmentSubmissionController;
 use App\Http\Controllers\AssessmentWeightController;
 use App\Http\Controllers\AssessmentRecordController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
@@ -156,6 +157,10 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/assigned-courses', [AssessmentWeightController::class, 'showAssignedCourses'])->name('assigned.courses');
     Route::get('/courses/{course}/assessment-weights', [AssessmentWeightController::class, 'index'])->name('assessmentWeights.index');
+    Route::get('/courses/{courseId}/assessment-weights/{assessmentId}/results', [AssessmentWeightController::class, 'showEnterResults'])->name('courses.assessment-results');
+    Route::post('/courses/{courseId}/assessment-weights/{assessmentId}/results', [AssessmentWeightController::class, 'saveResults'])->name('courses.save-assessment-results');
+    Route::post('/courses/{courseId}/assessment-weights/{assessmentId}/results', [AssessmentWeightController::class, 'storeResults']) ->name('courses.store-results');
+
     Route::get('/courses/{courseId}/assessment-weights/create', [AssessmentWeightController::class, 'create'])->name('assessmentWeights.create');
     Route::post('/assessment-weights', [AssessmentWeightController::class, 'store'])->name('assessmentWeights.store');
     Route::get('/assessment-weights/{id}/edit', [AssessmentWeightController::class, 'edit'])->name('assessmentWeights.edit');
@@ -176,5 +181,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/student-assessment-results/{courseId}', [AssessmentRecordController::class, 'show'])->name('assessmentResults.show');
 });
 
+//grade submission 
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/courses/{courseId}/grades', [GradeController::class, 'showGrades'])->name('grades.show');
+    Route::post('/courses/{courseId}/store', [GradeController::class, 'store'])->name('grades.store');
+});
+
+
+// parents can see their children result
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/family/courses', [ParentAccountController::class, 'showCourses'])->name('parent.courses');
+    Route::get('/family/courses/{courseId}/results', [ParentAccountController::class, 'showResults'])->name('parent.results');
+});
 
 require __DIR__ . '/auth.php';

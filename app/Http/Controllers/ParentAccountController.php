@@ -6,6 +6,8 @@ use App\Models\TeacherStudent;
 use App\Models\StudentParent;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Course;
+
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
@@ -82,12 +84,9 @@ class ParentAccountController extends Controller
     }
 
 
-        /**
-     * Show the student information with their associated parents.
-     *
-     * @param  int  $studentId
-     * @return \Inertia\Response
-     */
+        
+    //  Show the student information with their associated parents.
+ 
     public function show($studentId)
     {
         // Fetch the student with their associated parents
@@ -110,5 +109,48 @@ class ParentAccountController extends Controller
 
         return Inertia::render('Teacher/Parent', $studentData);
     }
+
+    // parents can see their children result
+
+
+    public function showCourses()
+    {
+        $parent = auth()->user(); // Get the authenticated user (parent)
+        
+        // Get student IDs associated with the parent
+        $studentIds = User::whereHas('student', function ($query) use ($parent) {
+            $query->where('parent_id', $parent->id); // Adjust based on your actual relationship
+        })->pluck('id');
+        
+        // Fetch courses that these students are enrolled in
+        $courses = Course::whereHas('students', function ($query) use ($studentIds) {
+            $query->whereIn('student_id', $studentIds);
+        })->get();
+    
+        return Inertia::render('Family/Courses', [
+            'courses' => $courses,
+        ]);
+    }    
+    
+    
+    public function showResults(Request $request, $courseId)
+    {
+        $parent = $request->user();
+        $students = $parent->students()->pluck('id');
+
+        // Fetch course with its assessments
+        $course = Course::with(['assessments' => function ($query) use ($students) {
+            $query->whereIn('student_id', $students);
+        }])->find($courseId);
+
+        if (!$course) {
+            return redirect()->route('parent.course')->withErrors('Course not found.');
+        }
+
+        return Inertia::render('Family/Results', [
+            'course' => $course,
+        ]);
+    }
+
 }
 

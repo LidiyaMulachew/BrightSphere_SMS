@@ -35,7 +35,11 @@ class AssessmentRecordController extends Controller
             'students' => $students,
             'courseId' => $courseId,
         ]);
+        
     }
+      
+    
+    
 
     public function showResultForm($courseId, $studentId)
     {

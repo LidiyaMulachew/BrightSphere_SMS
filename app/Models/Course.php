@@ -48,5 +48,9 @@ class Course extends Model
     {
         return $this->hasMany(AssessmentRecord::class);
     }
+    public function grades()
+    {
+        return $this->hasMany(Grade::class, 'course_id');
+    }
 
 }

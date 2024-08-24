@@ -13,7 +13,7 @@ class AssessmentRecord extends Model
 
     protected $fillable = [
         'teacher_id', 'course_id', 'student_id', 'assessment_weight_id', 
-        'score', 'final_score', 'grade', 'locked'
+        'score', 
     ];
 
     public function course()
@@ -33,6 +33,14 @@ class AssessmentRecord extends Model
     public function assessmentWeight()
     {
         return $this->belongsTo(AssessmentWeight::class, 'assessment_weight_id');
+    }
+    public function grade()
+    {
+        return $this->hasMany(Grade::class);
+    }
+    public function grades()
+    {
+        return $this->hasMany(Grade::class, 'assessment_record_id');
     }
     
 }
