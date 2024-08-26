@@ -7,7 +7,16 @@ use App\Models\StudentParent;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Course;
+use App\Models\AssessmentRecord;
+use App\Models\AssessmentWeight;
+use App\Models\Grade;
 
+
+use App\Models\CourseTeacher;
+use App\Models\CourseStudent;
+
+
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
@@ -110,47 +119,113 @@ class ParentAccountController extends Controller
         return Inertia::render('Teacher/Parent', $studentData);
     }
 
-    // parents can see their children result
+   
+
+public function children()
+{
+    // Get the authenticated user (parent)
+    $parent = auth()->user();
+
+    // Fetch students associated with the parent
+    $students = $parent->student; // Assuming 'student' is the relationship method name
+    // Extract student names
+    $studentNames = $students->pluck('name'); // Replace 'name' with the actual field for student names
+    // dd($studentNames);
+
+   
+    return Inertia::render('Family/ChildrenList', [
+        'student_names' => $studentNames,
+    ]);
+}
 
 
-    public function showCourses()
-    {
-        $parent = auth()->user(); // Get the authenticated user (parent)
-        
-        // Get student IDs associated with the parent
-        $studentIds = User::whereHas('student', function ($query) use ($parent) {
-            $query->where('parent_id', $parent->id); // Adjust based on your actual relationship
-        })->pluck('id');
-        
-        // Fetch courses that these students are enrolled in
-        $courses = Course::whereHas('students', function ($query) use ($studentIds) {
-            $query->whereIn('student_id', $studentIds);
-        })->get();
-    
-        return Inertia::render('Family/Courses', [
-            'courses' => $courses,
-        ]);
-    }    
-    
-    
-    public function showResults(Request $request, $courseId)
-    {
-        $parent = $request->user();
-        $students = $parent->students()->pluck('id');
+public function showCourses(Request $request)
+{
+    // Get the authenticated user (parent)
+    $parent = Auth::user();
 
-        // Fetch course with its assessments
-        $course = Course::with(['assessments' => function ($query) use ($students) {
-            $query->whereIn('student_id', $students);
-        }])->find($courseId);
+    // Get the student name from the query parameters
+    $studentName = $request->query('student');
 
-        if (!$course) {
-            return redirect()->route('parent.course')->withErrors('Course not found.');
-        }
-
-        return Inertia::render('Family/Results', [
-            'course' => $course,
-        ]);
+    // Validate the student name parameter
+    if (empty($studentName)) {
+        return abort(400, 'Student name is required');
     }
+
+    // Fetch the student based on the name
+    $student = $parent->student->where('name', $studentName)->first();
+
+    if (!$student) {
+        return abort(404, 'Student not found');
+    }
+
+    // Fetch courses that the specific student is enrolled in
+    $courses = $student->enrolledCourses; // Using the defined relationship
+
+    // Return the Inertia view with student and courses data
+    return Inertia::render('Family/Courses', [
+        'student' => $student,
+        'courses' => $courses,
+    ]);
+}
+ 
+
+
+
+
+public function showResults($courseId)
+{
+    $parent = auth()->user(); // Get the authenticated user (family)
+
+    // Get student IDs associated with the family
+    $studentIds = $parent->student->pluck('id');
+
+    // Fetch the course by ID
+    $course = Course::find($courseId);
+
+    if (!$course) {
+        abort(404, 'Course not found.');
+    }
+
+    // Fetch assessment records with related weight and grade information
+    $results = DB::table('assessment_record')
+        ->join('users', 'assessment_record.student_id', '=', 'users.id')
+        ->join('assessment_weight', 'assessment_record.assessment_weight_id', '=', 'assessment_weight.id') // Correct table name
+        ->leftJoin('grades', function ($join) {
+            $join->on('assessment_record.id', '=', 'grades.assessment_record_id')
+                 ->where('grades.student_id', '=', auth()->id()) // Ensure that we join with the current student's grades
+                 ->where('grades.locked', true); // Adjust if necessary based on your schema
+        })
+        ->whereIn('assessment_record.student_id', $studentIds)
+        ->where('assessment_record.course_id', $course->id)
+        ->select('users.id as student_id', 'users.name as student_name', 'assessment_record.id', 'assessment_record.score', 'assessment_weight.assessment_type', 'assessment_weight.weight', 'grades.grade') // Select grade from grades table
+        ->get()
+        ->groupBy('student_id') // Group results by student ID
+        ->map(function ($records, $studentId) {
+            return [
+                'student_id' => $studentId,
+                'student_name' => $records->first()->student_name,
+                'assessment_records' => $records->map(function ($record) {
+                    return [
+                        'id' => $record->id,
+                        'assessment_weight_type' => $record->assessment_type,
+                        'assessment_weight_weight' => $record->weight,
+                        'score' => $record->score,
+                        'grade' => $record->grade ?? ' ', // Use 'N/A' or other default if grade is not available
+                    ];
+                }),
+                'final_score' => $records->sum('score'),
+                'grade' => $records->first()->grade ?? ' ', // Default if no grade is available
+            ];
+        })
+        ->values(); // Convert to a plain array
+
+    return Inertia::render('Family/Results', [
+        'course' => $course,
+        'results' => $results,
+    ]);
+}
+
 
 }
 

@@ -192,8 +192,11 @@ Route::middleware(['auth'])->group(function () {
 // parents can see their children result
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/family/children', [ParentAccountController::class, 'children'])->name('parent.children');
     Route::get('/family/courses', [ParentAccountController::class, 'showCourses'])->name('parent.courses');
     Route::get('/family/courses/{courseId}/results', [ParentAccountController::class, 'showResults'])->name('parent.results');
+    Route::get('/parent/courses/{course}/results', [ParentAccountController::class, 'showResults'])->name('parent.results');
+
 });
 
 require __DIR__ . '/auth.php';

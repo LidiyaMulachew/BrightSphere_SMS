@@ -129,49 +129,7 @@ class EnrollToCoursesController extends Controller
     }
 
 
-    // public function fetchStudentResults($courseId)
-    // {
-    //     $user = auth()->user(); // Get the authenticated user
-    
-    //     // Fetch the course with its assessment records for the student
-    //     $course = Course::with(['assessmentRecords' => function($query) use ($user) {
-    //         $query->where('student_id', $user->id);
-    //     }, 'assessmentRecords.assessmentWeight']) // Ensure assessmentWeight relationship is loaded
-    //     ->find($courseId);
-    
-    //     if (!$course) {
-    //         abort(404, 'Course not found');
-    //     }
-    
-    //     // Fetch the assessment records
-    //     $assessmentRecords = $course->assessmentRecords;
-    
-    //     // Compute the final score
-    //     $finalScore = $assessmentRecords->sum('score');
-    
-    //     // Assume the grade is part of the assessment records or calculated separately
-    //     // Find the grade from the assessment records if it exists
-    //     $grade = $assessmentRecords->firstWhere('student_id', $user->id)->grade ?? ' ';
-    
-    //     // Prepare the response with final score and grade
-    //     return Inertia::render('Student/CourseResult', [
-    //         'course' => [
-    //             'id' => $course->id,
-    //             'course_name' => $course->course_name,
-    //             'assessment_records' => $assessmentRecords->map(function ($record) {
-    //                 return [
-    //                     'id' => $record->id,
-    //                     'assessment_weight_type' => $record->assessmentWeight->assessment_type, // Ensure correct relationship and field names
-    //                     'assessment_weight_weight' => $record->assessmentWeight->weight, // Ensure correct relationship and field names
-    //                     'score' => $record->score,
-    //                 ];
-    //             }),
-    //             'final_score' => $finalScore, // Include final score in the response
-    //             'grade' => $grade, // Include grade in the response
-    //         ],
-    //     ]);
-    // }
-    
+
     public function fetchStudentResults($courseId)
     {
         $user = auth()->user(); 
@@ -179,7 +137,7 @@ class EnrollToCoursesController extends Controller
         // Fetch the assessment records for the student in the specified course
         $assessmentRecords = AssessmentRecord::where('course_id', $courseId)
             ->where('student_id', $user->id)
-            ->with(['assessmentWeight']) // Ensure assessmentWeight relationship is loaded
+            ->with(['assessmentWeight', 'grades']) // Ensure both relationships are loaded
             ->get();
     
         if ($assessmentRecords->isEmpty()) {
@@ -189,33 +147,34 @@ class EnrollToCoursesController extends Controller
         // Compute the final score
         $finalScore = $assessmentRecords->sum('score');
     
-        // Find the grade from the grades table using assessment_record_id
-        $grade = Grade::whereIn('assessment_record_id', $assessmentRecords->pluck('id'))
-            ->where('locked', true) // Ensure grade is locked before showing
-            ->first();
-    
-        $gradeValue = $grade ? $grade->grade : ' '; // Default to 'N/A' if no grade exists
+        // Fetch grades for the specific student and assessment records
+        $grades = Grade::whereIn('assessment_record_id', $assessmentRecords->pluck('id'))
+            ->where('student_id', $user->id)
+            ->where('locked', true)
+            ->get();
     
         // Prepare the response with final score and grade
         return Inertia::render('Student/CourseResult', [
             'course' => [
                 'id' => $courseId,
-                'course_name' => $assessmentRecords->first()->course->course_name, // Assuming relationship to course exists
-                'assessment_records' => $assessmentRecords->map(function ($record) {
+                'course_name' => $assessmentRecords->first()->course->course_name, // Assuming course relationship exists
+                'assessment_records' => $assessmentRecords->map(function ($record) use ($grades) {
+                    // Find the grade related to the current assessment record and student
+                    $recordGrade = $grades->firstWhere('assessment_record_id', $record->id);
+    
                     return [
                         'id' => $record->id,
-                        'assessment_weight_type' => $record->assessmentWeight->assessment_type, // Ensure correct relationship and field names
-                        'assessment_weight_weight' => $record->assessmentWeight->weight, // Ensure correct relationship and field names
+                        'assessment_weight_type' => $record->assessmentWeight->assessment_type,
+                        'assessment_weight_weight' => $record->assessmentWeight->weight,
                         'score' => $record->score,
+                        'grade' => $recordGrade ? $recordGrade->grade : ' ', // Default to ' ' if no grade exists
                     ];
                 }),
-                'final_score' => $finalScore, // Include final score in the response
-                'grade' => $gradeValue, // Include grade in the response
+                'final_score' => $finalScore,
+                'grade' => $grades->isNotEmpty() ? $grades->first()->grade : ' ', // Default to ' ' if no grade exists
             ],
         ]);
     }
-        
-
-
+    
 
 }
