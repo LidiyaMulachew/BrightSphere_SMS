@@ -27,9 +27,10 @@ const AssessmentDetail = ({ assessmentWeights, students, course }) => {
             user={props.auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Assessment Details</h2>}
         >
-            <div className="max-w-6xl mx-auto p-5 bg-white shadow-md rounded-lg mt-8">
+            <div className=" p-5 bg-white shadow-2xl ml-9 mr-9 rounded-lg mt-8">
                 <div className="container mx-auto p-6">
-                    <h1 className="text-2xl font-bold mb-4">Assessment Types and Weights for {course.name}</h1>
+                    <h1 className="text-2xl font-bold mb-4 text-gray-600">Assessment Types and Weights For
+                        <span className='text-sky-500'> {course.course_name}</span></h1>
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead>
                             <tr>
@@ -56,19 +57,19 @@ const AssessmentDetail = ({ assessmentWeights, students, course }) => {
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <Link
                                             href={`/courses/${course.id}/assessment-weights/${weight.id}/results`}
-                                            className="text-blue-500  mr-7 "
+                                            className="text-sky-500 px-3 py-2 bg-white shadow-md rounded hover:bg-sky-500 hover:text-white mr-7 "
                                         >
                                             Enter Result
                                         </Link>
                                         <Link
                                             href={`/assessment-weights/${weight.id}/edit`}
-                                            className="text-blue-500 "
+                                            className="text-sky-500 px-3 py-2 bg-white shadow-md rounded hover:bg-sky-500 hover:text-white "
                                         >
                                             Edit
                                         </Link>
                                         <button
                                             onClick={() => deleteAssessmentWeight(weight.id)}
-                                            className="text-red-500 ml-6"
+                                            className="text-red-500 px-3 py-2 bg-white shadow-md rounded hover:bg-red-400 hover:text-white ml-6"
                                         >
                                             Delete
                                         </button>

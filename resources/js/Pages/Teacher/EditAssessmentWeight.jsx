@@ -15,14 +15,29 @@ const EditAssessmentWeight = ({ assessmentWeight }) => {
         setData(name, value);
     };
 
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     put(route('assessmentWeights.update', assessmentWeight.id));
+    // };
     const handleSubmit = (e) => {
         e.preventDefault();
-        put(route('assessmentWeights.update', assessmentWeight.id));
+
+        // Use the put method to send the data
+        put(route('assessmentWeights.update', assessmentWeight.id), {
+            onSuccess: () => {
+                // Redirect on successful update
+                window.location.href = `/courses/${course.id}/assessment-weights`;
+            },
+            onError: (errors) => {
+                // Handle errors
+                console.error('Form submission error:', errors);
+            }
+        });
     };
 
     return (
         <TeacherLayout>
-            <div className="max-w-2xl mx-auto p-5 bg-white shadow-md rounded-lg mt-8">
+            <div className="ml-9 mr-7 p-5 bg-white shadow-2xl rounded-lg mt-8">
                 <h1 className="text-2xl font-bold mb-4">Edit Assessment Weight</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
@@ -54,7 +69,7 @@ const EditAssessmentWeight = ({ assessmentWeight }) => {
                     <button
                         type="submit"
                         disabled={processing}
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                        className="bg-sky-200 shadow-lg hover:bg-sky-500 hover:text-white px-4 py-2 rounded"
                     >
                         Update Weight
                     </button>

@@ -89,13 +89,13 @@ export default function Welcome({ auth }) {
         </div>
         <div className='mt-10 sm:mt-20 md:mr-5  '>
             <img src="/images/graduate.png" alt="Graduate"
-                style={{ width: '100%', maxWidth: '500px', borderRadius: '20px' }}
+                style={{ width: '100%', maxWidth: '500px', borderRadius: '20px', objectFit: 'cover' }}
                 className='w-full md:w-[1900px] md:h-[500px]'
             />
         </div>
     </div>
 
-    <div className='flex justify-end fixed z-30 right-5' style={{ bottom: '30px' }}>
+    <div className='flex justify-end fixed z-30 right-5 shadow-md' style={{ bottom: '30px' }}>
         <a href='tel:4464' className="bg-yellow-400 border-2 border-current px-8 py-3 font-bold uppercase text-black">
             Call: 4464
         </a> 
@@ -131,6 +131,7 @@ export default function Welcome({ auth }) {
         <img 
             src="/images/faculty members 2.jpg" 
             alt="Faculty Members" 
+            style={{ objectFit: 'cover' }}
             className='w-22 h-24 sm:w-48 sm:h-36 md:w-64 md:h-68 object-cover rounded-full transform translate-x-1/2'
 
         />
@@ -146,6 +147,7 @@ export default function Welcome({ auth }) {
         <img 
             src="/images/department 1.jpg" 
             alt="Department" 
+            style={{ objectFit: 'cover' }}
             className='w-22 h-24 sm:w-48 sm:h-36 md:w-64 md:h-68 object-cover rounded-full transform translate-x-1/2'
 
         />
@@ -167,6 +169,7 @@ export default function Welcome({ auth }) {
         <img 
             src="/images/research center 1.jpg" 
             alt="Research Center" 
+            style={{ objectFit: 'cover' }}
             className='w-13 h-24 sm:w-48 sm:h-36 md:w-64 md:h-68 object-cover rounded-full transform translate-x-1/2'
 
         />
@@ -182,6 +185,7 @@ export default function Welcome({ auth }) {
         <img 
             src="/images/campus facility 1.jpg" 
             alt="Campus Facility" 
+            style={{ objectFit: 'cover' }}
             className='w-15 h-24 sm:w-48 sm:h-36 md:w-64 md:h-68 object-cover rounded-full transform translate-x-1/2'
         />
     </div>
@@ -215,7 +219,9 @@ export default function Welcome({ auth }) {
         </div>
     </div>
     <div className='flex-1 order-1 sm:order-2 md:mr-10'>
-        <img src="/images/call center 2.jpg" alt="Call Center" className='w-full h-auto md:w-[800px] md:h-[600px] rounded-lg object-cover' />
+        <img src="/images/call center 2.jpg" alt="Call Center"         
+        style={{ objectFit: 'cover' }} 
+        className='w-full h-auto md:w-[800px] md:h-[600px] rounded-lg object-cover' />
     </div>
 </div>
 
@@ -237,6 +243,7 @@ export default function Welcome({ auth }) {
     <div className='flex flex-col md:justify-between md:flex-row mt-12'>
         <div className='text-left mb-10 md:mb-0 md:mr-0 md:ml-20'>
             <img src="/images/about us.jpg" alt="About Us"
+                    style={{ objectFit: 'cover' }}
                 className='w-full h-auto md:w-[600px]  md:h-[900px] rounded-lg object-cover'
             />
         </div>
@@ -380,7 +387,9 @@ export default function Welcome({ auth }) {
             </div>
         </div>
         <div className='flex justify-center order-1 sm:order-2 md:justify-end w-full md:w-1/2 mb-10'>
-            <img src="/images/why us.jpg" alt="Why Us" className='w-64 h-64 md:w-[500px] md:h-[500px] rounded-full' />
+            <img src="/images/why us.jpg" alt="Why Us" 
+                    style={{ objectFit: 'cover' }}
+            className='w-64 h-64 md:w-[500px] md:h-[500px] rounded-full' />
         </div>
     </div>
 </div>
@@ -393,7 +402,9 @@ export default function Welcome({ auth }) {
 {/* Telegram Section */}
 <div className='flex flex-col md:flex-row justify-between bg-green-50 rounded-lg mx-4 md:mx-20 pt-10 pb-10 md:pt-20 md:pb-20'>
     <div className='text-center md:text-left md:w-[600px]'>
-        <img src="/images/telegram 2.jpg" alt="Telegram Bot" className='w-full h-auto md:w-[1500px] md:h-[600px] rounded-lg' />
+        <img src="/images/telegram 2.jpg" alt="Telegram Bot"
+                style={{ objectFit: 'cover' }}
+                 className='w-full h-auto md:w-[1500px] md:h-[600px] rounded-lg' />
     </div>
     <div className='md:w-[600px] md:ml-10 mt-10 md:mt-0'>
         <h1 className='text-blue-600 text-2xl md:text-xl font-bold [letter-spacing:0.4em]'>
@@ -476,11 +487,13 @@ export default function Welcome({ auth }) {
 <div className='flex flex-col md:flex-row md:items-center justify-between mb-20  md:mt-20 md:mb-20'>
     <div className='flex  md:flex-row md:w-[1200px]'>
         <div className='flex md:items-center text-left items-center ml-3 mr-3 md:justify-center rounded-lg mb-5 md:mb-0 md:mr-5'>
-            <img src="/images/faculty members 2.jpg" alt="Faculty Members" className='w-[170px] h-[70px] md:w-[200px] md:h-[200px]  rounded-lg' />
+            <img src="/images/faculty members 2.jpg" alt="Faculty Members"
+                    style={{ objectFit: 'cover' }}
+                     className='w-[170px] h-[70px] md:w-[200px] md:h-[200px]  rounded-lg' />
         </div>
         <div className='flex flex-col  mr-8 '>
-            <img src="/images/faculty members 1.jpg" alt="Faculty Member 1" className='w-[210px] h-[100px] md:w-[200px] md:h-[200px] mb-5 rounded-lg' />
-            <img src="/images/faculty members 3.jpg" alt="Faculty Member 3" className='w-[210px] h-[180px] md:w-[200px] md:h-[350px] rounded-lg' />
+            <img src="/images/faculty members 1.jpg" alt="Faculty Member 1"        style={{ objectFit: 'cover' }} className='w-[210px] h-[100px] md:w-[200px] md:h-[200px]  mb-5 rounded-lg' />
+            <img src="/images/faculty members 3.jpg" alt="Faculty Member 3"        style={{ objectFit: 'cover' }} className='w-[210px] h-[180px] md:w-[200px] md:h-[350px] rounded-lg' />
         </div>
     </div>
     <div className='flex flex-col items-center md:items-start md:w-[1600px] mt-10 md:mt-0'>
@@ -511,11 +524,11 @@ export default function Welcome({ auth }) {
     </div>
     <div className='flex items-center order-1 sm:order-2 md:flex-row md:w-[600px] mr-8'>
         <div className='flex items-center justify-center rounded-lg mb-5 mr-3 ml-3 mt-5 md:mr-5 md:mb-0'>
-            <img src="/images/department 1.jpg" alt="Department 1" className='w-[130px] h-[70px] md:w-[200px] md:h-[200px] rounded-lg' />
+            <img src="/images/department 1.jpg" alt="Department 1"         style={{ objectFit: 'cover' }} className='w-[130px] h-[70px] md:w-[200px] md:h-[200px] rounded-lg' />
         </div>
         <div className='flex flex-col'>
-            <img src="/images/department 2.png" alt="Department 2" className='w-[170px] h-[100px] md:w-[200px] md:h-[200px] mb-5 rounded-lg' />
-            <img src="/images/department 3.jpg" alt="Department 3" className='w-[170px] h-[180px] md:w-[200px] md:h-[350px] rounded-lg' />
+            <img src="/images/department 2.png" alt="Department 2"         style={{ objectFit: 'cover' }} className='w-[170px] h-[100px] md:w-[200px] md:h-[200px] mb-5 rounded-lg' />
+            <img src="/images/department 3.jpg" alt="Department 3"         style={{ objectFit: 'cover' }} className='w-[170px] h-[180px] md:w-[200px] md:h-[350px] rounded-lg' />
         </div>
     </div>
 </div>
@@ -524,11 +537,11 @@ export default function Welcome({ auth }) {
 <div className='flex flex-col md:flex-row md:items-center justify-between mb-20 md:mt-20 md:mb-20'>
     <div className='flex items-center md:flex-row md:w-[1200px] mr-8'>
         <div className='flex items-center justify-center rounded-lg mb-5 mr-3 ml-3 mt-5 md:mr-5 md:mb-0'>
-            <img src="/images/research center 1.jpg" alt="Research Center 1" className='w-[100px] h-[70px] md:w-[200px] md:h-[200px] rounded-lg' />
+            <img src="/images/research center 1.jpg" alt="Research Center 1"         style={{ objectFit: 'cover' }} className='w-[100px] h-[70px] md:w-[200px] md:h-[200px] rounded-lg' />
         </div>
         <div className='flex flex-col'>
-            <img src="/images/research center 2.jpg" alt="Research Center 2" className='w-[130px] h-[100px] md:w-[200px] md:h-[200px] mb-5 rounded-lg' />
-            <img src="/images/research center 3.jpg" alt="Research Center 3" className='w-[130px] h-[180px] md:w-[200px] md:h-[350px] rounded-lg' />
+            <img src="/images/research center 2.jpg" alt="Research Center 2"         style={{ objectFit: 'cover' }}  className='w-[130px] h-[100px] md:w-[200px] md:h-[200px] mb-5 rounded-lg' />
+            <img src="/images/research center 3.jpg" alt="Research Center 3"         style={{ objectFit: 'cover' }} className='w-[130px] h-[180px] md:w-[200px] md:h-[350px] rounded-lg' />
         </div>
     </div>
     <div className='flex flex-col items-center  md:items-start md:w-[1600px] mt-10 md:mt-0'>
@@ -559,11 +572,11 @@ export default function Welcome({ auth }) {
     </div>
     <div className='flex items-center order-1 sm:order-2 md:flex-row ml-3 mr-8 md:w-[600px]'>
         <div className='flex items-center justify-center rounded-lg mb-5 mr-3 md:mb-0 md:mr-5 '>
-            <img src="/images/campus facility 4.jpg" alt="Campus Facility 4" className='w-[100px] h-[70px] md:w-[200px] md:h-[200px] rounded-lg' />
+            <img src="/images/campus facility 4.jpg" alt="Campus Facility 4"         style={{ objectFit: 'cover' }} className='w-[100px] h-[70px] md:w-[200px] md:h-[200px] rounded-lg' />
         </div>
         <div className='flex flex-col'>
-            <img src="/images/campus facility 2.jpg" alt="Campus Facility 2" className='w-[130px] h-[100px] md:w-[200px] md:h-[200px] mb-5 rounded-lg' />
-            <img src="/images/campus facility 5.jpg" alt="Campus Facility 5" className='w-[130px] h-[180px] md:w-[200px] md:h-[350px] rounded-lg' />
+            <img src="/images/campus facility 2.jpg" alt="Campus Facility 2"         style={{ objectFit: 'cover' }} className='w-[130px] h-[100px] md:w-[200px] md:h-[200px] mb-5 rounded-lg' />
+            <img src="/images/campus facility 5.jpg" alt="Campus Facility 5"         style={{ objectFit: 'cover' }} className='w-[130px] h-[180px] md:w-[200px] md:h-[350px] rounded-lg' />
         </div>
     </div>
 </div>
@@ -657,6 +670,7 @@ export default function Welcome({ auth }) {
             <img 
                 src="/images/graduation 2.jpg" 
                 alt="Graduation" 
+                style={{ objectFit: 'cover' }}
                 className='md:w-[500px] md:h-[400px] w-full h-auto rounded-lg'
             />
         </div>

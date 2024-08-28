@@ -41,7 +41,7 @@ const Children = ({ student_names }) => {
         user={usePage().props.auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Courses</h2>}
       >
-        <div className="max-w-2xl mx-auto p-5 bg-white shadow-md rounded-lg mt-8">
+        <div className="ml-9 mr-9 mx-auto p-5 bg-white shadow-2xl rounded-lg mt-8">
             <h1 className="text-4xl text-center text-gray-500 font-bold mb-4">My Children</h1>
             {student_names.length > 0 ? (
                 <ul>
@@ -49,7 +49,7 @@ const Children = ({ student_names }) => {
                         <li
                             key={index}
                             onClick={() => handleNameClick(name)}
-                            className="cursor-pointer text-center text-blue-500 text-2xl p-4 m-2 border rounded-lg bg-white shadow-md hover:bg-blue-100 transition-colors"
+                            className="cursor-pointer text-center text-sky-500 text-2xl p-4 m-2 border rounded-lg bg-white shadow-md hover:bg-sky-500 hover:text-white transition-colors"
                         >
                             {name}
                         </li>

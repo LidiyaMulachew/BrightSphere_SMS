@@ -25,32 +25,41 @@ const EnterResults = ({ assessment, students, course }) => {
             user={props.auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Enter Results for {assessment.assessment_type}</h2>}
         >
-            <div className="max-w-6xl mx-auto p-5 bg-white shadow-md rounded-lg mt-8">
+            <div className="max-w-6xl mx-auto p-5 bg-white shadow-2xl rounded-lg mt-8">
                 <div className="container mx-auto p-6">
-                    <h1 className="text-2xl font-bold mb-4">Enter Results for {assessment.assessment_type}</h1>
+                    <h1 className="text-2xl font-bold text-gray-500 text-center mb-4">Enter Results For
+                        <span className='text-sky-500'> {assessment.assessment_type}</span></h1>
                     <form onSubmit={handleSubmit}>
                         <div className="space-y-4">
                             {students.map(student => (
-                                <div key={student.id} className="flex items-center justify-between">
-                                    <label className="text-lg font-medium">
-                                        {student.name}
+                                <div key={student.id} className=" items-center ">
+                                    <label className="text-lg text-gray-600 mr-10 font-medium">
+                                        {student.name} 
+                                        
                                     </label>
+                                    
                                     <input
                                         type="number"
                                         name={`student_results[${student.id}]`}
-                                        className="border border-gray-300 rounded-md p-2"
+                                        // className="border border-gray-300 rounded-md p-2"
+                        className="mt-1 rounded block w-full"
+
                                         placeholder="Enter result"
                                     />
                                 </div>
                             ))}
                         </div>
-                        <button type="submit" className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+                        <div className='flex mt-5'>
+                        <button type="submit" className="mt-4 bg-sky-100 mr-20 hover:bg-sky-500 hover:text-white px-4 py-2 rounded">
                             Save Results
                         </button>
+                        <Link href={`/courses/${course.id}/assessment-weights`} className="bg-sky-100 hover:bg-sky-500 hover:text-white mt-4 px-4 py-2 rounded block">
+                            Back 
+                        </Link>
+                        </div>
+
                     </form>
-                    <Link href={`/courses/${course.id}/assessment-weights`} className="text-blue-500 hover:underline mt-4 block">
-                        Back 
-                    </Link>
+
                 </div>
             </div>
         </TeacherLayout>

@@ -25,13 +25,14 @@ const CourseList = ({ courses }) => {
             } catch (error) {
                 console.error('Error deleting course:', error);
             }
-            window.location.href = `/courses`;
+            // window.location.href = `/courses`;
+            window.location.reload();
 
         }
     };
 
         const handleTeacherCreateClick = (courseId) => {
-            window.location.href = `courses/${courseId}/assign-teachers`;
+            window.location.href = `courses/${courseId}/teachers`;
         };
         const handleButtonClick = (courseId) => {
             window.location.href = `/courses/${courseId}/teachers`;
@@ -44,12 +45,13 @@ const CourseList = ({ courses }) => {
         >
             <Head title="Courses List" />
             <div className="container mx-auto p-4">
-                <div className="text-center mb-7 mt-1">
-                    <h1 className="text-2xl font-bold mb-4 text-blue-500">Courses List</h1>
+                
+                <div className="mt-10  bg-white shadow-2xl pb-3 ml-5 mr-5 ">
+                <div className="text-center mb-7 pt-10">
+                    <h1 className="text-3xl font-bold mb-4 text-sky-600">Courses List</h1>
                 </div>
-                <Link href="/courses/create" className="bg-blue-200 px-4 py-2 rounded">Create New Course</Link>
-                <div className="mt-4">
-                    <table className="table table-bordered table-striped w-full" style={{ backgroundColor: '#ffffff', border: '2px solid #dddddd' }}>
+                <Link href="/courses/create" className="bg-sky-200 ml-5 shadow-2xl px-4 py-2 hover:bg-sky-600 hover:text-white rounded">Create New Course</Link>
+                    <table className="table mt-8 mb-10 table-bordered table-striped w-full" style={{ backgroundColor: '#ffffff', border: '2px solid #dddddd' }}>
                         <thead className="thead-light">
                             <tr>
                                 <th className="py-2 px-4 border">Course ID</th>
@@ -63,27 +65,27 @@ const CourseList = ({ courses }) => {
                                     <td className="py-2 px-4 border">{course.course_id}</td>
                                     <td className="py-2 px-4 border">{course.course_name}</td>
                                     <td className="px-3 py-4 border">
-                                        <div className="flex justify-around">
+                                        <div className="flex justify-around ">
                                             <button
-                                                className="btn btn-warning btn-sm mr-2"
+                                                className=" mr-2 bg-white shadow-md px-3 py-2  hover:bg-sky-500 rounded hover:text-white hover:shadow-2xl"
                                                 onClick={() => handleTeacherCreateClick(course.id)}
                                                 >
                                                 Teachers
                                             </button>
-                                            <button
-                                                className="btn btn-warning btn-sm mr-2"
+                                            {/* <button
+                                                className=" mr-2 bg-white shadow-xl px-3  hover:bg-sky-500 rounded hover:text-white hover:shadow-2xl"
                                                 onClick={() => handleButtonClick(course.id)}
                                             >
                                                 Details
-                                            </button>
+                                            </button> */}
                                             <button
-                                                className="btn btn-warning btn-sm mr-2"
+                                                className=" mr-2 bg-white shadow-md px-3  hover:bg-sky-500 rounded hover:text-white hover:shadow-2xl"
                                                 onClick={() => handleEditClick(course.id)}
                                             >
                                                 Edit
                                             </button>
                                             <button
-                                                className="btn btn-danger btn-sm"
+                                                className=" mr-2 bg-white text-red-500 shadow-md px-3  hover:bg-red-400 rounded hover:text-white hover:shadow-2xl"
                                                 onClick={() => handleDelete(course.id)}
                                             >
                                                 Delete

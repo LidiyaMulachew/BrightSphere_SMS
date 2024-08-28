@@ -67,9 +67,9 @@ const MaterialUpload = () => {
             user={props.auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Teacher Dashboard</h2>}
         >
-            <div style={{ backgroundColor: '#f3f7f0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div style={{ width: '700px', height: '650px', display: 'flex', flexDirection: 'column' }}>
-                    <div className="text-center mb-10 mt-7">
+            <div  className=' ml-10 mr-10 bg-white shadow-2xl p-5 mt-10'>
+                <div className=''>
+                    <div className="text-center mb-10 ">
                         <h1 className="font-bold text-3xl text-blue-500">Upload Material</h1>
                     </div>
                     
@@ -77,11 +77,11 @@ const MaterialUpload = () => {
                         onSubmit={handleSubmit}
                         style={{
                             backgroundColor: '#ffffff',
-                            maxWidth: '700px',
-                            padding: '20px',
+                            // maxWidth: '700px',
+                            // padding: '20px',
                             borderRadius: '8px',
-                            border: '1px solid #ccc',
-                            boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.4)',
+                            // border: '1px solid #ccc',
+                            // boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.4)',
                         }}
                     >
                         {/* Course Selection */}
@@ -153,16 +153,17 @@ const MaterialUpload = () => {
                         <button
                             type="submit"
                             disabled={processing}
-                            style={{
-                                fontWeight: 'bold',
-                                display: 'block',
-                                margin: '0 auto',
-                                padding: '8px 16px',
-                                borderRadius: '4px',
-                                border: '1px solid #ccc',
-                                color: '#4a90e2',
-                                backgroundColor: '#f2f2f2',
-                            }}
+                            // style={{
+                            //     fontWeight: 'bold',
+                            //     display: 'block',
+                            //     margin: '0 auto',
+                            //     padding: '8px 16px',
+                            //     borderRadius: '4px',
+                            //     border: '1px solid #ccc',
+                            //     color: '#4a90e2',
+                            //     backgroundColor: '#f2f2f2',
+                            // }}
+                            className='shadow-lg bg-sky-200 text-center px-3 py-2 rounded hover:bg-sky-500 hover:text-white'
                         >
                             {processing ? 'Uploading...' : 'Upload'}
                         </button>

@@ -53,10 +53,12 @@ export default function Register() {
         user={props.auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Super Admin Dashboard</h2>}
     >
-        <GuestLayout>
+        
             <Head title="Register" />
-
-            <form onSubmit={submit}>
+        <div className='bg-white shadow-2xl mr-8 mt-10 ml-10'>
+            <h1 className='text-3xl pt-5 text-sky-600 text-center'>Create Student Account</h1>
+        
+            <form onSubmit={submit} className='mt-5 ml-10 mr-10 pb-20'>
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 
@@ -155,7 +157,7 @@ export default function Register() {
 
 
 
-                <div className="flex items-center justify-end mt-4">
+                <div className="flex items-center justify-end mt-10">
                     <Link
                         href={route('login')}
                         className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -168,7 +170,7 @@ export default function Register() {
                     </PrimaryButton>
                 </div>
             </form>
-        </GuestLayout>
+            </div>
         </AuthenticatedLayout>
     );
 }

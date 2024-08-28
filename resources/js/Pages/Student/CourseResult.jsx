@@ -14,8 +14,8 @@ const CourseResult = () => {
             user={props.auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Course Results</h2>}
         >
-            <div className="max-w-2xl mx-auto p-5 bg-white shadow-md rounded-lg mt-8">
-                <h1 className="text-2xl mb-4">{course?.course_name || 'Course Name'}</h1>
+            <div className="ml-9 mr-9 mx-auto p-5 bg-white shadow-2xl rounded-lg mt-8">
+                <h1 className="text-2xl text-gray-700 mb-4">{course?.course_name || 'Course Name'}</h1>
                 
                 {course?.assessment_records && course.assessment_records.length > 0 ? (
                     <table className="min-w-full divide-y divide-gray-200">

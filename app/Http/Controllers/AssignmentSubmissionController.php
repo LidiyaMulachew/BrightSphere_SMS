@@ -18,7 +18,7 @@ class AssignmentSubmissionController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request )
     {
         $request->validate([
             'material_id' => 'required|exists:materials,id',
@@ -32,7 +32,7 @@ class AssignmentSubmissionController extends Controller
             'student_id' => auth()->id(),
             'file_path' => $filePath
         ]);
-        // return redirect()->route('courses.material');
+        // return redirect()->route('submissions.index');
 
         return redirect()->back()->with('success', 'Assignment submitted successfully!');
     }

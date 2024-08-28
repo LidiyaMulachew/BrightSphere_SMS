@@ -50,14 +50,34 @@ const List = ({ teachersList, teacherData }) => {
         setEditUserId(null);
     };
 
+    // const handleDelete = async (userId) => {
+    //     try {
+    //         await axios.delete(`/users/${userId}`);
+    //         setUsersList(usersList.filter(user => user.id !== userId));
+    //     } catch (error) {
+    //         console.error('Error deleting user:', error);
+    //     }
+    // };
     const handleDelete = async (userId) => {
-        try {
-            await axios.delete(`/users/${userId}`);
-            setUsersList(usersList.filter(user => user.id !== userId));
-        } catch (error) {
-            console.error('Error deleting user:', error);
+        if (confirm('Are you sure you want to delete this user?')) {
+            try {
+                const response = await axios.delete(`/users/${userId}`);
+                
+                if (response.status === 200) {
+                    // Update the local state to remove the deleted user
+                    setUsersList(usersList.filter(user => user.id !== userId));
+                } else {
+                    throw new Error('Failed to delete user');
+                }
+    
+            } catch (error) {
+                // Log the error details
+                console.error('Error deleting user:', error.response ? error.response.data : error.message);
+                alert('An error occurred while trying to delete the user. Please try again.');
+            }
         }
     };
+    
 
     const getRoleText = (role) => {
         switch (role) {
@@ -83,13 +103,16 @@ const List = ({ teachersList, teacherData }) => {
         <div className="bg-gray-100 flex items-center justify-center">
             <div className="w-full max-w-screen-xl pt-5">
                 <div className="container mx-auto p-4">
-                    <div className="text-center mb-7 mt-1">
-                        <h2 className="text-2xl font-bold text-gray-600">User Account List</h2>
-                    </div>
-                <Link href="/registration" className="bg-blue-200 px-4 py-2 rounded">Create Account</Link>
 
-                    <div className="mt-4">
-                        <table className="table table-bordered table-striped w-full" style={{ backgroundColor: '#ffffff', border: '2px solid #dddddd' }}>
+
+                    <div className="mt-4 pb-10 ml-5 mr-4 bg-white shadow-2xl pt-10 ">
+                    <div className="text-center mb-7 mt-1">
+                        <h2 className="text-2xl font-bold text-sky-600">User Account List</h2>
+                    </div>
+                        <Link href="/registration" className="bg-sky-200 shadow-2xl ml-3 px-4 py-2 rounded hover:bg-sky-600 hover:text-white  ">Create Account</Link>
+
+                        <table className="table mt-8   table-bordered table-striped w-full" style={{ backgroundColor: '#ffffff', border: '2px solid #dddddd' }}>
+                            
                             <thead className="thead-light">
                                 <tr>
                                     <th className="px-6 py-3 border">ID</th>
@@ -112,13 +135,13 @@ const List = ({ teachersList, teacherData }) => {
                                         <td className="px-3 py-4 border">
                                             <div className="flex justify-around">
                                                 <button
-                                                    className="btn btn-warning btn-sm mr-2"
+                                                    className="px-3 py-2 shadow-lg hover:bg-sky-400 hover:text-white rounded mr-2"
                                                     onClick={() => handleEditClick(user.id)}
                                                 >
                                                     Edit
                                                 </button>
                                                 <button
-                                                    className="btn btn-danger btn-sm"
+                                                    className="px-3 py-2 text-red-500 shadow-lg hover:bg-red-400 hover:text-white rounded"
                                                     onClick={() => handleDelete(user.id)}
                                                 >
                                                     Delete

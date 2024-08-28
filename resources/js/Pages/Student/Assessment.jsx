@@ -23,7 +23,7 @@ const Assessment = () => {
             user={props.auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Student Results</h2>}
         >
-            <div className="max-w-2xl mx-auto p-5 bg-white shadow-md rounded-lg mt-8">
+            <div className="ml-9 mr-9 mx-auto p-5 bg-white shadow-2xl rounded-lg mt-8">
                 <div className="text-center mb-10 mt-3 text-blue-500">
                     <h1 className="text-2xl font-bold mb-4">Select a Course</h1>
                 </div>
@@ -32,7 +32,9 @@ const Assessment = () => {
                     <select
                         name="courses"
                         id="courseSelect"
-                        className="border border-gray-300 rounded-lg p-2  px-9"
+                        // className="border border-gray-300 rounded-lg p-2  px-9"
+                            className="mt-1 rounded-lg block w-full"
+
                         value={selectedCourseId}
                         onChange={handleCourseChange}
                     >
@@ -52,7 +54,7 @@ const Assessment = () => {
                 <div className="text-center mb-10">
                     <button
                         onClick={handleViewClick}
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                        className="bg-sky-200 shadow-lg hover:bg-sky-500 hover:text-white px-4 py-2 rounded"
                         disabled={!selectedCourseId}
                     >
                         View

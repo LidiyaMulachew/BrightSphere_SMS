@@ -66,10 +66,13 @@ const CreateParentAccount = ({ studentId }) => {
             user={props.auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Create Parent Account</h2>}
         >
-            <div className="container mx-auto">
-            <div className="mt-9 text-center">          
+            <div className="container  ">
+                <div className=' bg-white shadow-2xl ml-9 pl-5 pr-5 mr-9'>
 
-                <h1 className="text-2xl font-bold mb-2 text-blue-500">Add Parent</h1>
+                
+            <div className="mt-9 pt-5 text-center">          
+
+                <h1 className="text-2xl font-bold mb-2 text-blue-500">Parent</h1>
             </div>
               
                 {/* {student && (
@@ -79,7 +82,7 @@ const CreateParentAccount = ({ studentId }) => {
                     </div>
                 )}  */}
                    
-                <GuestLayout>
+               
                     <form onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="name">Parent Name:</label>
@@ -130,10 +133,10 @@ const CreateParentAccount = ({ studentId }) => {
                         </div>
 
                         <div className="flex items-center justify-center mt-4">
-                            <button type="submit" className="btn btn-primary btn-sm mr-2">Register</button>
+                            <button type="submit" className="mb-10 px-3 py-2 bg-sky-200 rounded shadow-lg hover:bg-sky-500 hover:text-white mr-2">Register</button>
                         </div>
                     </form>
-                </GuestLayout>
+                    </div>
             </div>
         </TeacherLayout>
     );

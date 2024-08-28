@@ -172,7 +172,7 @@ class AssessmentWeightController extends Controller
 
         $assessmentWeight->update($request->only(['assessment_type', 'weight']));
 
-        return redirect()->route('assessmentWeights.create', $assessmentWeight->course_id)
+        return redirect()->route('assessmentWeights.index', $assessmentWeight->course_id)
             ->with('success', 'Assessment weight updated successfully!');
     }
 

@@ -78,6 +78,9 @@ const Grade = ({ courseId, students }) => {
             grades: updatedGrades
         });
         alert('Grades saved successfully');
+        window.location.href = `/assigned-courses`;
+        
+
     } catch (error) {
         console.error('Error saving grades:', error);
         alert('Error saving grades. Please try again.');
@@ -88,9 +91,9 @@ const Grade = ({ courseId, students }) => {
     return (
         <TeacherLayout
             user={props.auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Grade Assessments</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Grade</h2>}
         >
-            <div className="max-w-6xl mx-auto p-5 bg-white shadow-md rounded-lg mt-8">
+            <div className="max-w-6xl mx-auto p-5 bg-white shadow-2xl rounded-lg mt-8">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         {/* <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
@@ -99,7 +102,7 @@ const Grade = ({ courseId, students }) => {
                         <button
                         type="submit"
                         disabled={processing}
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                        className="bg-sky-200 hover:text-white hover:bg-sky-500 shadow-md px-4 py-2 rounded"
                     >
                         {processing ? 'Submitting...' : 'Submit Grade'}
                     </button>

@@ -35,59 +35,118 @@ class EnrollToCoursesController extends Controller
     //     return response()->json($teachers);
     // }
 
+    // public function getTeachersByCourse($courseId)
+    // {
+    //     // Fetch teachers with their assigned courses
+    //     $teachers = User::where('role', User::TEACHER)
+    //                      ->with(['courses' => function($query) use ($courseId) {
+    //                          $query->where('courses.id', $courseId);
+    //                      }])
+    //                      ->get()
+    //                      ->map(function ($teacher) use ($courseId) {
+    //                          // Find the course name from the teacher's courses
+    //                          $course = $teacher->courses->firstWhere('id', $courseId);
+    
+    //                          return [
+    //                              'id' => $teacher->id,
+    //                              'name' => $teacher->name,
+    //                              'course_name' => $course ? $course->course_name : 'N/A',
+    //                              'course_id' => $courseId,
+    //                          ];
+    //                      });
+    
+    //     return response()->json($teachers);
+    // }
     public function getTeachersByCourse($courseId)
-    {
-        // Fetch teachers with their assigned courses
-        $teachers = User::where('role', User::TEACHER)
-                         ->with(['courses' => function($query) use ($courseId) {
-                             $query->where('courses.id', $courseId);
-                         }])
-                         ->get()
-                         ->map(function ($teacher) use ($courseId) {
-                             // Find the course name from the teacher's courses
-                             $course = $teacher->courses->firstWhere('id', $courseId);
-    
-                             return [
-                                 'id' => $teacher->id,
-                                 'name' => $teacher->name,
-                                 'course_name' => $course ? $course->course_name : 'N/A',
-                                 'course_id' => $courseId,
-                             ];
-                         });
-    
-        return response()->json($teachers);
-    }
-    
+{
+    // Fetch teachers directly assigned to the specified course
+    $teachers = User::where('role', User::TEACHER)
+        ->whereHas('courses', function($query) use ($courseId) {
+            $query->where('courses.id', $courseId);
+        })
+        ->with(['courses' => function($query) use ($courseId) {
+            $query->where('courses.id', $courseId);
+        }])
+        ->get()
+        ->map(function ($teacher) use ($courseId) {
+            // Find the course name from the teacher's courses
+            $course = $teacher->courses->firstWhere('id', $courseId);
+
+            return [
+                'id' => $teacher->id,
+                'name' => $teacher->name,
+                'course_name' => $course ? $course->course_name : 'N/A',
+                'course_id' => $courseId,
+            ];
+        });
+
+    return response()->json($teachers);
+}
+
 
     
+    // public function enroll(Request $request)
+    // {
+    //     // dd($request->all());
+    //     $request->validate([
+    //         'course_id' => 'required|exists:courses,id',
+    //         'teacher_id' => 'required|exists:users,id',
+    //     ]);
+
+    //     $userId = Auth::id(); // Get the authenticated user's ID
+
+    //     // Find the course_teacher_id based on course_id and teacher_id
+    //     $courseTeacher = CourseTeacher::where('course_id', $request->input('course_id'))
+    //         ->where('teacher_id', $request->input('teacher_id'))
+    //         ->first();
+
+    //     if (!$courseTeacher) {
+    //         return response()->json(['message' => 'Invalid course or teacher selection.'], 400);
+    //     }
+
+    //     // Create a new enrollment record
+    //     CourseStudent::create([
+    //         'student_id' => $userId,
+    //         'course_teacher_id' => $courseTeacher->id,
+    //     ]);
+
+    //     return response()->json(['message' => 'Enrollment successful!']);
+    // }
     public function enroll(Request $request)
     {
-        // dd($request->all());
+        // Validate the request to ensure course_id is provided and exists
         $request->validate([
             'course_id' => 'required|exists:courses,id',
-            'teacher_id' => 'required|exists:users,id',
         ]);
-
+    
         $userId = Auth::id(); // Get the authenticated user's ID
-
-        // Find the course_teacher_id based on course_id and teacher_id
+    
+        // Find the course_teacher_id based on course_id
         $courseTeacher = CourseTeacher::where('course_id', $request->input('course_id'))
-            ->where('teacher_id', $request->input('teacher_id'))
             ->first();
-
+    
         if (!$courseTeacher) {
-            return response()->json(['message' => 'Invalid course or teacher selection.'], 400);
+            return response()->json(['message' => 'Invalid course selection.'], 400);
         }
-
+    
+        // Check if the student is already enrolled in the same course
+        $existingEnrollment = CourseStudent::where('student_id', $userId)
+            ->where('course_teacher_id', $courseTeacher->id)
+            ->exists();
+    
+        if ($existingEnrollment) {
+            return response()->json(['message' => 'You are already enrolled in this course.'], 400);
+        }
+    
         // Create a new enrollment record
         CourseStudent::create([
             'student_id' => $userId,
             'course_teacher_id' => $courseTeacher->id,
         ]);
-
+    
         return response()->json(['message' => 'Enrollment successful!']);
     }
-
+    
 
         public function getCoursesByStudentId()
     {
@@ -95,13 +154,16 @@ class EnrollToCoursesController extends Controller
     
         // Fetch courses that the user is enrolled in
         $courses = $user->enrolledCourses; // Ensure this is a defined relationship method in your User model
-
+        // $courses = $user->students->get(); // Use the relationship method to get enrolled courses
         // dd($courses); 
 
         return Inertia::render('Student/Courses', [
             'courses' => $courses,
         ]);
     }
+  
+    
+
 
        
         public function material(Course $course)

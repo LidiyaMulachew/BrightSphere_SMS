@@ -1,6 +1,6 @@
 import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { usePage, useForm } from '@inertiajs/react';
+import { usePage, useForm , Link} from '@inertiajs/react';
 import { Head } from '@inertiajs/react';
 
 const AssignedTeachersList = ({ course, teachers }) => {
@@ -18,12 +18,16 @@ const AssignedTeachersList = ({ course, teachers }) => {
                     }
                 })
                 .then(() => {
-                    alert('Teacher unassigned successfully.');
+                    // alert('Teacher unassigned successfully.');
+                    window.location.reload();
                 })
                 .catch(() => {
                     alert('An error occurred. Please try again.');
                 });
             }
+        };
+        const handleButtonClick = (courseId) => {
+            window.location.href = `/courses/${courseId}/assign-teachers`;
         };
 
     // console.log('AssignedTeachersList:' ,AssignedTeachersList);
@@ -35,13 +39,19 @@ const AssignedTeachersList = ({ course, teachers }) => {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Assign Teacher</h2>}
         >
             <Head title={`Teachers for ${course.course_name}`} />
-            <div className="max-w-2xl mx-auto p-5 bg-white shadow-md rounded-lg mt-8">
+            <div className="ml-10 mr-8 p-5 bg-white shadow-2xl rounded-lg mt-8">
                 <div className="container mx-auto p-6">
-                    <h1 className="text-2xl font-bold mb-4">
-                        Teachers for Course: 
-                        <span className="text-blue-500">{course.course_name}</span>
+                    <h1 className="text-2xl text-center font-bold mb-4">
+                        <span className='text-gray-600'>Assigned Teachers For:  </span>
+                        <span className="text-sky-500">{course.course_name}</span>
                     </h1>
-                    
+                {/* <Link href="/courses/{course}/assign-teachers" className="bg-sky-200 ml-5 shadow-2xl px-4 py-2 hover:bg-sky-600 hover:text-white rounded">Add Teachers</Link> */}
+                    <button
+                        className=" mr-2 bg-sky-200 mb-5 p-2 shadow-xl px-3  hover:bg-sky-500 rounded hover:text-white hover:shadow-2xl"
+                        onClick={() => handleButtonClick(course.id)}
+                    >
+                        Add Teachers
+                    </button>
                     {teachers.length === 0 ? (
                         <p>No teachers assigned to this course.</p>
                     ) : (
@@ -76,7 +86,7 @@ const AssignedTeachersList = ({ course, teachers }) => {
                         </table>
                     )}
                     <div className="text-center mt-9">
-                        <a href={route('courses.index')} className="mt-5 py-2 px-3 rounded-md shadow-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-center">Back to Courses</a>
+                        <a href={route('courses.index')} className="mt-5 py-2 px-3 rounded-md shadow-2xl bg-sky-100 hover:bg-sky-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-center">Back to Courses</a>
                     </div>
                 </div>
             </div>

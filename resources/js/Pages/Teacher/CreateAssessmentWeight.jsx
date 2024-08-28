@@ -16,15 +16,27 @@ const CreateAssessmentWeights = ({ course, course_id }) => {
         setData(name, value);
     };
 
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     post(route('assessmentWeights.store'));
+    // };
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('assessmentWeights.store'));
+        // Ensure the post method is correctly used and the route is correct
+        post(route('assessmentWeights.store'), {
+            onSuccess: () => {
+                window.location.href = `/courses/${course.id}/assessment-weights`;},
+            onError: () => {
+                console.error('Form submission error:', errors); }
+        });
     };
+    
 
     return (
         <TeacherLayout>
-            <div className="max-w-2xl mx-auto p-5 bg-white shadow-md rounded-lg mt-8">
-                <h1 className="text-2xl font-bold mb-4">Create Assessment Weight for {course.name}</h1>
+            <div className="ml-9 mr-8  p-5 bg-white shadow-2xl rounded-lg mt-8">
+                <h1 className="text-2xl text-gray-600 text-center font-bold mb-4">Create Assessment Weight For 
+                    <span className='text-sky-500'>  {course.course_name}</span> </h1>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label htmlFor="assessment_type" className="block text-gray-700">Assessment Type</label>
@@ -55,7 +67,7 @@ const CreateAssessmentWeights = ({ course, course_id }) => {
                     <button
                         type="submit"
                         disabled={processing}
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                        className="bg-sky-200 shadow-lg hover:text-white hover:bg-sky-500 px-4 py-2 rounded"
                     >
                         Save Weight
                     </button>

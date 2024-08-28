@@ -52,22 +52,8 @@ const EditMaterial = ({ material }) => {
         user={props.auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Teacher Dashboard</h2>}
     >
-        <div
-            style={{
-                backgroundColor: "#f3f7f0",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-            }}
-        >
-            <div
-                style={{
-                    width: "700px",
-                    height: "650px",
-                    display: "flex",
-                    flexDirection: "column",
-                }}
-            >
+        <div className="bg-white pt-5 mt-10 ml-9 mr-9 shadow-2xl rounded">
+            <div className="pl-5 pr-5 pb-10">
                 <div className="text-center mb-10 mt-7">
                     <h1 className="font-bold text-3xl text-blue-500">
                         Edit Material
@@ -77,11 +63,11 @@ const EditMaterial = ({ material }) => {
                     onSubmit={handleSubmit}
                     style={{
                         backgroundColor: "#ffffff",
-                        maxWidth: "700px",
-                        padding: "20px",
-                        borderRadius: "8px",
-                        border: "1px solid #ccc",
-                        boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.4)",
+                        // maxWidth: "700px",
+                        // padding: "20px",
+                        // borderRadius: "8px",
+                        // border: "1px solid #ccc",
+                        // boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.4)",
                     }}
                 >
                     <div style={{ marginBottom: "16px", width: "100%" }}>
@@ -158,16 +144,7 @@ const EditMaterial = ({ material }) => {
                     </div>
                     <button
                         type="submit"
-                        style={{
-                            fontWeight: "bold",
-                            display: "block",
-                            margin: "0 auto",
-                            padding: "8px 16px",
-                            borderRadius: "4px",
-                            border: "1px solid #ccc",
-                            color: "#4a90e2",
-                            backgroundColor: "#f2f2f2",
-                        }}
+                     className="bg-sky-200 shadow-lg px-3 py-2 hover:bg-sky-500 hover:text-white rounded"
                     >
                         Update Material
                     </button>

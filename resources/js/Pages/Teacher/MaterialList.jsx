@@ -41,12 +41,12 @@ const MaterialList = ({ materials }) => {
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Teacher Dashboard</h2>}
     >
         <div className="bg-gray-100 flex items-center justify-center">
-            <div className="w-full max-w-screen-xl pt-5">
+            <div className=" bg-white mt-10 ml-9 pb-8 shadow-2xl me-9 w-full max-w-screen-xl pt-5">
                 <div className="container mx-auto p-4">
                     <div className="text-center mb-7 mt-1">
                         <h1 className="font-bold text-2xl text-blue-400">Material List</h1>
                     </div>
-                <Link href="/materials/create" className="bg-blue-200 px-4 py-2 rounded">Upload</Link>
+                <Link href="/materials/create" className="bg-sky-200 shadow-lg hover:bg-sky-500 hover:text-white px-4 py-2 rounded">Upload</Link>
 
                     <div className="mt-4">
                         <table className="table table-bordered table-striped w-full" style={{ backgroundColor: '#ffffff', border: '2px solid #dddddd' }}>
@@ -70,15 +70,15 @@ const MaterialList = ({ materials }) => {
                                         </td>
                                         <td className="px-6 py-4 border">
                                             <div className="flex justify-around">
-                                                <Link href={`/assignments/${material.id}/submissions`} className="btn btn-sm btn-primary mr-2">
+                                                <Link href={`/assignments/${material.id}/submissions`} className="bg-white px-3 py-2 rounded shadow-lg hover:text-white hover:bg-sky-500 mr-2">
                                                     Detail
                                                 </Link>
-                                                <Link href={`materials/${material.id}/edit`} className="btn btn-sm btn-primary">
+                                                <Link href={`materials/${material.id}/edit`} className="bg-white px-3 py-2 rounded shadow-lg hover:text-white hover:bg-sky-500 ">
                                                     Edit
                                                 </Link>
                                                 <button
                                                     onClick={() => handleDelete(material.id)}
-                                                    className="btn btn-sm btn-danger ml-2"
+                                                    className="bg-white text-red-500 px-3 py-2 rounded shadow-lg hover:text-white hover:bg-red-400 ml-2"
                                                 >
                                                     Delete
                                                 </button>

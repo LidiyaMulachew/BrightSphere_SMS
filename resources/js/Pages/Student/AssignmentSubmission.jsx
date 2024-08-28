@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import StudentLayout from '@/Layouts/StudentLayout';
 
-const AssignmentSubmission = ({ material }) => {
+const AssignmentSubmission = ({  material }) => {
     const { data, setData, post, processing, errors } = useForm({
         material_id: material.id,
         file: null
     });
+    // const { courses } = usePage().props;
 
     const handleFileChange = (e) => {
         setData('file', e.target.files[0]);
@@ -22,6 +23,8 @@ const AssignmentSubmission = ({ material }) => {
             onSuccess: () => {
                 // setShowAlert(true); // Show the alert if the submission is successful
                 alert('Submit successfully!');
+            window.location.href = `/courses/${material.course_id}`;
+
 
             },
             onError: (errors) => {
@@ -37,7 +40,7 @@ const AssignmentSubmission = ({ material }) => {
         <StudentLayout
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Assignment Submission</h2>}
         >
-            <div className="max-w-2xl mx-auto p-5 bg-white shadow-md rounded-lg mt-8">
+            <div className="ml-9 mr-9 mx-auto p-5 bg-white shadow-2xl rounded-lg mt-8">
                 <h1 className="text-2xl font-bold mb-4">{material.title}</h1>
                 <p className="mb-4">{material.description}</p>
 
@@ -56,7 +59,7 @@ const AssignmentSubmission = ({ material }) => {
                     <button 
                         type="submit"
                         disabled={processing}
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                        className="bg-sky-200 hover:bg-sky-500 shadow-lg hover:text-white px-4 py-2 rounded"
                     >
                         Submit
                     </button>

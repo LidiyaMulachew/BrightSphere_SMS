@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Head } from '@inertiajs/react';
+import { Head, usePage  } from '@inertiajs/react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 const EditUser = ({ userId, onCancel, userData }) => {
+    const { props } = usePage();
+
     const [name, setName] = useState(userData.name);
     const [email, setEmail] = useState(userData.email);
     const [role, setRole] = useState(userData.role);
@@ -10,16 +13,23 @@ const EditUser = ({ userId, onCancel, userData }) => {
     const handleSave = async () => {
         try {
             await axios.put(`/users/${userId}`, { name, email, role });
+            window.location.href = '/users'; // Redirect to the /users page
             onCancel();
         } catch (error) {
             console.error('Error updating user:', error);
         }
     };
 
-    console.log('EditUser component rendered');
+    // console.log('EditUser component rendered');
 
     return (
-        <div className="container mx-auto p-4">
+        <AuthenticatedLayout
+        user={props.auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit User</h2>}
+    >
+        {/* <div className="  p-4"> */}
+        <div className="ml-10 mr-8 p-10 bg-white shadow-2xl rounded-lg mt-8">
+
             <Head title="Edit User" />
             <h3 className="text-xl font-bold mb-4">Edit User</h3>
             <div className="mb-4">
@@ -56,19 +66,25 @@ const EditUser = ({ userId, onCancel, userData }) => {
             </div>
             <div className="flex justify-end">
                 <button
-                    className="btn btn-secondary mr-2"
+                    // className="btn btn-secondary mr-5"
+                    className="py-2 px-4 rounded-md mr-5 shadow-xl bg-sky-100 hover:bg-sky-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-xl"
+
                     onClick={onCancel}
                 >
                     Cancel
                 </button>
                 <button
-                    className="btn btn-primary"
+                    // className="btn btn-primary"
+                    className="py-2 px-4 rounded-md shadow-xl bg-sky-100 hover:bg-sky-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-xl"
+
                     onClick={handleSave}
                 >
                     Save
                 </button>
             </div>
         </div>
+        </AuthenticatedLayout>
+
     );
 };
 

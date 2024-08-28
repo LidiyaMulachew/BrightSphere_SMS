@@ -104,6 +104,7 @@ class ParentAccountController extends Controller
         // Prepare the data for the view
         $studentData = [
             'student' => [
+                'id' => $student->id,  // Ensure ID is included
                 'name' => $student->name,
                 'email' => $student->email,
             ],
