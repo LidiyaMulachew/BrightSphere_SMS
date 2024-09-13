@@ -103,6 +103,20 @@ class GradeController extends Controller
     $gradeData = collect($request->grades);
 
     foreach ($gradeData as $data) {
+
+                    // Fetch the existing grade entry
+                    $existingGrade = Grade::where([
+                        'student_id' => $data['student_id'],
+                        'course_id' => $courseId,
+                        'assessment_record_id' => $assessmentRecordId
+                    ])->first();
+        
+                    if ($existingGrade && $existingGrade->locked) {
+                        // If the grade is already locked, do not update and return an error response
+                        return response()->json(['error' => 'Cannot update locked grades'], 403);
+                    }
+
+                    
         // Update or create the grade entry based on student_id, course_id, and assessment_record_id
         Grade::updateOrCreate(
             [

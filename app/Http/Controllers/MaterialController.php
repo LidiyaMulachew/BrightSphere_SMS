@@ -66,11 +66,16 @@ class MaterialController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             // 'file' => 'required|file|max:102400', // max 10GB
-            'file' => 'required|file|mimes:pdf,doc,docx,ppt,pptx,zip|max:102400', // Adjust file validation as needed
+            'file' => 'required|file|mimes:pdf,doc,docx,ppt,pptx,zip|max:102400', 
         ]);
 
+        // $file = $request->file('file');
+        // $path = $file->store('public/materials');
         $file = $request->file('file');
-        $path = $file->store('public/materials');
+        $path = $file->store('materials', 'public'); // Store in storage/app/public/materials
+    
+
+        // Storage::disk('public')->put($request->file('file'));
 
         // Retrieve authenticated user
         $user = Auth::user();
@@ -82,7 +87,7 @@ class MaterialController extends Controller
                 'course_id' => $request->input('course_id'),
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
-                'file_path' => $path,
+                'file_path' => "storage/".$path,
             ]);
 
             // Save the material using the user's materials relationship

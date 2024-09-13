@@ -25,12 +25,14 @@ class AssignmentSubmissionController extends Controller
             'file' => 'required|file|mimes:pdf,doc,docx'
         ]);
 
-        $filePath = $request->file('file')->store('public/materials');
+        // $filePath = $request->file('file')->store('public/materials');
+        $filePath = $request->file('file')->store('materials', 'public');
+
 
         AssignmentSubmission::create([
             'material_id' => $request->material_id,
             'student_id' => auth()->id(),
-            'file_path' => $filePath
+            'file_path' =>  "storage/".$filePath
         ]);
         // return redirect()->route('submissions.index');
 

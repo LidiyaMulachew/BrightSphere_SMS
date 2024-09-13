@@ -29,9 +29,15 @@ const AssessmentDetail = ({ assessmentWeights, students, course }) => {
         >
             <div className=" p-5 bg-white shadow-2xl ml-9 mr-9 rounded-lg mt-8">
                 <div className="container mx-auto p-6">
-                    <h1 className="text-2xl font-bold mb-4 text-gray-600">Assessment Types and Weights For
+                    <h1 className="text-2xl font-bold mb-7 text-gray-600">Assessment Types and Weights For
                         <span className='text-sky-500'> {course.course_name}</span></h1>
-                    <table className="min-w-full divide-y divide-gray-200">
+                        <Link
+                                            href={`/courses/${course.id}/assessment-weights/create`}
+                                            className=" px-3 py-2 bg-sky-100  shadow-md rounded hover:bg-sky-500 hover:text-white mr-7 "
+                                        >
+                                            Add Assessment
+                                        </Link>
+                    <table className="min-w-full divide-y mt-7 divide-gray-200">
                         <thead>
                             <tr>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">

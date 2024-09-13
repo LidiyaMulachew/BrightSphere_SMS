@@ -41,7 +41,7 @@ const AssignedCourse = ({ courses }) => {
                                             href={`/courses/${course.id}/assessment-weights`}
                                             className="bg-sky-100  px-4 py-2 rounded  hover:text-white hover:bg-sky-500  ml-2"
                                         >
-                                            Detail
+                                            Assessment Type
                                         </Link>
                                         {/* <Link
                                             href={`/courses/${course.id}/assessment-records`}
@@ -53,7 +53,7 @@ const AssignedCourse = ({ courses }) => {
                                             href={`/student-assessment-results/${course.id}`}
                                             className="bg-sky-100  px-4 py-2 rounded  hover:text-white hover:bg-sky-500  ml-2"
                                         >
-                                            Student Results
+                                            Students Result
                                         </Link>
                                         <Link
                                             href={`/courses/${course.id}/grades`}

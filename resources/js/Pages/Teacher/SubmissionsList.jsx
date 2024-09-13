@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePage } from '@inertiajs/react';
+import { usePage, Link } from '@inertiajs/react';
 import TeacherLayout from '@/Layouts/TeacherLayout';
 
 const SubmissionsList = () => {
@@ -17,16 +17,25 @@ const SubmissionsList = () => {
                             <li key={submission.id} className="mb-4 border p-4">
                                 {/* <h3 className="text-lg mb-3">Student: {submission.student.name}</h3> */}
                                 <h3 className="text-lg mb-3">
-                                    Student: <span className="text-blue-500 font-semibold">{submission.student.name}</span>
+                                    StudentName: <span className="text-blue-500 font-semibold">{submission.student.name}</span>
                                 </h3>
-                                <p className="text-m mb-3">File Path: {submission.file_path}</p>
-                                <a 
-                                    href={`/storage/${submission.file_path}`} 
-                                    className="text-blue-600 py-2 px-4 rounded-md shadow-md hover:bg-blue-100"
-                                    download
-                                >
-                                    Download Assignment
-                                </a>
+                                {/* <p className="text-m mb-3">File Path: {submission.file_path}</p> */}
+                                
+
+<a
+    href={`/${submission.file_path}`} 
+    target="_blank" 
+    rel="noopener noreferrer"
+    download
+    className="bg-sky-200 py-2 px-4 mb-2 rounded-md shadow-lg hover:bg-sky-500 hover:text-white inline-block text-center"
+>
+    Download
+</a>
+
+                                    {/* <a href={submission.file_path} target="_blank" rel="noopener noreferrer">
+                                                {submission.file_path.split('/').pop()}
+                                            </a> */}
+
                             </li>
                         ))}
                     </ul>

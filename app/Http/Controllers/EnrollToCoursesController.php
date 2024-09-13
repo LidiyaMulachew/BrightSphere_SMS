@@ -153,7 +153,8 @@ class EnrollToCoursesController extends Controller
         $user = Auth::user(); // Get the authenticated user
     
         // Fetch courses that the user is enrolled in
-        $courses = $user->enrolledCourses; // Ensure this is a defined relationship method in your User model
+        $courses = $user->enrolledCourses; 
+        // $courses = $user->enrolledCourses()->with('course')->get(); // Eager load course
         // $courses = $user->students->get(); // Use the relationship method to get enrolled courses
         // dd($courses); 
 
@@ -196,14 +197,32 @@ class EnrollToCoursesController extends Controller
     {
         $user = auth()->user(); 
     
+            // Fetch the course details
+    $course = Course::find($courseId);
+    
         // Fetch the assessment records for the student in the specified course
         $assessmentRecords = AssessmentRecord::where('course_id', $courseId)
             ->where('student_id', $user->id)
             ->with(['assessmentWeight', 'grades']) // Ensure both relationships are loaded
             ->get();
     
+        // if ($assessmentRecords->isEmpty()) {
+        //     // abort(404, 'No assessment records found for this course.');
+        //     return response()->json(['message' => 'No assessment records found for this course.'], 400);
+
+        // }
+
         if ($assessmentRecords->isEmpty()) {
-            abort(404, 'No assessment records found for this course.');
+            // Render the view with a message indicating no assessment records are found
+            return Inertia::render('Student/CourseResult', [
+                'course' => [
+                    'id' => $courseId,
+                    'course_name' => $course->course_name,
+                    'assessment_records' => [],
+                    'final_score' => 'N/A',
+                    'grade' => 'No assessment records found for this course.'
+                ],
+            ]);
         }
     
         // Compute the final score

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Course;
 use App\Models\CourseTeacher;
 use App\Models\User;
+use App\Models\Grade;
 use App\Models\AssessmentWeight;
 use App\Models\AssessmentRecord;
 use Illuminate\Support\Facades\Auth;
@@ -63,6 +64,16 @@ class AssessmentRecordController extends Controller
         ]);
         $teacherId = Auth::id(); 
 
+            // Check if the grade has been submitted and locked for this student in the course
+    $gradeLocked = Grade::where('course_id', $courseId)
+    ->where('student_id', $studentId)
+    ->where('locked', true)
+    ->exists();
+
+if ($gradeLocked) {
+return redirect()->route('students.list', $courseId)
+     ->with('error', 'Cannot edit assessment records because the grade has already been submitted and locked.');
+}
         
     // Calculate the final score as the sum of results for the student and course
     $existingRecords = AssessmentRecord::where('course_id', $courseId)

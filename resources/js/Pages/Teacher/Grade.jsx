@@ -83,7 +83,7 @@ const Grade = ({ courseId, students }) => {
 
     } catch (error) {
         console.error('Error saving grades:', error);
-        alert('Error saving grades. Please try again.');
+        alert('Cannot update locked grades');
     }
 };
 

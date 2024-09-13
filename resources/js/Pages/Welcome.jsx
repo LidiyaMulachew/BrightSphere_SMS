@@ -692,15 +692,24 @@ export default function Welcome({ auth }) {
             </div>
             {/* Links Section */}
             <div className='flex flex-col md:flex-row pb-10 md:w-1/2'>
-                <div className='mb-10 md:mb-0 md:mr-10'>
-                    <h3 className='text-2xl font-semibold mb-4'>Links</h3>
-                    <ul className='space-y-2'>
-                        <li className='text-xl'>Faculty Members</li>
-                        <li className='text-xl'>Departments</li>
-                        <li className='text-xl'>Research Center</li>
-                        <li className='text-xl'>Campus Facilities</li>
-                    </ul>
-                </div>
+            <div className='mb-10 md:mb-0 md:mr-10'>
+    <h3 className='text-2xl font-semibold mb-4'>Links</h3>
+    <ul className='space-y-2'>
+        <li className='text-xl'>
+            <a href='/#find-faculty-members' className='hover:text-gray-500'>Faculty Members</a>
+        </li>
+        <li className='text-xl'>
+            <a href='/#find-departments' className='hover:text-gray-500'>Departments</a>
+        </li>
+        <li className='text-xl'>
+            <a href='/#find-research-center' className='hover:text-gray-500'>Research Center</a>
+        </li>
+        <li className='text-xl'>
+            <a href='/#find-campus-facilities' className='hover:text-gray-500'>Campus Facilities</a>
+        </li>
+    </ul>
+</div>
+
                 <div>
                     <h3 className='text-2xl font-semibold mb-4'>Lists</h3>
                     <ul className='space-y-2'>

@@ -23,13 +23,27 @@ const MaterialList = () => {
                                 <h3 className="text-lg mb-3">{material.title}</h3>
                                 <p className="text-m mb-5">{material.description}</p>
                                 <div className="flex justify-between items-center">
-                                    <a 
-                                        href={`/storage/${material.file_path}`} 
+                                    {/* <Link 
+                                        // href={`/${material.file_path}`} 
+                                       
                                         download
                                         className="bg-sky-200  py-2 px-4 mb-9 rounded-md shadow-lg hover:bg-sky-500 hover:text-white"
                                     >
                                         Download
-                                    </a>
+                                    </Link> */}
+<a
+    href={`/${material.file_path}`} 
+    target="_blank" 
+    rel="noopener noreferrer"
+    download
+    className="bg-sky-200 py-2 px-4 mb-9 rounded-md shadow-lg hover:bg-sky-500 hover:text-white inline-block text-center"
+>
+    Download
+</a>
+
+
+                                  
+                                    
                                     <Link 
                                         href={`/assignments/${material.id}/submission`} 
                                         className="bg-sky-200 py-2 px-4 mb-9 rounded-md shadow-lg hover:bg-sky-500 hover:text-white"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\User;
+use App\Models\Grade;
 use App\Models\AssessmentWeight;
 use App\Models\AssessmentRecord;
 use Illuminate\Support\Facades\Auth;
@@ -73,7 +74,44 @@ class AssessmentWeightController extends Controller
             'course' => $course
         ]);
     }
-    public function storeResults(Request $request, $courseId, $assessmentId)
+//     public function storeResults(Request $request, $courseId, $assessmentId)
+// {
+//     // Validate the request
+//     $request->validate([
+//         'student_results' => 'required|array',
+//         'student_results.*' => 'numeric|min:0|max:100', // Adjust validation as needed
+//     ]);
+
+//     // Get the authenticated teacher
+//     $teacherId = auth()->user()->id; // Assuming you are using Laravel's built-in authentication
+
+//     $assessment = AssessmentWeight::find($assessmentId);
+//     $course = Course::find($courseId);
+
+//     if (!$assessment || !$course) {
+//         return response()->json(['error' => 'Course or assessment not found.'], 404);
+//     }
+
+//     foreach ($request->input('student_results') as $studentId => $score) {
+//         // Update or create the assessment record with course_id and teacher_id
+//         AssessmentRecord::updateOrCreate(
+//             [
+//                 'student_id' => $studentId,
+//                 'assessment_weight_id' => $assessmentId,
+//                 'course_id' => $courseId, // Include course_id in the data
+//                 'teacher_id' => $teacherId // Include teacher_id in the data
+//             ],
+//             [
+//                 'score' => $score // Use 'score' instead of 'result'
+//             ]
+//         );
+//     }
+
+//     return response()->json(['message' => 'Results saved successfully.']);
+// }
+ 
+
+public function storeResults(Request $request, $courseId, $assessmentId)
 {
     // Validate the request
     $request->validate([
@@ -84,6 +122,7 @@ class AssessmentWeightController extends Controller
     // Get the authenticated teacher
     $teacherId = auth()->user()->id; // Assuming you are using Laravel's built-in authentication
 
+    // Fetch the assessment and course
     $assessment = AssessmentWeight::find($assessmentId);
     $course = Course::find($courseId);
 
@@ -91,8 +130,21 @@ class AssessmentWeightController extends Controller
         return response()->json(['error' => 'Course or assessment not found.'], 404);
     }
 
+    // Check if grades are locked for the students in this course
+    $lockedGrades = Grade::where('course_id', $courseId)
+                         ->where('locked', true)
+                         ->pluck('student_id')
+                         ->toArray();
+
     foreach ($request->input('student_results') as $studentId => $score) {
-        // Update or create the assessment record with course_id and teacher_id
+        // Check if the student's grade is locked
+        if (in_array($studentId, $lockedGrades)) {
+            return response()->json([
+                'error' => "Cannot update results for student ID $studentId because their grade is locked."
+            ], 403);
+        }
+
+        // Update or create the assessment record
         AssessmentRecord::updateOrCreate(
             [
                 'student_id' => $studentId,
@@ -108,6 +160,8 @@ class AssessmentWeightController extends Controller
 
     return response()->json(['message' => 'Results saved successfully.']);
 }
+
+
 
 
     // Show the form to create assessment weights

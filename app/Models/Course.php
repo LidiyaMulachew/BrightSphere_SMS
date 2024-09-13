@@ -32,7 +32,11 @@ class Course extends Model
         {
             return $this->hasMany(Material::class); 
         }
-
+    // Define the relationship with the CourseTeacher model
+    public function courseTeachers()
+    {
+        return $this->hasMany(CourseTeacher::class, 'course_id');
+    }
         // create relationships with courses and student for material
 
         public function student()

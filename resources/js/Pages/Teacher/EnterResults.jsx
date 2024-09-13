@@ -15,8 +15,7 @@ const EnterResults = ({ assessment, students, course }) => {
             window.location.href = `/courses/${course.id}/assessment-weights`; // Redirect after successful submission
         } catch (error) {
             console.error('Error saving results!', error);
-            alert('Error saving results. Please try again.');
-        }
+            alert(`Results cannot be updated because their grade has already been submitted and locked.`);        }
     };
     console.log(students);
 

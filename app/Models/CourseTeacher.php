@@ -16,7 +16,17 @@ class CourseTeacher extends Model
     {
         return $this->hasMany(Material::class);
     }
+        // Define the inverse relationship with User
+        public function user()
+        {
+            return $this->belongsTo(User::class, 'teacher_id'); // Adjust the foreign key as needed
+        }
     
+    // Define the relationship with the Course model
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
+    }
 
     // public function course()
     // {
