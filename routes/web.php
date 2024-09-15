@@ -22,6 +22,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\EnrollToCoursesController;
 use App\Http\Controllers\StudentListController;
+use App\Http\Controllers\WelcomePageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -46,6 +47,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/materials', [MaterialController::class, 'store'])
         ->name('materials.store');
 });
+
+//welcome page
+Route::get('/Home', [WelcomePageController::class, 'home'])->name('home');
+Route::get('/faculty-members', [WelcomePageController::class, 'facultyMembers'])->name('faculty-members');
+Route::get('/departments', [WelcomePageController::class, 'departments'])->name('departments');
+Route::get('/research-center', [WelcomePageController::class, 'researchCenter'])->name('research-center');
+Route::get('/campus-facility', [WelcomePageController::class, 'campusFacility'])->name('campus-facility');
 
 
 //Multi_Authentication

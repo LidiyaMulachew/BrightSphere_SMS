@@ -27,8 +27,7 @@ const EditUser = ({ userId, onCancel, userData }) => {
         user={props.auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit User</h2>}
     >
-        {/* <div className="  p-4"> */}
-        <div className="ml-10 mr-8 p-10 bg-white shadow-2xl rounded-lg mt-8">
+       
 
             <Head title="Edit User" />
             <h3 className="text-xl font-bold mb-4">Edit User</h3>
@@ -82,8 +81,7 @@ const EditUser = ({ userId, onCancel, userData }) => {
                     Save
                 </button>
             </div>
-        </div>
-        </AuthenticatedLayout>
+         </AuthenticatedLayout>
 
     );
 };

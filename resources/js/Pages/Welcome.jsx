@@ -30,7 +30,8 @@ export default function Welcome({ auth }) {
         <div className={`flex flex-col sm:flex-row md:justify-end items-center w-full ${isOpen ? 'block' : 'hidden'} sm:block`}>
             <div className="flex flex-col sm:flex-row sm:space-x-9 mt-4 sm:mt-0 mr-4 sm:mr-16">
                 <Link
-                    href="#home"
+                    // href="#home"
+                    href={route('home')}
                     className="rounded-md px-3 py-2 text-lg font-medium text-blue-400 hover:text-gray-500 underline"
                     style={{ textDecorationColor: '#3B82F6', fontSize: '1.2em' }}
                     aria-current="page"
@@ -122,7 +123,7 @@ export default function Welcome({ auth }) {
             </div>
         </div>
         <div className='flex flex-col sm:flex-row justify-center mt-10 md:ml-20 md:mr-20'>
-        <a href="#find-faculty-members" className='service-item bg-blue-200 p-8 sm:p-16 rounded-lg shadow-lg flex-1 max-w-md sm:max-w-3xl mx-4 mb-10 relative hover:shadow-2xl overflow-hidden'>
+        <a href={route('faculty-members')} className='service-item bg-blue-200 p-8 sm:p-16 rounded-lg shadow-lg flex-1 max-w-md sm:max-w-3xl mx-4 mb-10 relative hover:shadow-2xl overflow-hidden'>
     <h3 className="text-xl sm:text-3xl font-black mb-2"> Faculty Members</h3>
     <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" className="w-6 sm:w-8 h-fit" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
         <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"></path>
@@ -138,7 +139,7 @@ export default function Welcome({ auth }) {
     </div>
 </a>
 
-<a href="#find-departments" className='service-item bg-green-200 p-8 sm:p-16 rounded-lg shadow-lg flex-1 max-w-md sm:max-w-3xl mx-4 mb-10 relative hover:shadow-2xl overflow-hidden'> 
+<a href={route('departments')} className='service-item bg-green-200 p-8 sm:p-16 rounded-lg shadow-lg flex-1 max-w-md sm:max-w-3xl mx-4 mb-10 relative hover:shadow-2xl overflow-hidden'> 
     <h3 className="text-xl sm:text-3xl font-black mb-2">Departments</h3>
     <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" className="w-6 sm:w-8 h-fit" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
         <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"></path>
@@ -160,7 +161,7 @@ export default function Welcome({ auth }) {
                 </div> */}
         </div>
         <div className='flex flex-col sm:flex-row justify-center mb-10 md:ml-20 md:mr-20'>
-        <a href="#find-research-center" className='service-item bg-purple-200 p-8 sm:p-16 rounded-lg shadow-lg flex-1 max-w-md sm:max-w-3xl mx-4 mb-10 relative hover:shadow-2xl overflow-hidden'>
+        <a href={route('research-center')} className='service-item bg-purple-200 p-8 sm:p-16 rounded-lg shadow-lg flex-1 max-w-md sm:max-w-3xl mx-4 mb-10 relative hover:shadow-2xl overflow-hidden'>
     <h3 className="text-xl sm:text-3xl font-black mb-2">Research Center</h3>
     <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" className="w-6 sm:w-8 h-fit" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
         <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"></path>
@@ -176,7 +177,7 @@ export default function Welcome({ auth }) {
     </div>
 </a>
 
-<a href="#find-campus-facility" className='service-item bg-blue-100 p-8 sm:p-16 rounded-lg shadow-lg flex-1 max-w-md sm:max-w-3xl mx-4 mb-10 relative hover:shadow-2xl overflow-hidden'>
+<a href={route('campus-facility')} className='service-item bg-blue-100 p-8 sm:p-16 rounded-lg shadow-lg flex-1 max-w-md sm:max-w-3xl mx-4 mb-10 relative hover:shadow-2xl overflow-hidden'>
     <h3 className="text-xl sm:text-3xl font-black mb-2">Campus Facilities</h3>
     <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" className="w-6 sm:w-8 h-fit" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
         <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"></path>
@@ -696,16 +697,16 @@ export default function Welcome({ auth }) {
     <h3 className='text-2xl font-semibold mb-4'>Links</h3>
     <ul className='space-y-2'>
         <li className='text-xl'>
-            <a href='/#find-faculty-members' className='hover:text-gray-500'>Faculty Members</a>
+            <a href='/faculty-members' className='hover:text-gray-500'>Faculty Members</a>
         </li>
         <li className='text-xl'>
-            <a href='/#find-departments' className='hover:text-gray-500'>Departments</a>
+            <a href='/departments' className='hover:text-gray-500'>Departments</a>
         </li>
         <li className='text-xl'>
-            <a href='/#find-research-center' className='hover:text-gray-500'>Research Center</a>
+            <a href='/research-center' className='hover:text-gray-500'>Research Center</a>
         </li>
         <li className='text-xl'>
-            <a href='/#find-campus-facilities' className='hover:text-gray-500'>Campus Facilities</a>
+            <a href='/campus-facility' className='hover:text-gray-500'>Campus Facilities</a>
         </li>
     </ul>
 </div>
