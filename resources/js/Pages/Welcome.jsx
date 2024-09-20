@@ -504,7 +504,7 @@ export default function Welcome({ auth }) {
         <p className='text-base md:text-xl text-gray-500 mb-5 text-center md:text-left'>
             Benefit from the expertise of BrightSphere University’s distinguished faculty members, who bring a wealth of knowledge and experience to the academic environment. On BrightSphere, you can search for faculty by name, department, and their areas of specialization to learn more about their research interests and availability for consultations.
         </p>
-        <a href='#find-faculty-members' className='bg-blue-500 text-white py-3 px-6 mt-5 hover:bg-blue-800 rounded'>
+        <a href='/faculty-members' className='bg-blue-500 text-white py-3 px-6 mt-5 hover:bg-blue-800 rounded'>
             Find Faculty Members
         </a>
     </div>
@@ -519,7 +519,7 @@ export default function Welcome({ auth }) {
         <p className='text-base md:text-xl text-gray-500 mb-5 text-center md:text-left'>
             Access comprehensive information about BrightSphere University’s various departments. Each department is equipped with skilled professionals and state-of-the-art facilities to support your educational journey. Through BrightSphere, you can explore departmental services, faculty listings, and academic resources tailored to your needs.
         </p>
-        <a href='#find-departments' className='bg-blue-500 text-white py-3 px-6 mt-5 hover:bg-blue-800 rounded'>
+        <a href='/departments' className='bg-blue-500 text-white py-3 px-6 mt-5 hover:bg-blue-800 rounded'>
             Find Departments
         </a>
     </div>
@@ -552,7 +552,7 @@ export default function Welcome({ auth }) {
         <p className='text-base md:text-xl text-gray-500 mb-5 text-center md:text-left'>
             Our research centers at BrightSphere University are dedicated to advancing knowledge with cutting-edge technology and innovative research. Discover how you can engage with ongoing projects, access advanced resources, and collaborate with leading experts in your field.
         </p>
-        <a href='#find-research-center' className='bg-blue-500 text-white py-3 px-6 mt-5 hover:bg-blue-800 rounded'>
+        <a href='/research-center' className='bg-blue-500 text-white py-3 px-6 mt-5 hover:bg-blue-800 rounded'>
             Find Research Centers
         </a>
     </div>
@@ -567,7 +567,7 @@ export default function Welcome({ auth }) {
         <p className='text-base md:text-xl text-gray-500 mb-5 text-center md:text-left'>
             Explore the modern and well-equipped facilities available at BrightSphere University. From libraries and laboratories to recreational and support services, find out how our campus amenities can enhance your university experience and provide a conducive learning environment.
         </p>
-        <a href='#find-campus-facility' className='bg-blue-500 text-white py-3 px-6 mt-5 hover:bg-blue-800 rounded'>
+        <a href='/campus-facility' className='bg-blue-500 text-white py-3 px-6 mt-5 hover:bg-blue-800 rounded'>
             Find Campus Facilities
         </a>
     </div>
