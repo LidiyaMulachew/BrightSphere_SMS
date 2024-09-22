@@ -114,7 +114,7 @@ class StudentListController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return Inertia::render('SuperAdmin/Edit', ['user' => $user]);
+        return Inertia::render('Teacher/EditUser', ['user' => $user]);
     }
 
     /**
@@ -124,19 +124,34 @@ class StudentListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-        ]);
+    // public function update(Request $request, $id)
+    // {
+    //     $validatedData = $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'email' => 'required|email|unique:users,email,' . $id,
+    //     ]);
 
-        $user = User::findOrFail($id);
-        $user->update($validatedData);
+    //     $user = User::findOrFail($id);
+    //     $user->update($validatedData);
 
-        return redirect()->route('users.index');
-    }
+    //     return redirect()->route('users.index');
+    // }
 
+    public function update(Request $request, User $user)
+{
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $user->id,
+        'role' => 'required|integer',
+    ]);
+
+    $user->name = $validatedData['name'];
+    $user->email = $validatedData['email'];
+    $user->role = $validatedData['role'];
+    $user->save();
+
+    return response()->json(['message' => 'User updated successfully!']);
+}
     /**
      * Remove the specified user from storage.
      *

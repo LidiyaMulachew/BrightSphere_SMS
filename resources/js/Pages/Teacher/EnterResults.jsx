@@ -6,6 +6,7 @@ import axios from 'axios';
 const EnterResults = ({ assessment, students, course }) => {
     const { props } = usePage();
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -17,7 +18,7 @@ const EnterResults = ({ assessment, students, course }) => {
             console.error('Error saving results!', error);
             alert(`Results cannot be updated because their grade has already been submitted and locked.`);        }
     };
-    console.log(students);
+    console.log(assessment);
 
     return (
         <TeacherLayout
@@ -40,6 +41,8 @@ const EnterResults = ({ assessment, students, course }) => {
                                     <input
                                         type="number"
                                         name={`student_results[${student.id}]`}
+                                        // value={assessment[student.id] || ''} // Set value to previous result or empty
+
                                         // className="border border-gray-300 rounded-md p-2"
                         className="mt-1 rounded block w-full"
 
@@ -66,3 +69,5 @@ const EnterResults = ({ assessment, students, course }) => {
 };
 
 export default EnterResults;
+
+

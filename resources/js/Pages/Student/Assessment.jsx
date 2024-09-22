@@ -42,7 +42,7 @@ const Assessment = () => {
                         {courses.length > 0 ? (
                             courses.map((course) => (
                                 <option key={course.id} value={course.id}>
-                                    {course.course_name}
+                                    {course.course.course_name}
                                 </option>
                             ))
                         ) : (
@@ -66,3 +66,4 @@ const Assessment = () => {
 };
 
 export default Assessment;
+

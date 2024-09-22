@@ -41,10 +41,17 @@ const List = ({ teachersList, teacherData }) => {
 
 
 
-
     const handleEditClick = (userId) => {
-        setEditUserId(userId);
+        window.location.href = `/users/${userId}/edit`; 
     };
+
+    // const handleEditClick = (userId) => {
+    //     Inertia.visit(`/users/${userId}/edit`); // Redirects to the edit page for the specific user
+    // };
+
+    // const handleEditClick = (userId) => {
+    //     setEditUserId(userId);
+    // };
 
     const handleCancelEdit = () => {
         setEditUserId(null);
@@ -152,20 +159,27 @@ const List = ({ teachersList, teacherData }) => {
                                 ))}
                             </tbody>
                         </table>
+                                                    {/* Conditionally render EditUser component */}
+                                                        {/* {editUserId && (
+                                <EditUser
+                                    userId={editUserId}
+                                    user={usersList.find(user => user.id === editUserId)}
+                                    onCancel={handleCancelEdit}
+                                />
+                            )} */}
+
+{/* {editUserId && (
+    <EditUser 
+        userId={editUserId} 
+        user={usersList.find(user => user.id === editUserId)} 
+        onCancel={handleCancelEdit} 
+    />
+)} */}
+
                     </div>
                 </div>
             </div>
-            {editUserId && (
-                <div className="fixed inset-0 bg-gray-700 bg-opacity-75 flex items-center justify-center">
-                    <div className="bg-white p-4 rounded-lg">
-                        <EditUser
-                            userId={editUserId}
-                            onCancel={handleCancelEdit}
-                            userData={teachersList.find(user => user.id === editUserId)}
-                        />
-                    </div>
-                </div>
-            )}
+    
         </div>
         </AuthenticatedLayout>
     );

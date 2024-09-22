@@ -52,10 +52,10 @@ const MaterialList = ({ materials }) => {
                         <table className="table table-bordered table-striped w-full" style={{ backgroundColor: '#ffffff', border: '2px solid #dddddd' }}>
                             <thead className="thead-light">
                                 <tr>
-                                    <th className="px-3 py-3 border">Title</th>
-                                    <th className="px-3 py-3 border">Description</th>
-                                    <th className="px-3 py-3 border">File</th>
-                                    <th className="px-3 py-3 border">Action</th>
+                                    <th className="px-3 py-3 border text-start">Title</th>
+                                    <th className="px-3 py-3 border text-start">Description</th>
+                                    {/* <th className="px-3 py-3 border">File</th> */}
+                                    <th className="px-3 py-3 border text-start">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,11 +63,11 @@ const MaterialList = ({ materials }) => {
                                     <tr key={material.id}>
                                         <td className="px-3 py-4 border">{material.title}</td>
                                         <td className="px-3 py-4 border">{material.description}</td>
-                                        <td className="px-3 py-4 border">
+                                        {/* <td className="px-3 py-4 border">
                                             <a href={material.file_path} target="_blank" rel="noopener noreferrer">
                                                 {material.file_path.split('/').pop()}
                                             </a>
-                                        </td>
+                                        </td> */}
                                         <td className="px-6 py-4 border">
                                             <div className="flex justify-around">
                                                 <Link href={`/assignments/${material.id}/submissions`} className="bg-white px-3 py-2 rounded shadow-lg hover:text-white hover:bg-sky-500 mr-2">

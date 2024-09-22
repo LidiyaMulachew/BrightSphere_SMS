@@ -34,8 +34,11 @@ const List = ({ studentsList }) => {
     }, [studentsList]);
 
 
+    // const handleEditClick = (userId) => {
+    //     setEditUserId(userId);
+    // };
     const handleEditClick = (userId) => {
-        setEditUserId(userId);
+        window.location.href = `/studentslist/${userId}/edit`; 
     };
 
     const handleCancelEdit = () => {
@@ -167,7 +170,7 @@ const List = ({ studentsList }) => {
                     </div>
                 </div>
             </div>
-            {editUserId && (
+            {/* {editUserId && (
                 <div className="fixed inset-0 bg-gray-700 bg-opacity-75 flex items-center justify-center">
                     <div className="bg-white p-4 rounded-lg">
                         <EditUser
@@ -177,7 +180,7 @@ const List = ({ studentsList }) => {
                         />
                     </div>
                 </div>
-            )}
+            )} */}
         </div>
         </TeacherLayout>
     );

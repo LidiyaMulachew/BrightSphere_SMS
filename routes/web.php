@@ -80,7 +80,9 @@ Route::middleware(['auth', SuperAdminMiddleware::class])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
-    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit'); 
+    // Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 });
 
@@ -90,7 +92,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/studentslist', [StudentListController::class, 'index'])->name('studentslist.index');
     Route::get('/studentslist/{id}', [StudentListController::class, 'show'])->name('studentslist.show');
     Route::post('/studentslist', [StudentListController::class, 'store'])->name('studentslist.store');
-    Route::put('/studentslist/{id}', [StudentListController::class, 'update'])->name('studentslist.update');
+    Route::get('/studentslist/{id}/edit', [StudentListController::class, 'edit'])->name('studentslist.edit'); 
+    // Route::put('/studentslist/{id}', [StudentListController::class, 'update'])->name('studentslist.update');
+    Route::put('/studentslist/{user}', [StudentListController::class, 'update'])->name('studentslist.update');
     Route::delete('/studentslist/{id}', [StudentListController::class, 'destroy'])->name('studentslist.destroy');
 });
 

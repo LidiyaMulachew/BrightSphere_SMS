@@ -133,11 +133,11 @@ export default function Login({ status, canResetPassword }) {
         remember: false,
     });
 
-    useEffect(() => {
-        return () => {
-            reset('password');
-        };
-    }, [reset]);
+    // useEffect(() => {
+    //     return () => {
+    //         reset('password');
+    //     };
+    // }, [reset]);
 
     const submit = (e) => {
         e.preventDefault();
