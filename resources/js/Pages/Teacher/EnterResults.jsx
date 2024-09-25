@@ -18,7 +18,7 @@ const EnterResults = ({ assessment, students, course }) => {
             console.error('Error saving results!', error);
             alert(`Results cannot be updated because their grade has already been submitted and locked.`);        }
     };
-    console.log(assessment);
+    console.log(students);
 
     return (
         <TeacherLayout

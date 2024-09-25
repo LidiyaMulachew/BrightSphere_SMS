@@ -22,10 +22,34 @@ class CourseTeacher extends Model
             return $this->belongsTo(User::class, 'teacher_id'); // Adjust the foreign key as needed
         }
     
+
+
+
+
+
+
+
+
+        // > \App\Models\User::find(3)->courseTeachers()->find(6)->students
+
+
+
+
+
+
+
+
+
+        
     // Define the relationship with the Course model
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id');
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'course_student', 'course_teacher_id', 'student_id');
     }
 
     // public function course()

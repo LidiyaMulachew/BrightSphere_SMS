@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Course;
 use App\Models\CourseTeacher;
+use App\Models\CourseStudent;
 use App\Models\User;
 use App\Models\Grade;
 use App\Models\AssessmentWeight;
@@ -42,19 +43,58 @@ class AssessmentRecordController extends Controller
     
     
 
-    public function showResultForm($courseId, $studentId)
-    {
-        $student = User::findOrFail($studentId);
-        $assessments = AssessmentWeight::where('course_id', $courseId)
-            ->where('teacher_id', auth()->id())
-            ->get();
+    // public function showResultForm($courseId, $studentId)
+    // {
+    //     $student = User::findOrFail($studentId);
+    //     $assessments = AssessmentWeight::where('course_id', $courseId)
+    //         ->where('teacher_id', auth()->id())
+    //         ->get();
 
-        return Inertia::render('Teacher/EnterResult', [
-            'student' => $student,
-            'assessments' => $assessments,
-            'courseId' => $courseId,
-        ]);
-    }
+    //     return Inertia::render('Teacher/EnterResult', [
+    //         'student' => $student,
+    //         'assessments' => $assessments,
+    //         'courseId' => $courseId,
+    //     ]);
+    // }
+
+    
+    
+    
+    public function showResultForm($courseId)
+{
+    $teacherId = auth()->id(); 
+
+    // Fetch assessments for the specific course and teacher
+    $assessments = AssessmentWeight::where('course_id', $courseId)
+        ->where('teacher_id', $teacherId)
+        ->get();
+
+   
+    // Fetch students enrolled in the course with the authenticated teacher
+    // $students = User::whereHas('enrolledCourses', function ($query) use ($courseId, $teacherId) {
+    //     $query->where('course_teacher.course_id', $courseId)
+    //           ->where('course_teacher.teacher_id', $teacherId);
+    // })->get();
+
+    $students = User::whereHas('courseTeachers', function ($query) use ($courseId, $teacherId) {
+        $query->where('course_id', $courseId)
+              ->where('teacher_id', $teacherId);
+    })->get();
+
+    // $students = CourseStudent::whereHas('students', function ($query) use ($courseId, $teacherId) {
+    //     $query->where('course_teacher.course_id', $courseId)
+    //           ->where('course_teacher.teacher_id', $teacherId);
+    // })->get();
+
+// return $students;
+    return Inertia::render('Teacher/EnterResult', [
+        'assessments' => $assessments,
+        'students' => $students,
+        'courseId' => $courseId,
+    ]);
+}
+    
+    
 
     public function storeResult(Request $request, $courseId, $studentId)
     {

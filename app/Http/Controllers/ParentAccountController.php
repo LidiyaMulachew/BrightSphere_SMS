@@ -173,7 +173,6 @@ public function showCourses(Request $request)
 
 
 
-
 public function showResults($courseId)
 {
     $parent = auth()->user(); // Get the authenticated user (family)
@@ -191,15 +190,24 @@ public function showResults($courseId)
     // Fetch assessment records with related weight and grade information
     $results = DB::table('assessment_record')
         ->join('users', 'assessment_record.student_id', '=', 'users.id')
-        ->join('assessment_weight', 'assessment_record.assessment_weight_id', '=', 'assessment_weight.id') // Correct table name
-        ->leftJoin('grades', function ($join) {
+        ->join('assessment_weight', 'assessment_record.assessment_weight_id', '=', 'assessment_weight.id')
+        ->leftJoin('grades', function ($join) use ($studentIds, $courseId) {
             $join->on('assessment_record.id', '=', 'grades.assessment_record_id')
-                 ->where('grades.student_id', '=', auth()->id()) // Ensure that we join with the current student's grades
-                 ->where('grades.locked', true); // Adjust if necessary based on your schema
+                 ->whereIn('grades.student_id', $studentIds) // Join with the student IDs from the family
+                 ->where('grades.course_id', $courseId) // Match with the course ID
+                 ->where('grades.locked', true);
         })
         ->whereIn('assessment_record.student_id', $studentIds)
         ->where('assessment_record.course_id', $course->id)
-        ->select('users.id as student_id', 'users.name as student_name', 'assessment_record.id', 'assessment_record.score', 'assessment_weight.assessment_type', 'assessment_weight.weight', 'grades.grade') // Select grade from grades table
+        ->select(
+            'users.id as student_id',
+            'users.name as student_name',
+            'assessment_record.id',
+            'assessment_record.score',
+            'assessment_weight.assessment_type',
+            'assessment_weight.weight',
+            'grades.grade' // Select grade from grades table
+        )
         ->get()
         ->groupBy('student_id') // Group results by student ID
         ->map(function ($records, $studentId) {
@@ -212,7 +220,7 @@ public function showResults($courseId)
                         'assessment_weight_type' => $record->assessment_type,
                         'assessment_weight_weight' => $record->weight,
                         'score' => $record->score,
-                        'grade' => $record->grade ?? ' ', // Use 'N/A' or other default if grade is not available
+                        'grade' => $record->grade ?? ' ', // Use 'N/A' if no grade is available
                     ];
                 }),
                 'final_score' => $records->sum('score'),
@@ -226,6 +234,71 @@ public function showResults($courseId)
         'results' => $results,
     ]);
 }
+
+
+
+// public function showResults($courseId)
+// {
+//     $parent = auth()->user(); // Get the authenticated user (family)
+
+//     // Get student IDs associated with the family
+//     $studentIds = $parent->student->pluck('id');
+
+//     // Fetch the course by ID
+//     $course = Course::find($courseId);
+
+//     if (!$course) {
+//         abort(404, 'Course not found.');
+//     }
+
+//     // Fetch assessment records with related weight and grade information
+//     $results = DB::table('assessment_record')
+//         ->join('users', 'assessment_record.student_id', '=', 'users.id')
+//         ->join('assessment_weight', 'assessment_record.assessment_weight_id', '=', 'assessment_weight.id')
+//         ->leftJoin('grades', function ($join) use ($studentIds, $courseId) {
+//             $join->on('assessment_record.id', '=', 'grades.assessment_record_id')
+//                  ->whereIn('grades.student_id', $studentIds) // Join with the student IDs from the family
+//                  ->where('grades.course_id', $courseId) // Match with the course ID
+//                  ->where('grades.locked', true);
+//         })
+//         ->whereIn('assessment_record.student_id', $studentIds)
+//         ->where('assessment_record.course_id', $course->id)
+//         ->select(
+//             'users.id as student_id',
+//             'users.name as student_name',
+//             'assessment_record.id as assessment_record_id',
+//             'assessment_record.score',
+//             'assessment_weight.assessment_type',
+//             'assessment_weight.weight',
+//             'grades.grade' // Select grade from grades table
+//         )
+//         ->get()
+//         ->groupBy('student_id') // Group results by student ID
+//         ->map(function ($records, $studentId) {
+//             return [
+//                 'student_id' => $studentId,
+//                 'student_name' => $records->first()->student_name,
+//                 'assessment_records' => $records->map(function ($record) {
+//                     return [
+//                         'id' => $record->assessment_record_id, // Correctly reference the ID
+//                         'assessment_weight_type' => $record->assessment_type,
+//                         'assessment_weight_weight' => $record->weight,
+//                         'score' => $record->score,
+//                         'grade' => $record->grade ?? 'N/A', // Use 'N/A' if no grade is available
+//                     ];
+//                 }),
+//                 'final_score' => $records->sum('score'),
+//                 'grade' => $records->whereNotNull('grade')->isNotEmpty() ? $records->first()->grade : 'N/A', // Default to 'N/A' if no grade exists
+//             ];
+//         })
+//         ->values(); // Convert to a plain array
+
+//     return Inertia::render('Family/Results', [
+//         'course' => $course,
+//         'results' => $results,
+//     ]);
+// }
+
 
 
 }

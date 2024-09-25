@@ -20,16 +20,16 @@ class Grade extends Model
 
     public function student()
     {
-        return $this->belongsTo(User::class, 'student_id');
+        return $this->belongsToMany(User::class, 'student_id');
     }
 
     public function course()
     {
-        return $this->belongsTo(Course::class, 'course_id');
+        return $this->belongsToMany(Course::class, 'course_id');
     }
 
     public function assessmentRecord()
     {
-        return $this->belongsTo(AssessmentRecord::class, 'assessment_record_id');
+        return $this->belongsToMany(AssessmentRecord::class, 'assessment_record_id');
     }
 }

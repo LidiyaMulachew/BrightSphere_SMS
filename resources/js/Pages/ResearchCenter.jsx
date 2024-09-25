@@ -110,7 +110,7 @@ const ResearchCenter = () => {
 <div className='flex justify-between'>
     <div className='pt-20 pl-20'>
     <h1 className=' text-6xl text-indigo-900 font-black '>Research center</h1>
-    <p className='mt-10 mr-5 text-2xl text-indigo-800'>BrightSphere University features a wide array of campus facilities designed to support over 20 specialized academic departments. Our state-of-the-art resources include modern classrooms, advanced laboratories, and dedicated research centers, all tailored to enhance your learning experience.</p>
+    <p className='mt-10 mr-5 text-2xl text-indigo-800'>BrightSphere University boasts dedicated research centers that support over 20 specialized academic departments. Our state-of-the-art resources include dedicated research centers, all tailored to enhance your learning experience.</p>
     </div>
 <div className='flex pr-20 pt-20 pb-20'>
             <div className='flex flex-col bg-white shadow-2xl rounded-lg mr-10 w-[300px] h-[400px]'>

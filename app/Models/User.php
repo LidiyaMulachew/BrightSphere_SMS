@@ -114,6 +114,12 @@ class User extends Authenticatable
       {
           return $this->belongsToMany(CourseTeacher::class, 'course_student', 'student_id', 'course_teacher_id')->with('course'); // Eager load the related Course;
       }
+// Fetch students enrolled for the course with the authenticated teacher 
+public function enrolledCoursesWithTeacher()
+{
+    return $this->belongsToMany(CourseTeacher::class, 'course_student', 'student_id', 'course_teacher_id');
+}
+
           // Define a relationship with CourseTeacher
     public function courseTeachers()
     {

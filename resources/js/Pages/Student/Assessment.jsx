@@ -15,6 +15,8 @@ const Assessment = () => {
         if (selectedCourseId) {
             // Redirect to the page showing results for the selected course
             window.location.href = `/courses/${selectedCourseId}/results`;
+            // window.location.href = `/courses/${courses}/students/${studentId}/results`;
+
         }
     };
 

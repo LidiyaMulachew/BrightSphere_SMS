@@ -139,6 +139,9 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/students/{studentId}/results', [EnrollToCoursesController::class, 'assessment']);
     Route::get('/courses/{selectedCourseId}/results', [EnrollToCoursesController::class, 'fetchStudentResults']);
 
+    // Route::get('/courses/{courseId}/students/{studentId}/results', [EnrollToCoursesController::class, 'fetchStudentResults']);
+
+
     //student can submit the assignment
     Route::get('/assignments/{material}/submission', [AssignmentSubmissionController::class, 'index'])->name('submissions.index');
     Route::post('/Assignment/submissions', [AssignmentSubmissionController::class, 'store'])->name('submissions.store');

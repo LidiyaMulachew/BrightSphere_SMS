@@ -96,9 +96,9 @@ class EnrollToCoursesController extends Controller
     //     $userId = Auth::id(); // Get the authenticated user's ID
 
     //     // Find the course_teacher_id based on course_id and teacher_id
-    //     $courseTeacher = CourseTeacher::where('course_id', $request->input('course_id'))
-    //         ->where('teacher_id', $request->input('teacher_id'))
-    //         ->first();
+        // $courseTeacher = CourseTeacher::where('course_id', $request->input('course_id'))
+        //     ->where('teacher_id', $request->input('teacher_id'))
+        //     ->first();
 
     //     if (!$courseTeacher) {
     //         return response()->json(['message' => 'Invalid course or teacher selection.'], 400);
@@ -122,8 +122,11 @@ class EnrollToCoursesController extends Controller
         $userId = Auth::id(); // Get the authenticated user's ID
     
         // Find the course_teacher_id based on course_id
+        // $courseTeacher = CourseTeacher::where('course_id', $request->input('course_id'))
+        //     ->first();
         $courseTeacher = CourseTeacher::where('course_id', $request->input('course_id'))
-            ->first();
+        ->where('teacher_id', $request->input('teacher_id'))
+        ->first();
     
         if (!$courseTeacher) {
             return response()->json(['message' => 'Invalid course selection.'], 400);
@@ -205,12 +208,7 @@ class EnrollToCoursesController extends Controller
             ->where('student_id', $user->id)
             ->with(['assessmentWeight', 'grades']) // Ensure both relationships are loaded
             ->get();
-    
-        // if ($assessmentRecords->isEmpty()) {
-        //     // abort(404, 'No assessment records found for this course.');
-        //     return response()->json(['message' => 'No assessment records found for this course.'], 400);
 
-        // }
 
         if ($assessmentRecords->isEmpty()) {
             // Render the view with a message indicating no assessment records are found
@@ -256,6 +254,73 @@ class EnrollToCoursesController extends Controller
             ],
         ]);
     }
+
+
+
+
+
+
+    // public function fetchStudentResults($courseId)
+    // {
+    //     $user = auth()->user();
     
+    //     // Fetch the course details
+    //     $course = Course::find($courseId);
+    
+    //     // Fetch the assessment records for the authenticated student in the specified course
+    //     $assessmentRecords = AssessmentRecord::where('course_id', $courseId)
+    //         ->with(['assessmentWeight', 'grades' => function ($query) use ($user) {
+    //             $query->where('student_id', $user->id); // Filter grades by authenticated student's ID
+    //         }])
+    //         ->get();
+    
+    //     if ($assessmentRecords->isEmpty()) {
+    //         // Render the view with a message indicating no assessment records are found
+    //         return Inertia::render('Student/CourseResult', [
+    //             'course' => [
+    //                 'id' => $courseId,
+    //                 'course_name' => $course->course_name,
+    //                 'assessment_records' => [],
+    //                 'final_score' => 'N/A',
+    //                 'grade' => 'No assessment records found for this course.'
+    //             ],
+    //         ]);
+    //     }
+    
+    //     // Compute the final score for the authenticated user
+    //     $finalScore = 0;
+    
+    //     // Prepare the response with final score and grades for the authenticated student's assessment records
+    //     $recordsWithGrades = $assessmentRecords->map(function ($record) use (&$finalScore) {
+    //         // Find the grade related to the current assessment record
+    //         $recordGrade = $record->grades->first();
+    
+    //         // Sum the score for the final score calculation
+    //         $finalScore += $record->score;
+    
+    //         return [
+    //             'id' => $record->id,
+    //             'assessment_weight_type' => $record->assessmentWeight->assessment_type,
+    //             'assessment_weight_weight' => $record->assessmentWeight->weight,
+    //             'score' => $record->score,
+    //             'grade' => $recordGrade ? $recordGrade->grade : 'N/A', // Use 'N/A' if no grade exists
+    //         ];
+    //     });
+    
+    //     return Inertia::render('Student/CourseResult', [
+    //         'course' => [
+    //             'id' => $courseId,
+    //             'course_name' => $course->course_name,
+    //             'assessment_records' => $recordsWithGrades,
+    //             'final_score' => $finalScore,
+    //             'grade' => $recordsWithGrades->isNotEmpty() && $recordsWithGrades->first()['grade'] !== 'N/A'
+    //                 ? $recordsWithGrades->first()['grade']
+    //                 : 'N/A', // Default to 'N/A' if no grade exists
+    //         ],
+    //     ]);
+    // }
+        
+
+
 
 }
